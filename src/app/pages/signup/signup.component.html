@@ -1,0 +1,74 @@
+<mat-card class="py-4">
+    <mat-card-header class="d-flex justify-content-center">
+        <mat-card-title>Sign up</mat-card-title>
+    </mat-card-header>
+    <div class="d-flex justify-content-center">
+        <mat-card-content class="col-md-6">
+            <form (ngSubmit)="onSubmit()" [formGroup]="signUpForm" class="d-flex flex-column gap-4">
+                <div class="d-flex flex-column">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Username</mat-label>
+                        <input matInput formControlName="username">
+                        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                    </mat-form-field>
+                    @if (errorMessages["username"]) {
+                    <mat-error>{{ errorMessages["username"] }}</mat-error>
+                    }
+                </div>
+                <div class="d-flex flex-column">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input matInput formControlName="email">
+                        <mat-icon matSuffix>email</mat-icon>
+                    </mat-form-field>
+                    @if (errorMessages["email"]) {
+                    <mat-error>{{ errorMessages["email"] }}</mat-error>
+                    }
+                </div>
+                <div class="d-flex flex-column">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Birth date</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="birthdate">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    @if (errorMessages["birthdate"]) {
+                    <mat-error>{{ errorMessages["birthdate"] }}</mat-error>
+                    }
+                </div>
+                <div class="d-flex flex-column">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Enter your password</mat-label>
+                        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+                        <button mat-icon-button matSuffix (click)="clickEvent($event)"
+                            [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                    </mat-form-field>
+                    @if (errorMessages["password"]) {
+                    <mat-error>{{ errorMessages["password"] }}</mat-error>
+                    }
+                </div>
+                <div class="d-flex flex-column">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Repeat password</mat-label>
+                        <input matInput [type]="hide ? 'password' : 'text'" formControlName="confirmPassword">
+                        <button mat-icon-button matSuffix (click)="clickEvent($event)"
+                            [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                    </mat-form-field>
+                    @if (errorMessages["confirmPassword"]) {
+                    <mat-error>{{ errorMessages["confirmPassword"] }}</mat-error>
+                    }
+                </div>
+                <a class="align-self-center">Already have an account? Sign in</a>
+                <button mat-raised-button
+                        class="py-4" 
+                        color="primary" 
+                        [disabled]="this.signUpForm.invalid">
+                    Sign up</button>
+            </form>
+        </mat-card-content>
+    </div>
+</mat-card>

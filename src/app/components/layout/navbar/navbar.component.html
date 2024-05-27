@@ -1,0 +1,49 @@
+<div class="fixed-top bg-light">
+    <div class="container-xl py-4">
+        <div class="d-flex align-items-center justify-content-between">
+            <!-- Logo -->
+            <div>
+                <img src="./assets/logo.png" width="70px" alt="">
+                <span>FightHub</span>
+            </div>
+            <!-- Mat-Menu -->
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" id="matMenu">
+                <button mat-menu-item [routerLink]="['/home']">
+                    <mat-icon>home</mat-icon>
+                    <span>Home</span>
+                </button>
+                <button mat-menu-item>
+                    <mat-icon>calendar_month</mat-icon>
+                    <span>Events</span>
+                </button>
+                <button mat-menu-item>
+                    <mat-icon>sports_martial_arts</mat-icon>
+                    <span>Clubs</span>
+                </button>
+                <button mat-menu-item>
+                    <mat-icon>sports_mma</mat-icon>
+                    <span>Fighters</span>
+                </button>
+                <button mat-menu-item>
+                    <mat-icon>account_circle</mat-icon>
+                    <span>Profile</span>
+                </button>
+                <button mat-menu-item [routerLink]="['/signup']">
+                    <mat-icon>assignment_ind</mat-icon>
+                    <span>Sign up</span>
+                </button>
+                <button mat-menu-item [routerLink]="['/signin']">
+                    <mat-icon>person</mat-icon>
+                    <span>Sign in</span>
+                </button>
+                <button mat-menu-item>
+                    <mat-icon>exit_to_app</mat-icon>
+                    <span>Sign out</span>
+                </button>
+            </mat-menu>
+        </div>
+    </div>
+</div>
