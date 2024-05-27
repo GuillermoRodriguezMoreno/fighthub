@@ -1,3 +1,16 @@
-div.fixed-top{
+div.fixed-top {
     z-index: 2;
+}
+
+.mat-mdc-menu-item:not([disabled]):hover{
+    &:hover {
+        background-color: #ff9d29 !important;
+    }
+}
+
+.active {
+    background-color: #ff9d29;
+    &:hover {
+        background-color: #ff9d29 !important;
+    }
 }

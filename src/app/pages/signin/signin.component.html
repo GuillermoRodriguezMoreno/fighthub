@@ -27,11 +27,11 @@
                     @if (errorMessages["password"]) {
                     <mat-error>{{ errorMessages["password"] }}</mat-error>
                     }
-                    <a class="mt-3">Forgot password?</a>
+                    <a class="mt-3 align-self-end">Forgot password?</a>
                 </div>
                 <button mat-raised-button
                         class="py-4" 
-                        color="primary" 
+                        color="accent" 
                         [disabled]="this.signInForm.invalid">
                     Sign in
                 </button>
