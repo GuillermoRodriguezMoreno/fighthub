@@ -7,12 +7,14 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { SwitchMode } from "./mode-switch"
 import { NavUser } from "./nav-user"
+import Image from "next/image"
+import { ModeToggle } from "./mode-toggle"
 
 // Menu items.
 const items = [
@@ -46,9 +48,13 @@ const items = [
 export function AppSidebar() {
   return (
     <Sidebar>
+      <SidebarHeader>
+        <Image src="/logo.png" alt="logo image"  width={80} height={80}  />
+        <h1 className="text-xl font-bold">FightHub</h1>
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
@@ -62,7 +68,7 @@ export function AppSidebar() {
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
-            <SwitchMode />
+            <ModeToggle />
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>

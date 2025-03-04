@@ -15,7 +15,7 @@ export function SwitchMode() {
     return (
         <div className="flex items-center space-x-2 p-2">
             <Sun className="h-[1.2rem] w-[1.2rem]" />
-            <Switch onCheckedChange={handleThemeChange} />
+            <Switch checked={!themeValue} onCheckedChange={handleThemeChange} />
             <Moon className="h-[1.2rem] w-[1.2rem]" />
         </div>
     )
