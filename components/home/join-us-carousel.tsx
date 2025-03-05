@@ -3,13 +3,6 @@ import * as React from "react"
 import { MedalIcon, MapIcon, PlaneIcon, LightBulbIcon } from "@/components/home/Icons";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
-} from "@/components/ui/carousel"
 
 interface FeatureProps {
     icon: React.JSX.Element;
