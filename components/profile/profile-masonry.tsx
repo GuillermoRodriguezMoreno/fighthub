@@ -5,8 +5,8 @@ import { Card, CardContent } from "../ui/card"
 
 export default function ProfileMasonry() {
     return (
-        <div className="grid grid-rows-2 gap-7">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <div className="grid gap-4 lg:gap-6 xl:gap-10">
+            <div className="grid grid-cols-1 gap-y-4 sm:gap-4  sm:grid-cols-3 lg:gap-6 xl:gap-10">
                 <div className="col-span-2 flex flex-col gap-2">
                     <h2 className="text-2xl font-bold">Record</h2>
                     <Card>
@@ -53,8 +53,8 @@ export default function ProfileMasonry() {
             <div className="flex flex-col gap-2">
                 <h2 className="text-2xl font-bold">Styles</h2>
                 <Card>
-                    <CardContent className="flex items-center space-x-4">
-                        <div className="flex items-center gap-2">
+                    <CardContent className="space-x-4">
+                        <div className="flex gap-2">
                             <Badge variant="secondary" className="text-sm">Muay Thai</Badge>
                             <Badge variant="secondary" className="text-sm">Boxing</Badge>
                             <Badge variant="secondary" className="text-sm">MMA</Badge>
