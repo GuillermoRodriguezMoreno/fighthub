@@ -90,15 +90,15 @@ export function NavUser({
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                            <DropdownMenuItem onClick={() => router.push("/")}>
+                            <DropdownMenuItem onClick={() => router.push("/dashboard/account")}>
                                 <BadgeCheck />
                                 Account
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => router.push("/")}>
+                            <DropdownMenuItem onClick={() => router.push("/dashboard/profile")}>
                                 <SquareUser />
                                 Profile
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => router.push("/")}>
+                            <DropdownMenuItem onClick={() => router.push("/dashboard/notifications")}>
                                 <Bell />
                                 Notifications
                             </DropdownMenuItem>

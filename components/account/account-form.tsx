@@ -12,7 +12,11 @@ import { Separator } from "../ui/separator";
 import { cn } from "@/lib/utils";
 
 export function AccountForm() {
+    const [isEditable, setIsEditable] = useState(false);
     const [date, setDate] = useState(new Date());
+    const handleEnableEditAccount = () => {
+        setIsEditable(!isEditable);
+    }
 
     return (
         <div>
@@ -22,7 +26,7 @@ export function AccountForm() {
             <div className="flex flex-col items-start gap-7">
                 <div className="flex flex-col gap-4 items-start">
                     <Label htmlFor="fistname">Firstname</Label>
-                    <Input id="firstname" placeholder="Your name" />
+                    <Input id="firstname" placeholder="Your name" readOnly={!isEditable} />
                     <p className="text-sm text-gray-500">This is the name that will be displayed on your profile and in emails.</p>
                 </div>
                 <div className="flex flex-col gap-4 items-start">
@@ -66,8 +70,11 @@ export function AccountForm() {
                     </Select>
                     <p className="text-sm text-gray-500">This is the gender that will be displayed on your profile.</p>
                 </div>
-
-                <Button>Update account</Button>
+                {
+                    isEditable ? 
+                    <Button>Update account</Button> :
+                    <Button variant="secondary" onClick={handleEnableEditAccount}>Edit account</Button>
+                }
             </div>
         </div>
     );
