@@ -15,35 +15,32 @@ interface FeatureProps {
 
 const features: FeatureProps[] = [
   {
-    title: "Responsive Design",
+    title: "Fighter Profiles",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.",
-    image: "/looking-ahead.png",
+      "Create and customize your fighter profile to showcase your skills, record, and achievements.",
+    image: "/feature1.jpeg",
   },
   {
-    title: "Intuitive user interface",
+    title: "Event Listings & Registration",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.",
-    image: "/reflecting.png",
+      "Discover upcoming K1, Muay Thai, and MMA events, and register with ease.",
+    image: "/feature2.jpeg",
   },
   {
-    title: "AI-Powered insights",
+    title: "Sponsorship & Exposure",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.",
-    image: "/growth.png",
+      "Gain visibility and connect with potential sponsors and fans through our platform",
+    image: "/feature3.jpeg",
   },
 ];
 
 const featureList: string[] = [
-  "Dark/Light theme",
-  "Reviews",
-  "Features",
-  "Pricing",
-  "Contact form",
-  "Our team",
-  "Responsive design",
-  "Newsletter",
-  "Minimalist",
+  "Fighter Profiles",
+  "Matchmaking & Networking",
+  "Event Listings & Registration",
+  "Training Resources",
+  "Fight Analytics & Stats",
+  "Sponsorship & Exposure",
 ];
 
 export const Features = () => {
@@ -72,7 +69,7 @@ export const Features = () => {
         ))}
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
         {features.map(({ title, description, image }: FeatureProps) => (
           <Card key={title}>
             <CardHeader>
@@ -85,8 +82,8 @@ export const Features = () => {
               <img
                 src={image}
                 alt="About feature"
-                className="w-[200px] lg:w-[300px] mx-auto"
-              />
+                className="rounded-lg shadow-lg"
+                />
             </CardFooter>
           </Card>
         ))}

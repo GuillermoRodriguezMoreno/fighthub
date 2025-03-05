@@ -22,7 +22,7 @@ export const HeroCards = () => {
           <Avatar>
             <AvatarImage
               alt=""
-              src="https://github.com/shadcn.png"
+              src="/profile-photo2.webp"
             />
             <AvatarFallback>SH</AvatarFallback>
           </Avatar>

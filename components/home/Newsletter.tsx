@@ -20,7 +20,7 @@ export const Newsletter = () => {
           </span>
         </h3>
         <p className="text-xl text-muted-foreground text-center mt-4 mb-8">
-          Lorem ipsum dolor sit amet consectetur.
+        Subscribe to our newsletter and stay updated on the latest fight news, exclusive training tips, upcoming events, and sponsorship opportunities. Join our community and never miss a chance to level up your fight career!
         </p>
 
         <form
@@ -28,7 +28,7 @@ export const Newsletter = () => {
           onSubmit={handleSubmit}
         >
           <Input
-            placeholder="leomirandadev@gmail.com"
+            placeholder="email@gmail.com"
             className="bg-muted/50 dark:bg-muted/80 "
             aria-label="email"
           />

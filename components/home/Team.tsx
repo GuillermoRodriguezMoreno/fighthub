@@ -44,7 +44,7 @@ const teamList: TeamProps[] = [
     ],
   },
   {
-    imageUrl: "https://i.pravatar.cc/150?img=60",
+    imageUrl: "/profile-photo2.webp",
     name: "Wadii Kadiri",
     position: "Pro Fighter",
     description: "Dedicated to mastering and teaching the art of combat sports, inspiring the next generation of fighters.",
