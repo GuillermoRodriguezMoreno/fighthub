@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
+import { CalendarSearch, Home, Dumbbell, BicepsFlexed, Settings } from "lucide-react"
 
 import {
   Sidebar,
@@ -15,32 +15,34 @@ import {
 import { NavUser } from "./nav-user"
 import Image from "next/image"
 import { ModeToggle } from "./mode-toggle"
+import { ModeSwitch } from "./mode-switch"
+import Link from "next/link"
 
 // Menu items.
 const items = [
   {
     title: "Home",
-    url: "#",
+    url: "/",
     icon: Home,
   },
   {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
+    title: "Fighters",
+    url: "/dashboard/fighters",
+    icon: BicepsFlexed,
   },
   {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
+    title: "Clubs",
+    url: "/dashboard/clubs",
+    icon: Dumbbell,
   },
   {
-    title: "Search",
-    url: "#",
-    icon: Search,
+    title: "Events",
+    url: "/dashboard/events",
+    icon: CalendarSearch,
   },
   {
-    title: "Settings",
-    url: "#",
+    title: "Admin",
+    url: "/dashboard/admin",
     icon: Settings,
   },
 ]
@@ -60,15 +62,20 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
-            <ModeToggle />
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Settings</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <ModeSwitch />
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>

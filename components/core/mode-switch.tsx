@@ -4,7 +4,7 @@ import { Sun, Moon } from "lucide-react"
 import { useTheme } from "next-themes"
 import React from "react"
 
-export function SwitchMode() {
+export function ModeSwitch() {
     const { setTheme } = useTheme()
     const [themeValue, setThemeValue] = React.useState<boolean>(true)
     const handleThemeChange = () => {
