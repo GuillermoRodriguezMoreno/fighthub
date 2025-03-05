@@ -4,7 +4,7 @@ import { UpcomingEvents } from "@/components/events/upcoming-events";
 
 export default function Page() {
   return (
-    <div className="flex flex-col gap-46">
+    <div className="flex flex-col gap-20">
       <UpcomingEvents />
       <PopularFighters />
       <NewClubs />
