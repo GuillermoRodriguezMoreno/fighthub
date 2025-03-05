@@ -6,16 +6,29 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { signIn } from "next-auth/react"
 import Link from "next/link"
+import { SignupInputs } from "@/domains/singup/singup-inputs"
+import { useForm, SubmitHandler } from "react-hook-form"
+
 
 export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<SignupInputs>()
+  const onSubmit: SubmitHandler<SignupInputs> = (data) =>  {
+    console.log(data)
+  }
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-6 md:p-8">
+          <form onSubmit={handleSubmit(onSubmit)} className="p-6 md:p-8">
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Join us</h1>
@@ -24,13 +37,34 @@ export function SignupForm({
                 </p>
               </div>
               <div className="grid gap-3">
+                <Label htmlFor="firstname">Firstname</Label>
+                <Input
+                  id="firstname"
+                  type="text"
+                  placeholder="First name"
+                  {...register("firstname", { required: true,  })}
+                />
+                {errors.firstname && <span className="text-destructive">This field is required</span>}
+              </div>
+              <div className="grid gap-3">
+                <Label htmlFor="lastname">Last name</Label>
+                <Input
+                  id="lastname"
+                  type="text"
+                  placeholder="Lastname"
+                  {...register("lastname", { required: true,  })}
+                />
+                {errors.lastname && <span className="text-destructive">This field is required</span>}
+              </div>
+              <div className="grid gap-3">
                 <Label htmlFor="username">Username</Label>
                 <Input
                   id="username"
                   type="text"
                   placeholder="Username"
-                  required
+                  {...register("username", { required: true,  })}
                 />
+                {errors.username && <span className="text-destructive">This field is required</span>}
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="email">Email</Label>
@@ -38,27 +72,24 @@ export function SignupForm({
                   id="email"
                   type="email"
                   placeholder="m@example.com"
-                  required
+                  {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
                 />
+                {errors.email?.type === "required" && <span className="text-destructive">This field is required</span>}
+                {errors.email?.type === "pattern" && <span className="text-destructive">Invalid email</span>}
               </div>
               <div className="grid gap-3">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                 </div>
-                <Input id="password" type="password" required />
+                <Input 
+                  id="password" 
+                  type="password"  
+                  {...register("password", { required: true, minLength: 8 })}
+                />
+                {errors.password?.type === "required" && <span className="text-destructive">This field is required</span>}
+                {errors.password?.type === "minLength" && <span className="text-destructive">Password must be at least 8 characters</span>}
               </div>
-              <Button type="submit" className="w-full" onClick={async () => {
-                      console.log("sign in");
-                      const result = await signIn("credentials", {
-                        email: "admin@fighthub.com",
-                        password: "admin123",
-
-                      });
-
-                      if (result?.error) {
-                        console.error("Error signing in:", result.error);
-                      }
-                    }}>
+              <Button type="submit" className="w-full">
                 Create account
               </Button>
               <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">

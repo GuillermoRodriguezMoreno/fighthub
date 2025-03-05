@@ -1,6 +1,7 @@
+import { UserTable } from "@/components/admin/user-table";
 
 export default function Page() {
   return (
-    <div>helo</div>
+    <UserTable />
   )
 }
