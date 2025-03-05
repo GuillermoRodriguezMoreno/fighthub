@@ -1,4 +1,4 @@
-import { CalendarSearch, Home, Dumbbell, BicepsFlexed, Settings } from "lucide-react"
+import { CalendarSearch, Home, Dumbbell, BicepsFlexed, Settings, Trophy } from "lucide-react"
 
 import {
   Sidebar,
@@ -29,6 +29,40 @@ const items = [
     title: "Home",
     url: "/dashboard",
     icon: Home,
+  },
+  {
+    title: "Events",
+    url: "/dashboard/events/upcoming",
+    icon: CalendarSearch,
+    items: [
+      {
+        title: "Upcoming",
+        url: "/dashboard/events/upcoming",
+      },
+      {
+        title: "All",
+        url: "/dashboard/events/all",
+      },
+      {
+        title: "My Events",
+        url: "/dashboard/events/my-events",
+      },
+    ]
+  },
+  {
+    title: "Fights",
+    url: "/dashboard/fights",
+    icon: Trophy,
+    items: [
+      {
+        title: "Popular",
+        url: "/dashboard/fights/popular",
+      },
+      {
+        title: "My Fights",
+        url: "/dashboard/fights/my-fights",
+      },
+    ]
   },
   {
     title: "Fighters",
@@ -65,25 +99,6 @@ const items = [
       {
         title: "My Club",
         url: "/dashboard/clubs/my-club",
-      },
-    ]
-  },
-  {
-    title: "Events",
-    url: "/dashboard/events/upcoming",
-    icon: CalendarSearch,
-    items: [
-      {
-        title: "Upcoming",
-        url: "/dashboard/events/upcoming",
-      },
-      {
-        title: "All",
-        url: "/dashboard/events/all",
-      },
-      {
-        title: "My Events",
-        url: "/dashboard/events/my-events",
       },
     ]
   },

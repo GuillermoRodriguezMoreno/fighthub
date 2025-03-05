@@ -23,7 +23,7 @@ export default function BaseLayout({
           <Separator orientation="vertical" className="mr-2 h-4" />
           <DinamycBreadcrumb />
         </header>
-        <main  className="container mx-auto p-18">
+        <main  className="container p-6 sm:p-18">
           {children}
         </main>
       </SidebarInset>

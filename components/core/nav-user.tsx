@@ -7,6 +7,7 @@ import {
     CreditCard,
     LogOut,
     Sparkles,
+    SquareUser,
 } from "lucide-react"
 
 import {
@@ -29,6 +30,8 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from "@/components/ui/sidebar"
+import { useRouter } from "next/navigation"
+import { signOut } from "next-auth/react"
 
 const mockUser = {
     name: "John Doe",
@@ -46,7 +49,7 @@ export function NavUser({
     }
 }) {
     const { isMobile } = useSidebar()
-    
+    const router = useRouter()
     return (
         <SidebarMenu>
             <SidebarMenuItem>
@@ -87,28 +90,23 @@ export function NavUser({
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                            <DropdownMenuItem>
-                                <Sparkles />
-                                Upgrade to Pro
-                            </DropdownMenuItem>
-                        </DropdownMenuGroup>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuGroup>
-                            <DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => router.push("/")}>
                                 <BadgeCheck />
                                 Account
                             </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <CreditCard />
-                                Billing
+                            <DropdownMenuItem onClick={() => router.push("/")}>
+                                <SquareUser />
+                                Profile
                             </DropdownMenuItem>
-                            <DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => router.push("/")}>
                                 <Bell />
                                 Notifications
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={() =>signOut({
+                            callbackUrl: "/",
+                        })}>
                             <LogOut />
                             Log out
                         </DropdownMenuItem>
