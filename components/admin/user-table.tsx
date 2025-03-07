@@ -16,7 +16,6 @@ import {
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -37,36 +36,26 @@ import {
 } from "@/components/ui/table"
 import { UseGetUsersQuery } from "@/hooks/user/use-get-users-query"
 import { User } from "@/domains/user"
+import { Badge } from "../ui/badge"
 
 export const columns: ColumnDef<User>[] = [
   {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
+    accessorKey: "accountEnabled",
+    header: "status",
+    cell: ({ row }) => {
+      const isEnabled:boolean = row.getValue("accountEnabled");
+      const value = isEnabled ? 'enabled' : 'disabled';
+      return (
+        <Badge className={`capitalize ${isEnabled ? 'bg-green-300' : 'bg-red-300'}`}>
+          {value}
+        </Badge>
+      );
+    }
   },
   {
-    accessorKey: "isEnabled",
-    header: "Status",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("isEnabled")}</div>
-    ),
+    accessorKey: "id",
+    header: "Id",
+    cell: ({ row }) => <div>{row.getValue("id")}</div>,
   },
   {
     accessorKey: "email",
@@ -84,11 +73,61 @@ export const columns: ColumnDef<User>[] = [
     cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
   },
   {
+    accessorKey: "username",
+    header: "Username",
+    cell: ({ row }) => <div>{row.getValue("username")}</div>,
+  },
+  {
+    accessorKey: "roles",
+    header: "Roles",
+    cell: ({ row }) => {
+      const roles = row.getValue("roles") as string[]
+      return (
+        <div>
+          {roles.map((role) => (
+            <Badge key={role} className={`${role==='ADMIN' ? "bg-amber-200" : "bg-blue-300"}`}>
+              {role}
+            </Badge>
+          ))}
+        </div>
+      )
+    },
+  },
+  {
+    accessorKey: "createdAt",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Created at
+          <ArrowUpDown />
+        </Button>
+      )
+    },
+    cell: ({ row }) => <div>{row.getValue("createdAt")}</div>,
+  },
+  {
+    accessorKey: "updatedAt",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Updated at
+          <ArrowUpDown />
+        </Button>
+      )
+    },
+    cell: ({ row }) => <div>{row.getValue("updatedAt") || "-" }</div>,
+  },
+  {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
       const user = row.original
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -127,7 +166,7 @@ export function UserTable() {
   const [rowSelection, setRowSelection] = React.useState({})
 
   const table = useReactTable({
-    data: data?.data?.content ?? [],
+    data: data?.content ?? [],
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -219,6 +258,9 @@ export function UserTable() {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  onClick={() => {
+                    
+                  }}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

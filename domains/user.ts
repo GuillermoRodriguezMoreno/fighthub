@@ -5,8 +5,10 @@ export const UserSchema = z.object({
   id: z.number(),
   username: z.string(),
   email: z.string().email(),
-  isAccountLocked: z.boolean().optional(),
-  isAccountEnabled: z.boolean().optional(),
+  accountLocked: z.boolean().optional(),
+  accountEnabled: z.boolean().optional(),
+  createdAt: z.string(),
+  updatedAt: z.string().nullable(),
   roles: z.array(z.string()),
 });
 
