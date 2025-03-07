@@ -1,4 +1,4 @@
-import { getStyle } from "@/clients/StyleClient";
+import { getStyle } from "@/clients/style-client";
 import { useQuery } from "@tanstack/react-query";
 
 export function UseGetStyleQuery(styleId: number) {

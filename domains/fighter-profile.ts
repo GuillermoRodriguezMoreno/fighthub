@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { Style } from "@mui/icons-material";
 import { StyleSchema } from "./style";
 import { ClubSchema } from "./club";
 import { CategorySchema } from "./category";

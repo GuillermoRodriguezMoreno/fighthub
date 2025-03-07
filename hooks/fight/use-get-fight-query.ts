@@ -1,4 +1,4 @@
-import { getFight } from "@/clients/FightClient";
+import { getFight } from "@/clients/fight-client";
 import { useQuery } from "@tanstack/react-query";
 
 export function UseGetFightQuery(fightId: number) {

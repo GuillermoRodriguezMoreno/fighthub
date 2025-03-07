@@ -1,4 +1,4 @@
-import { getCategory } from "@/clients/CategoryClient";
+import { getCategory } from "@/clients/category-client";
 import { useQuery } from "@tanstack/react-query";
 
 export function UseGetCategoryQuery(categoryId: number) {

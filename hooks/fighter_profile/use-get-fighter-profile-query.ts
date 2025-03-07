@@ -1,4 +1,4 @@
-import { getFighterProfile } from "@/clients/FighterProfileClient";
+import { getFighterProfile } from "@/clients/fighter-profile-client";
 import { useQuery } from "@tanstack/react-query";
 
 export function UseGetFighterProfileQuery(fighterProfileId: number) {

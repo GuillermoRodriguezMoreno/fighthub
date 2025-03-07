@@ -1,4 +1,4 @@
-import { getFights } from "@/clients/FightClient";
+import { getFights } from "@/clients/fight-client";
 import { useQuery } from "@tanstack/react-query";
 
 export function UseGetFightsQuery() {

@@ -1,4 +1,4 @@
-import { getEvent } from "@/clients/EventClient";
+import { getEvent } from "@/clients/event-client";
 import { useQuery } from "@tanstack/react-query";
 
 export function UseGetEventQuery(eventId: number) {
