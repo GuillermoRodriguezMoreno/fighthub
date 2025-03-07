@@ -10,14 +10,14 @@ const DynamicBreadcrumb = () => {
         <Breadcrumb>
             <BreadcrumbList>
                 {pathnames.map((_name, index) => (
-                    <>
-                        <BreadcrumbItem key={index}>
+                    <div key={index}>
+                        <BreadcrumbItem>
                             <BreadcrumbLink href={`/${pathnames.slice(0, index + 1).join('/')}`}>
                                 {_name}
                             </BreadcrumbLink>
                         </BreadcrumbItem>
                         {index < pathnames.length - 1 && <BreadcrumbSeparator />}
-                    </>
+                    </div>
                 ))}
             </BreadcrumbList>
         </Breadcrumb>

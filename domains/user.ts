@@ -2,12 +2,12 @@ import { z } from 'zod';
 import { PageResponseSchema } from './page-response';
 
 export const UserSchema = z.object({
-  id: z.number().optional(),
-  username: z.string().nonempty(),
+  id: z.number(),
+  username: z.string(),
   email: z.string().email(),
-  isAccountLocked: z.boolean(),
-  isAccountEnabled: z.boolean(),
-  roles: z.array(z.string()).optional(),
+  isAccountLocked: z.boolean().optional(),
+  isAccountEnabled: z.boolean().optional(),
+  roles: z.array(z.string()),
 });
 
 export type User = z.infer<typeof UserSchema>;
