@@ -1,4 +1,4 @@
-import { EventPageResponseSchema, EventSchema } from "@/domains/Event";
+import { EventPageResponseSchema, EventSchema } from "@/domains/event";
 
 export async function getEvents() {
   const res = await fetch("http://localhost:8080/api/v1/events");

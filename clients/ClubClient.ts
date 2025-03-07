@@ -1,4 +1,4 @@
-import { ClubPageResponseSchema, ClubSchema } from "@/domains/Club";
+import { ClubPageResponseSchema, ClubSchema } from "@/domains/club";
 
 export async function getClubs() {
   const res = await fetch("http://localhost:8080/api/v1/clubs");

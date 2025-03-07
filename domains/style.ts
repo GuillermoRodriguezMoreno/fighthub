@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { PageResponseSchema } from "./PageResponse";
+import { PageResponseSchema } from "./page-response";
 
 export const StyleSchema = z.object({
     id: z.number().optional(),

@@ -1,4 +1,4 @@
-import { FightPageResponseSchema, FightSchema } from "@/domains/Fight";
+import { FightPageResponseSchema, FightSchema } from "@/domains/fight";
 
 export async function getFights() {
   const res = await fetch("http://localhost:8080/api/v1/fights");

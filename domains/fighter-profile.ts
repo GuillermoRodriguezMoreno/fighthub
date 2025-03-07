@@ -1,9 +1,9 @@
 import { z } from "zod";
 import { Style } from "@mui/icons-material";
-import { StyleSchema } from "./Style";
-import { ClubSchema } from "./Club";
-import { CategorySchema } from "./Category";
-import { PageResponseSchema } from "./PageResponse";
+import { StyleSchema } from "./style";
+import { ClubSchema } from "./club";
+import { CategorySchema } from "./category";
+import { PageResponseSchema } from "./page-response";
 
 export const FighterProfileSchema = z.object({
     id: z.number().optional(),

@@ -1,4 +1,4 @@
-import { CategoryPageResponseSchema, CategorySchema } from "@/domains/Category";
+import { CategoryPageResponseSchema, CategorySchema } from "@/domains/category";
 
 export async function getCategories() {
   const res = await fetch("http://localhost:8080/api/v1/categories");

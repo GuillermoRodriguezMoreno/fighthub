@@ -1,4 +1,4 @@
-import { FighterProfilePageResponseSchema, FighterProfileSchema } from "@/domains/FighterProfile";
+import { FighterProfilePageResponseSchema, FighterProfileSchema } from "@/domains/fighter-profile";
 
 export async function getFighterProfiles() {
   const res = await fetch("http://localhost:8080/api/v1/fighter-profiles");

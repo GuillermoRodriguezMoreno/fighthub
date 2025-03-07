@@ -1,4 +1,4 @@
-import { UserPageResponseSchema, UserSchema } from "../domains/User";
+import { UserPageResponseSchema, UserSchema } from "../domains/user";
 
 export async function getUsers() {
   const res = await fetch("http://localhost:8080/api/v1/users");
