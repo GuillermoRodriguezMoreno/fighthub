@@ -11,19 +11,19 @@ export default function ProfileClubInfo() {
       <Card>
         <CardHeader className="flex flex-row items-center gap-4">
           <Avatar className="h-14 w-14">
-            <AvatarImage src="/placeholder.svg?height=56&width=56" alt="Profile picture" />
+            <AvatarImage src="/nextgen.jpeg" alt="Profile picture" />
             <AvatarFallback>JD</AvatarFallback>
           </Avatar>
           <div>
-            <CardTitle>John Doe</CardTitle>
-            <CardDescription>Software Developer</CardDescription>
+            <CardTitle>Nextgen Fight Club</CardTitle>
+            <CardDescription>Mijas</CardDescription>
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <div className="flex items-center gap-2 text-sm">
               <Mail className="h-4 w-4 text-muted-foreground" />
-              <span>john.doe@example.com</span>
+              <span>nextgen@example.com</span>
             </div>
             <div className="flex items-center gap-2 text-sm">
               <Phone className="h-4 w-4 text-muted-foreground" />
@@ -31,17 +31,17 @@ export default function ProfileClubInfo() {
             </div>
             <div className="flex items-center gap-2 text-sm">
               <MapPin className="h-4 w-4 text-muted-foreground" />
-              <span>San Francisco, CA</span>
+              <span>Las lagunas, Mijas, Malaga</span>
             </div>
           </div>
 
           <div className="pt-2">
-            <h3 className="text-sm font-medium mb-2">Skills</h3>
+            <h3 className="text-sm font-medium mb-2">Classes</h3>
             <div className="flex flex-wrap gap-2">
-              <Badge variant="secondary">React</Badge>
-              <Badge variant="secondary">TypeScript</Badge>
-              <Badge variant="secondary">Node.js</Badge>
-              <Badge variant="secondary">UI/UX</Badge>
+              <Badge variant="secondary">Kick boxing</Badge>
+              <Badge variant="secondary">MMA</Badge>
+              <Badge variant="secondary">BJJ</Badge>
+              <Badge variant="secondary">Boxing</Badge>
             </div>
           </div>
         </CardContent>

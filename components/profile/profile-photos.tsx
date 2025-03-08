@@ -13,21 +13,21 @@ export default function ProfilePhotos() {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <div className="relative aspect-w-1 aspect-h-1">
               <img
-                src="/placeholder.svg"
+                src="/profile-photo.jpeg"
                 alt="Photo 1"
                 className="object-cover rounded-lg"
               />
             </div>
             <div className="relative aspect-w-1 aspect-h-1">
               <img
-                src="/placeholder.svg"
+                src="/profile-photo2.webp"
                 alt="Photo 2"
                 className="object-cover rounded-lg"
               />
             </div>
             <div className="relative aspect-w-1 aspect-h-1">
               <img
-                src="/placeholder.svg"
+                src="/fight1.webp"
                 alt="Photo 3"
                 className="object-cover rounded-lg"
               />

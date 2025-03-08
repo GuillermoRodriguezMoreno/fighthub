@@ -34,43 +34,43 @@ const UpcomingFigtherFights = ({
     items = [
         {
             id: "item-1",
-            title: "Build Modern UIs",
+            title: "One Championship",
             summary:
-                "Create stunning user interfaces with our comprehensive design system.",
+                "Wadii vs. Khabib: The Ultimate Showdown. Who will emerge victorious in this epic battle of the titans?",
             url: "#",
-            image: "https://shadcnblocks.com/images/block/placeholder-dark-1.svg",
+            image: "/fight1.webp",
         },
         {
             id: "item-2",
-            title: "Computer Vision Technology",
+            title: "UFC Fight Night",
             summary:
-                "Powerful image recognition and processing capabilities that allow AI systems to analyze, understand, and interpret visual information from the world.",
+                "Wadii vs. McGregor: The Rematch. Will Wadii avenge his previous loss and emerge victorious this time?",
             url: "#",
-            image: "https://shadcnblocks.com/images/block/placeholder-dark-1.svg",
+            image: "/fight2.jpeg",
         },
         {
             id: "item-3",
-            title: "Machine Learning Automation",
+            title: "Glory",
             summary:
-                "Self-improving algorithms that learn from data patterns to automate complex tasks and make intelligent decisions with minimal human intervention.",
+                "Wadii vs. Silva: The Battle of the Century. Who will emerge victorious in this epic battle of the titans?",
             url: "#",
-            image: "https://shadcnblocks.com/images/block/placeholder-dark-1.svg",
+            image: "/fight3.jpeg",
         },
         {
             id: "item-4",
-            title: "Predictive Analytics",
+            title: "Gran Slam",
             summary:
-                "Advanced forecasting capabilities that analyze historical data to predict future trends and outcomes, helping businesses make data-driven decisions.",
+                "Wadii vs. Jones: The Ultimate Showdown. Who will emerge victorious in this epic battle of the titans?",
             url: "#",
-            image: "https://shadcnblocks.com/images/block/placeholder-dark-1.svg",
+            image: "/fight4.jpeg",
         },
         {
             id: "item-5",
-            title: "Neural Network Architecture",
+            title: "Nextgen Fight Night",
             summary:
-                "Sophisticated AI models inspired by human brain structure, capable of solving complex problems through deep learning and pattern recognition.",
+                "Wadii vs Adesanya: The Rematch. Will Wadii avenge his previous loss and emerge victorious this time?",
             url: "#",
-            image: "https://shadcnblocks.com/images/block/placeholder-dark-1.svg",
+            image: "/fight5.jpeg",
         },
     ],
 }: UpcomingFigtherFightsProps) => {
@@ -172,7 +172,7 @@ const UpcomingFigtherFights = ({
                                         {item.summary}
                                     </div>
                                     <div className="flex items-center text-sm">
-                                        Read more{" "}
+                                        View more{" "}
                                         <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
                                     </div>
                                 </a>

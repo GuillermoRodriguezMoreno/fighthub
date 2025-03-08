@@ -13,7 +13,7 @@ export default function ProfileInfo() {
                 <div className="flex items-center space-x-4">
                     <Avatar className="w-12 h-12">
                         <img
-                            src="/placeholder.svg"
+                            src="/profile-photo2.webp"
                             width="96"
                             height="96"
                             alt="Avatar"
@@ -22,12 +22,12 @@ export default function ProfileInfo() {
                         />
                     </Avatar>
                     <div className="space-y-1">
-                        <h1 className="text-2xl font-bold">Alice Johnson</h1>
-                        <p className="text-gray-500 dark:text-gray-400">Senior Software Engineer</p>
+                        <h1 className="text-2xl font-bold">Wadii Kadiri</h1>
+                        <p className="text-gray-500 dark:text-gray-400">Pro fighter</p>
                     </div>
                 </div>
                 <p className="text-gray-500 dark:text-gray-400">
-                    Passionate about building accessible and inclusive web experiences.
+                    Passionate about fighting.
                 </p>
             </div>
             <div className="space-y-4">
@@ -36,7 +36,7 @@ export default function ProfileInfo() {
                     <CardContent className="space-y-4">
                         <div className="space-y-2">
                             <Label htmlFor="name">Name</Label>
-                            <Input id="name" value="Alice Johnson" />
+                            <Input id="name" value="Wadii Kadiri" />
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="bio">Bio</Label>

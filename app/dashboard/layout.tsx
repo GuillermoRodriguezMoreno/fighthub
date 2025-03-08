@@ -1,7 +1,7 @@
 'use client'
 import { AppSidebar } from "@/components/core/app-sidebar"
 import { Separator } from "@/components/ui/separator";
-import DinamycBreadcrumb from "@/components/core/dinamyc-breadcrum";
+import DinamycBreadcrumb from "@/components/core/dynamic-breadcrum";
 
 import {
   SidebarInset,
