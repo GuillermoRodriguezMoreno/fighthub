@@ -125,7 +125,7 @@ export const HeroCards = () => {
         </CardContent>
         <hr className="w-4/5 m-auto mb-4" />
         <CardFooter>
-          <Button className="w-full"><Link href={path.signin}>Get started</Link></Button>
+          <Button className="w-full"><Link href={path.signin} className="w-100">Get started</Link></Button>
         </CardFooter>
       </Card>
 

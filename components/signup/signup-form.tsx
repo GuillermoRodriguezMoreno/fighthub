@@ -8,12 +8,15 @@ import { signIn } from "next-auth/react"
 import Link from "next/link"
 import { SignupInputs } from "@/domains/singup/singup-inputs"
 import { useForm, SubmitHandler } from "react-hook-form"
+import { useRegisterMutation } from "@/hooks/auth/use-register-mutation"
+import React from "react"
 
 
 export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const mutation = useRegisterMutation()
   const {
     register,
     handleSubmit,
@@ -21,14 +24,18 @@ export function SignupForm({
     formState: { errors },
   } = useForm<SignupInputs>()
   const onSubmit: SubmitHandler<SignupInputs> = (data) =>  {
-    console.log(data)
+    mutation.mutate(data)
+    if (mutation.isSuccess) {
+      mutation.reset()
+
+    }
   }
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form onSubmit={handleSubmit(onSubmit)} className="p-6 md:p-8">
+          <form onSubmit={handleSubmit(onSubmit)} noValidate className="p-6 md:p-8">
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Join us</h1>
@@ -92,6 +99,16 @@ export function SignupForm({
               <Button type="submit" className="w-full">
                 Create account
               </Button>
+              {mutation.isError && 
+                <div className="text-red-500 text-sm">
+                  "An unexpected error occurred. Please try again."
+                </div>
+              }
+              {mutation.isSuccess && 
+                <div className="text-green-500 text-sm">
+                  "Account created successfully. Please check your email."
+                </div>
+              }
               <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
                 <span className="bg-background text-muted-foreground relative z-10 px-2">
                   Or continue with
