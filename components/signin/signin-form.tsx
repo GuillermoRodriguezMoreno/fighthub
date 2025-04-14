@@ -8,36 +8,34 @@ import { signIn } from "next-auth/react"
 import Link from "next/link"
 import { SigninInputs } from "@/domains/signin/signin-inputs"
 import { useForm, SubmitHandler } from "react-hook-form"
+import { useParams, useRouter, useSearchParams } from "next/navigation"
+import { path } from "@/config/path"
+import React from "react"
 
 export function SigninForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const searchParams = useSearchParams()
+  const error = searchParams.get("error")
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<SigninInputs>()
-  const onSubmit: SubmitHandler<SigninInputs> = (data) =>  {
-    console.log(data)
-    // console.log("sign in");
-    // const result = await signIn("credentials", {
-    //   email: "admin@fighthub.com",
-    //   password: "admin123",
-
-    // });
-
-    // if (result?.error) {
-    //   console.error("Error signing in:", result.error);
-    // }
+  const onSubmit: SubmitHandler<SigninInputs> = async (data) =>  {
+    console.log("data", data)
+    await signIn("credentials", {
+      email: data.email,
+      password: data.password,
+      callbackUrl: path.dashboard,
+    });
   }
-
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form onSubmit={handleSubmit(onSubmit)} className="p-6 md:p-8">
+          <form onSubmit={handleSubmit(onSubmit)} noValidate className="p-6 md:p-8">
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Welcome back</h1>
@@ -77,7 +75,17 @@ export function SigninForm({
               <Button type="submit" className="w-full">
                 Sign in
               </Button>
-              <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
+              {error && (
+                <div className="text-red-500 text-sm">
+                  {error === "CredentialsSignin" ? (
+                    "Invalid email or password. Please try again."
+                  ) : (
+                    "An unexpected error occurred. Please try again."
+                  )}
+                </div>
+              )}
+              {/* TODO: Add social login functionality */}
+              {/* <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
                 <span className="bg-background text-muted-foreground relative z-10 px-2">
                   Or continue with
                 </span>
@@ -110,7 +118,8 @@ export function SigninForm({
                   </svg>
                   <span className="sr-only">Login with Meta</span>
                 </Button>
-              </div>
+                Work in progres
+              </div> */}
               <div className="text-center text-sm">
                 Don&apos;t have an account?{" "}
                 <Link href="/signup" className="underline underline-offset-4">
@@ -129,8 +138,8 @@ export function SigninForm({
         </CardContent>
       </Card>
       <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-        and <a href="#">Privacy Policy</a>.
+        By clicking Sign in, you agree to our <a href="#">Terms of Service</a>{" "}
+        and <a href="#">Privacy Policy</a>. {"(work in progress)"}
       </div>
     </div>
   )
