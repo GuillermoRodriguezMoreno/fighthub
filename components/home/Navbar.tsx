@@ -79,9 +79,10 @@ export const Navbar = () => {
               </SheetTrigger>
 
               <SheetContent side={"left"}>
-                <SheetHeader>
+                <SheetHeader className="flex flex-row items-center">
+                  <Image src="/logo.png" alt="logo image" width={50} height={50} />
                   <SheetTitle className="font-bold text-xl">
-                    Shadcn/React
+                    FightHub
                   </SheetTitle>
                 </SheetHeader>
                 <nav className="flex flex-col justify-center items-center gap-2 mt-4">
@@ -98,7 +99,7 @@ export const Navbar = () => {
                   ))}
                   <a
                     rel="noreferrer noopener"
-                    href="https://github.com/leoMirandaa/shadcn-landing-page.git"
+                    href="https://github.com/GuillermoRodriguezMoreno/fighthub"
                     target="_blank"
                     className={`w-[110px] border ${buttonVariants({
                       variant: "secondary",
@@ -131,7 +132,7 @@ export const Navbar = () => {
           <div className="hidden md:flex gap-2">
             <a
               rel="noreferrer noopener"
-              href="https://github.com/leoMirandaa/shadcn-landing-page.git"
+              href="https://github.com/GuillermoRodriguezMoreno/fighthub"
               target="_blank"
               className={`border ${buttonVariants({ variant: "secondary" })}`}
             >

@@ -1,6 +1,8 @@
 import { Button, buttonVariants } from "@/components/ui/button";
 import { HeroCards } from "./HeroCards";
 import { Github } from "lucide-react";
+import { path } from "@/config/path";
+import Link from "next/link";
 
 export const Hero = () => {
   return (
@@ -27,11 +29,11 @@ export const Hero = () => {
         </p>
 
         <div className="space-y-4 md:space-y-0 md:space-x-4">
-          <Button className="w-full md:w-1/3">Get Started</Button>
+          <Button className="w-full md:w-1/3"><Link href={path.signin}>Get started</Link></Button>
 
           <a
             rel="noreferrer noopener"
-            href="https://github.com/leoMirandaa/shadcn-landing-page.git"
+            href="https://github.com/GuillermoRodriguezMoreno/fighthub"
             target="_blank"
             className={`w-full md:w-1/3 ${buttonVariants({
               variant: "outline",

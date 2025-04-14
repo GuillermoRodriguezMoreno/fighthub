@@ -20,15 +20,10 @@ export default function Home() {
       <Navbar />
       <div className="flex flex-col justify-center items-center p-4">
         <Hero />
-        {/* <Sponsors /> */}
         <About />
         <WhyJoinUs />
         <Features />
-        {/* <Services /> */}
-        {/* <Cta /> */}
-        {/* <Testimonials /> */}
         <Team />
-        {/* <Pricing /> */}
         <Newsletter />
         <FAQ />
         <Footer />

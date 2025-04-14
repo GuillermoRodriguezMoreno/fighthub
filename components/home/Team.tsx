@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Facebook, Instagram, Linkedin } from "lucide-react";
+import { Facebook, Github, Globe, Instagram, Linkedin } from "lucide-react";
 
 interface TeamProps {
   imageUrl: string;
@@ -31,15 +31,11 @@ const teamList: TeamProps[] = [
     socialNetworks: [
       {
         name: "Linkedin",
-        url: "#",
+        url: "https://www.linkedin.com/in/guillermo-rodr%C3%ADguez-moreno-b91568272/",
       },
       {
-        name: "Facebook",
-        url: "#",
-      },
-      {
-        name: "Instagram",
-        url: "#",
+        name: "Github",
+        url: "https://github.com/GuillermoRodriguezMoreno",
       },
     ],
   },
@@ -50,16 +46,16 @@ const teamList: TeamProps[] = [
     description: "Dedicated to mastering and teaching the art of combat sports, inspiring the next generation of fighters.",
     socialNetworks: [
       {
-        name: "Linkedin",
-        url: "#",
+        name: "Website",
+        url: "https://wktraining.es/",
       },
       {
         name: "Facebook",
-        url: "#",
+        url: "https://www.facebook.com/WadiiKadiri/",
       },
       {
         name: "Instagram",
-        url: "#",
+        url: "https://www.instagram.com/wazaek/",
       },
     ],
   },
@@ -76,6 +72,12 @@ export const Team = () => {
 
       case "Instagram":
         return <Instagram size="20" />;
+      
+      case "Github":
+        return <Github size="20" />;
+      
+      case "Website":
+        return <Globe size="20" />;
     }
   };
 
