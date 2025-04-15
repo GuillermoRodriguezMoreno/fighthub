@@ -6,4 +6,7 @@ export const apiEndpoint = {
         login: `${url}/auth/authenticate`,
         register: `${url}/auth/register`,
     },
+    events: `${url}/events`,
+    fighters: `${url}/fighter-profiles`,
+    clubs: `${url}/clubs`,
 }

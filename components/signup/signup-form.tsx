@@ -78,7 +78,7 @@ export function SignupForm({
                 <Input
                   id="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder="mail@example.com"
                   {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
                 />
                 {errors.email?.type === "required" && <span className="text-destructive">This field is required</span>}
@@ -109,7 +109,7 @@ export function SignupForm({
                   "Account created successfully. Please check your email."
                 </div>
               }
-              <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
+              {/* <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
                 <span className="bg-background text-muted-foreground relative z-10 px-2">
                   Or continue with
                 </span>
@@ -142,7 +142,7 @@ export function SignupForm({
                   </svg>
                   <span className="sr-only">Login with Meta</span>
                 </Button>
-              </div>
+              </div> */}
               <div className="text-center text-sm">
                 have an account?{" "}
                 <Link href="/signin" className="underline underline-offset-4">
@@ -162,7 +162,7 @@ export function SignupForm({
       </Card>
       <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
         By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-        and <a href="#">Privacy Policy</a>.
+        and <a href="#">Privacy Policy</a>. {"(work in progress)"}
       </div>
     </div>
   )

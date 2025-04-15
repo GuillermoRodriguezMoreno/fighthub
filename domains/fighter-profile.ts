@@ -5,7 +5,7 @@ import { CategorySchema } from "./category";
 import { PageResponseSchema } from "./page-response";
 
 export const FighterProfileSchema = z.object({
-    id: z.number().optional(),
+    id: z.number(),
     weight: z.number(),
     height: z.number(),
     gender: z.string(),
@@ -14,7 +14,7 @@ export const FighterProfileSchema = z.object({
     name: z.string(),
     username: z.string(),
     email: z.string().email(),
-    dateOfBirth: z.string(), // Assuming date is in ISO string format
+    dateOfBirth: z.string(),
     styles: z.array(StyleSchema),
     category: CategorySchema,
     club: ClubSchema,
