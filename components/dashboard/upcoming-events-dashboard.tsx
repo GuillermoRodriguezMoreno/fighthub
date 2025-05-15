@@ -18,15 +18,15 @@ import { UseGetEventsQuery } from "@/hooks/event/use-get-events-query";
 import { Skeleton } from "../ui/skeleton";
 import { AlertError } from "../core/alert-error";
 import { AlertInfo } from "../core/alert-info";
-import { EventResponse } from "@/domains/event";
 import { useRouter } from "next/navigation";
+import { EventResponse } from "@/domains/event";
 
 
-interface UpcomingEventsProps {
+interface UpcomingEventsDashboardProps {
     upcommingEvents: EventResponse[];
 }
 
-export const UpcomingEvents = ({ upcommingEvents }: UpcomingEventsProps): JSX.Element => {
+export const UpcomingEventsDashboard = ({ upcommingEvents }: UpcomingEventsDashboardProps): JSX.Element => {
     const router = useRouter();
     const [carouselApi, setCarouselApi] = useState<CarouselApi>();
     const [canScrollPrev, setCanScrollPrev] = useState(false);
@@ -111,7 +111,7 @@ export const UpcomingEvents = ({ upcommingEvents }: UpcomingEventsProps): JSX.El
                             <CarouselItem key={event.id} className="pl-4 md:max-w-[452px]">
                                 <div
                                     onClick={() => router.push(`${path.dashboard.events.base}/${event.id}`)}
-                                    className="group flex flex-col justify-between cursor-pointer"
+                                    className="group flex flex-col justify-between"
                                 >
                                     <div>
                                         <div className="flex aspect-[3/2] overflow-clip rounded-xl">
@@ -133,7 +133,7 @@ export const UpcomingEvents = ({ upcommingEvents }: UpcomingEventsProps): JSX.El
                                         {event.description}
                                     </div>
                                     <div className="flex items-center text-sm">
-                                        Read more{" "}
+                                        See more{" "}
                                         <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
                                     </div>
                                 </div>
@@ -146,7 +146,7 @@ export const UpcomingEvents = ({ upcommingEvents }: UpcomingEventsProps): JSX.El
     );
 };
 
-export const UpcomingEventsContainer = (): JSX.Element => {
+export const UpcomingEventsDashboardContainer = (): JSX.Element => {
     const eventsQuery = UseGetEventsQuery({ page: 0, size: 5, orderBy: "startDate" });
 
     const Loading = eventsQuery.isLoading || !eventsQuery.data
@@ -165,5 +165,5 @@ export const UpcomingEventsContainer = (): JSX.Element => {
         return <AlertInfo description={emptyListMessage} />;
     }
  
-    return <UpcomingEvents upcommingEvents={eventsQuery.data.content} />;
+    return <UpcomingEventsDashboard upcommingEvents={eventsQuery.data.content} />;
 }

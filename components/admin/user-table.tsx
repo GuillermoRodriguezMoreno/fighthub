@@ -37,121 +37,8 @@ import {
 import { UseGetUsersQuery } from "@/hooks/user/use-get-users-query"
 import { Badge } from "../ui/badge"
 import { UserResponse } from "@/domains/user"
+import { EditUserDialog } from "./edit-user-dialog"
 
-export const columns: ColumnDef<UserResponse>[] = [
-  {
-    accessorKey: "accountEnabled",
-    header: "status",
-    cell: ({ row }) => {
-      const isEnabled:boolean = row.getValue("accountEnabled");
-      const value = isEnabled ? 'enabled' : 'disabled';
-      return (
-        <Badge className={`capitalize ${isEnabled ? 'bg-green-300' : 'bg-red-300'}`}>
-          {value}
-        </Badge>
-      );
-    }
-  },
-  {
-    accessorKey: "id",
-    header: "Id",
-    cell: ({ row }) => <div>{row.getValue("id")}</div>,
-  },
-  {
-    accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown />
-        </Button>
-      )
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
-  },
-  {
-    accessorKey: "username",
-    header: "Username",
-    cell: ({ row }) => <div>{row.getValue("username")}</div>,
-  },
-  {
-    accessorKey: "roles",
-    header: "Roles",
-    cell: ({ row }) => {
-      const roles = row.getValue("roles") as string[]
-      return (
-        <div>
-          {roles.map((role) => (
-            <Badge key={role} className={`${role==='ADMIN' ? "bg-amber-200" : "bg-blue-300"}`}>
-              {role}
-            </Badge>
-          ))}
-        </div>
-      )
-    },
-  },
-  {
-    accessorKey: "createdAt",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Created at
-          <ArrowUpDown />
-        </Button>
-      )
-    },
-    cell: ({ row }) => <div>{row.getValue("createdAt")}</div>,
-  },
-  {
-    accessorKey: "updatedAt",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Updated at
-          <ArrowUpDown />
-        </Button>
-      )
-    },
-    cell: ({ row }) => <div>{row.getValue("updatedAt") || "-" }</div>,
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const user = row.original
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => user.id && navigator.clipboard.writeText(user.id.toString())}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
-    },
-  },
-]
 
 export function UserTable() {
 
@@ -164,6 +51,131 @@ export function UserTable() {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+
+  const [selectedUser, setSelectedUser] = React.useState<UserResponse | null>(null)
+
+  const handleEditClick = (user: UserResponse) => {
+    setSelectedUser(user)
+  }
+
+  const handleSaveChanges = (updatedUser) => {
+    console.log("Usuario actualizado:", updatedUser)
+    setSelectedUser(null)
+  }
+
+  const columns: ColumnDef<UserResponse>[] = [
+    {
+      accessorKey: "accountEnabled",
+      header: "status",
+      cell: ({ row }) => {
+        const isEnabled: boolean = row.getValue("accountEnabled");
+        const value = isEnabled ? 'enabled' : 'disabled';
+        return (
+          <Badge className={`capitalize ${isEnabled ? 'bg-green-300' : 'bg-red-300'}`}>
+            {value}
+          </Badge>
+        );
+      }
+    },
+    {
+      accessorKey: "id",
+      header: "Id",
+      cell: ({ row }) => <div>{row.getValue("id")}</div>,
+    },
+    {
+      accessorKey: "email",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Email
+            <ArrowUpDown />
+          </Button>
+        )
+      },
+      cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "username",
+      header: "Username",
+      cell: ({ row }) => <div>{row.getValue("username")}</div>,
+    },
+    {
+      accessorKey: "roles",
+      header: "Roles",
+      cell: ({ row }) => {
+        const roles = row.getValue("roles") as string[]
+        return (
+          <div>
+            {roles.map((role) => (
+              <Badge key={role} className={`${role === 'ADMIN' ? "bg-amber-200" : "bg-blue-300"}`}>
+                {role}
+              </Badge>
+            ))}
+          </div>
+        )
+      },
+    },
+    {
+      accessorKey: "createdAt",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Created at
+            <ArrowUpDown />
+          </Button>
+        )
+      },
+      cell: ({ row }) => <div>{row.getValue("createdAt")}</div>,
+    },
+    {
+      accessorKey: "updatedAt",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Updated at
+            <ArrowUpDown />
+          </Button>
+        )
+      },
+      cell: ({ row }) => <div>{row.getValue("updatedAt") || "-"}</div>,
+    },
+    {
+      id: "actions",
+      enableHiding: false,
+      cell: ({ row }) => {
+        const user = row.original
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem>
+                See User
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => handleEditClick(user)}>Edit</DropdownMenuItem>
+              <DropdownMenuItem>Delete</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )
+      },
+    },
+  ]
 
   const table = useReactTable({
     data: data?.content ?? [],
@@ -192,19 +204,20 @@ export function UserTable() {
     return <div>Error</div>
   }
 
-  console.log(data)
-
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+        <div className="flex gap-5">
+          <Input
+            placeholder="Filter emails..."
+            value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("email")?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+          <Button>New User</Button>
+        </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
@@ -225,7 +238,7 @@ export function UserTable() {
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {column.id}
+                    {columnIdMapper(column.id)}
                   </DropdownMenuCheckboxItem>
                 )
               })}
@@ -243,9 +256,9 @@ export function UserTable() {
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
                   )
                 })}
@@ -259,7 +272,7 @@ export function UserTable() {
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                   onClick={() => {
-                    
+
                   }}
                 >
                   {row.getVisibleCells().map((cell) => (
@@ -309,6 +322,29 @@ export function UserTable() {
           </Button>
         </div>
       </div>
+      <EditUserDialog 
+        user={selectedUser}
+        onSave={handleSaveChanges}
+        onCancel={() => setSelectedUser(null)} />
     </div>
   )
+}
+
+const columnIdMapper = (columnId: string) => {
+  switch (columnId) {
+    case "accountEnabled":
+      return "Status"
+    case "email":
+      return "Email"
+    case "username":
+      return "Username"
+    case "roles":
+      return "Roles"
+    case "createdAt":
+      return "Created at"
+    case "updatedAt":
+      return "Updated at"
+    default:
+      return columnId
+  }
 }

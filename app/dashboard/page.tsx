@@ -1,11 +1,11 @@
 import { NewClubContainer, NewClubs } from "@/components/dashboard/new-clubs";
 import { PopularFightersContainer } from "@/components/dashboard/popular-fighters";
-import { UpcomingEventsContainer } from "@/components/events/upcoming-events";
+import { UpcomingEventsDashboardContainer } from "@/components/dashboard/upcoming-events-dashboard";
 
 export default function Page() {
   return (
     <div className="flex flex-col gap-20">
-      <UpcomingEventsContainer />
+      <UpcomingEventsDashboardContainer />
       <PopularFightersContainer />
       <NewClubContainer />
     </div>

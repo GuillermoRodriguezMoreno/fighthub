@@ -132,7 +132,7 @@ export const NewClubs = ({ newClubs }: NewClubsProps): JSX.Element => {
                                         {club.description}
                                     </div>
                                     <div className="flex items-center text-sm">
-                                        Read more{" "}
+                                        See more{" "}
                                         <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
                                     </div>
                                 </div>
