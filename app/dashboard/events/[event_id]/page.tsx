@@ -1,6 +1,4 @@
-import { ClubFigthers } from "@/components/clubs/club-fighters";
-import ClubInfo from "@/components/clubs/club-info";
-import ClubPhotos from "@/components/clubs/club-photos";
+
 import { EventFigths } from "@/components/events/event-fights";
 import EventInfo from "@/components/events/event-info";
 import EventPhotos from "@/components/events/event-photos";

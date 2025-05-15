@@ -28,7 +28,7 @@ export function SigninForm({
     await signIn("credentials", {
       email: data.email,
       password: data.password,
-      callbackUrl: path.dashboard,
+      callbackUrl: path.dashboard.base,
     });
   }
   return (

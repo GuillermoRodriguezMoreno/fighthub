@@ -1,19 +1,12 @@
-import { z } from "zod";
-import { PageResponseSchema } from "./page-response";
-
-export const ClubSchema = z.object({
-    id: z.number().optional(),
-    name: z.string(),
-    address: z.string(),
-    email: z.string().email(),
-    description: z.string(),
-    phone: z.string(),
-    ownerId: z.number().optional(),
-    ownerName: z.string(),
-    ownerUsername: z.string(),
-    ownerEmail: z.string().email(),
-});
-
-export type Club = z.infer<typeof ClubSchema>;
-export const ClubPageResponseSchema = PageResponseSchema(ClubSchema);
-export type ClubPageResponseSchema = z.infer<typeof ClubPageResponseSchema>;
+export type ClubResponse = {
+    id?: number;
+    name: string;
+    address: string;
+    email: string;
+    description: string;
+    phone: string;
+    ownerId?: number;
+    ownerName: string;
+    ownerUsername: string;
+    ownerEmail: string;
+};

@@ -1,15 +1,16 @@
 import { apiEndpoint } from "@/config/api-endpoint";
-import { EventPageResponseSchema, EventSchema } from "@/domains/event";
 import { defaultQueryParams } from "./types";
 import { buildUrlWithQueryParams } from "./utils";
+import { PageResponse } from "@/domains/page-response";
+import { EventResponse } from "@/domains/event";
 
-export async function getEvents(queryParams: defaultQueryParams) {
+export async function getEvents(queryParams: defaultQueryParams): Promise<PageResponse<EventResponse>> {
   const url = buildUrlWithQueryParams(apiEndpoint.events, queryParams);
   const res = await fetch(url);
-  return EventPageResponseSchema.parse(await res.json());
+  return await res.json();
 }
 
-export async function getEvent(id: number) {
+export async function getEvent(id: number): Promise<EventResponse> {
   const res = await fetch(`${apiEndpoint.events}/${id}`);
-    return EventSchema.parse(await res.json());
+    return await res.json();
 }

@@ -13,16 +13,16 @@ import {
 import React from "react";
 import Autoplay from "embla-carousel-autoplay";
 import Link from "next/link";
-import { FighterProfile } from "@/domains/fighter-profile";
 import { path } from "@/config/path";
 import { useRouter } from "next/navigation";
 import { UseGetFighterProfilesQuery } from "@/hooks/fighter_profile/use-get-fighter-profiles-query";
 import { AlertError } from "../core/alert-error";
 import { AlertInfo } from "../core/alert-info";
 import { Skeleton } from "../ui/skeleton";
+import { FighterProfileResponse } from "@/domains/fighter-profile";
 
 interface PopularFightersProps {
-    popularFighters: FighterProfile[];
+    popularFighters: FighterProfileResponse[];
 }
 
 export const PopularFighters = ({ popularFighters }: PopularFightersProps): JSX.Element => {

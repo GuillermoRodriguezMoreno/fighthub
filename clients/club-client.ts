@@ -1,15 +1,16 @@
-import { ClubPageResponseSchema, ClubSchema } from "@/domains/club";
+import { PageResponse } from "@/domains/page-response";
 import { defaultQueryParams } from "./types";
 import { buildUrlWithQueryParams } from "./utils";
 import { apiEndpoint } from "@/config/api-endpoint";
+import { ClubResponse } from "@/domains/club";
 
-export async function getClubs(defaultQueryParams: defaultQueryParams) {
+export async function getClubs(defaultQueryParams: defaultQueryParams): Promise<PageResponse<ClubResponse>> {
   const url = buildUrlWithQueryParams(apiEndpoint.clubs, defaultQueryParams);
   const res = await fetch(url);
-    return ClubPageResponseSchema.parse(await res.json());
+    return await res.json();
 }
 
-export async function getClub(id: number) {
-  const res = await fetch(`http://localhost:8080/api/v1/clubs/${id}`);
-    return ClubSchema.parse(await res.json());
+export async function getClub(id: number): Promise<ClubResponse> {
+  const res = await fetch(`${apiEndpoint.clubs}/${id}`);
+    return await res.json();
 }

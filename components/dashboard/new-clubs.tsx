@@ -13,16 +13,16 @@ import {
 import React from "react";
 import Autoplay from "embla-carousel-autoplay";
 import Link from "next/link";
-import { Club } from "@/domains/club";
 import { path } from "@/config/path";
 import { useRouter } from "next/navigation";
 import { UseGetClubsQuery } from "@/hooks/club/use-get-clubs-query";
 import { AlertError } from "../core/alert-error";
 import { AlertInfo } from "../core/alert-info";
 import { Skeleton } from "../ui/skeleton";
+import { ClubResponse } from "@/domains/club";
 
 interface NewClubsProps {
-    newClubs: Club[]; 
+    newClubs: ClubResponse[]; 
 }
 
 export const NewClubs = ({ newClubs }: NewClubsProps): JSX.Element => {

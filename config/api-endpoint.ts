@@ -9,4 +9,8 @@ export const apiEndpoint = {
     events: `${url}/events`,
     fighters: `${url}/fighter-profiles`,
     clubs: `${url}/clubs`,
+    categories: `${url}/categories`,
+    fights: `${url}/fights`,
+    styles: `${url}/styles`,
+    users: `${url}/users`,
 }

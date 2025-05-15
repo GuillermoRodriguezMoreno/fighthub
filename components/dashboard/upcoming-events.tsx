@@ -18,12 +18,12 @@ import { UseGetEventsQuery } from "@/hooks/event/use-get-events-query";
 import { Skeleton } from "../ui/skeleton";
 import { AlertError } from "../core/alert-error";
 import { AlertInfo } from "../core/alert-info";
-import { Event } from "@/domains/event";
+import { EventResponse } from "@/domains/event";
 import { useRouter } from "next/navigation";
 
 
 interface UpcomingEventsProps {
-    upcommingEvents: Event[];
+    upcommingEvents: EventResponse[];
 }
 
 export const UpcomingEvents = ({ upcommingEvents }: UpcomingEventsProps): JSX.Element => {

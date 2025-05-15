@@ -35,10 +35,10 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { UseGetUsersQuery } from "@/hooks/user/use-get-users-query"
-import { User } from "@/domains/user"
 import { Badge } from "../ui/badge"
+import { UserResponse } from "@/domains/user"
 
-export const columns: ColumnDef<User>[] = [
+export const columns: ColumnDef<UserResponse>[] = [
   {
     accessorKey: "accountEnabled",
     header: "status",

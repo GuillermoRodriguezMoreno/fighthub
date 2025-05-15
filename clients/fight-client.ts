@@ -1,11 +1,13 @@
-import { FightPageResponseSchema, FightSchema } from "@/domains/fight";
+import { apiEndpoint } from "@/config/api-endpoint";
+import { FightResponse } from "@/domains/fight";
+import { PageResponse } from "@/domains/page-response";
 
-export async function getFights() {
-  const res = await fetch("http://localhost:8080/api/v1/fights");
-    return FightPageResponseSchema.parse(await res.json());
+export async function getFights(): Promise<PageResponse<FightResponse>> {
+  const res = await fetch(apiEndpoint.fights);
+    return await res.json();
 }
 
-export async function getFight(id: number) {
-  const res = await fetch(`http://localhost:8080/api/v1/fights/${id}`);
-    return FightSchema.parse(await res.json());
+export async function getFight(id: number): Promise<FightResponse> {
+  const res = await fetch(`${apiEndpoint.fights}/${id}`);
+    return await res.json();
 }
