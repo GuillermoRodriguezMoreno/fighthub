@@ -13,4 +13,5 @@ export const apiEndpoint = {
     fights: `${url}/fights`,
     styles: `${url}/styles`,
     users: `${url}/users`,
+    roles: `${url}/roles`,
 }
