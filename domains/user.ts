@@ -1,4 +1,4 @@
-import { RoleResponse } from "./roles";
+import { RoleRequest, RoleType } from "./roles";
 
 export type UserResponse = {
   id: number;
@@ -8,7 +8,7 @@ export type UserResponse = {
   accountEnabled?: boolean;
   createdAt: string;
   updatedAt: string | null;
-  roles: string[];
+  roles: RoleType[];
 };
 
 
@@ -17,9 +17,9 @@ export type EditUserInputs = {
   email: string;
   newPassword: string;
   repeatPassword: string;
-  role: string[];
-  accountEnabled: boolean;
-  accountLocked: boolean;
+  roles: RoleType[];
+  isAccountEnabled: string;
+  isAccountLocked: string;
 }
 
 export type EditUserRequest = {
@@ -27,7 +27,7 @@ export type EditUserRequest = {
   username: string;
   email: string;
   password: string;
-  roles: RoleResponse[];
-  accountEnabled: boolean;
-  accountLocked: boolean;
+  roles: RoleRequest[];
+  isAccountEnabled: string;
+  isAccountLocked: string;
 }

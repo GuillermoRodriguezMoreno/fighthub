@@ -3,11 +3,14 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
-import { EditUserInputs, UserResponse } from "@/domains/user"
+import { EditUserInputs, EditUserRequest, UserResponse } from "@/domains/user"
 import { UseGetRolesQuery } from "@/hooks/role/use-get-roles-query"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { useEffect } from "react"
+import { useEditUserMutation } from "@/hooks/user/use-edit-user-mutation"
+import { RoleType } from "@/domains/roles"
+import { fromRoleTypeToRole } from "@/lib/user-utils"
 
 export type EditUserDialogProps = {
   user: UserResponse | null
@@ -29,9 +32,9 @@ export function EditUserDialog({ user, onCancel, onSave }: EditUserDialogProps) 
       email: "",
       newPassword: "",
       repeatPassword: "",
-      role: ["USER"],
-      accountEnabled: false,
-      accountLocked: false,
+      roles: [RoleType.USER],
+      isAccountEnabled: "false",
+      isAccountLocked: "false",
     }
   })
 
@@ -42,18 +45,27 @@ export function EditUserDialog({ user, onCancel, onSave }: EditUserDialogProps) 
         email: user.email || "",
         newPassword: "",
         repeatPassword: "",
-        role: user.roles || ["USER"],
-        accountEnabled: user.accountEnabled || false,
-        accountLocked: user.accountLocked || false,
+        roles: user.roles || ["USER"],
+        isAccountEnabled: String(user.accountEnabled) || "false",
+        isAccountLocked: String(user.accountLocked) || "false",
       });
     }
   }, [user, reset]);
 
-  const onSubmit: SubmitHandler<EditUserInputs> = async (data) => {
-    if (user)
-      onSave(user);
-    console.log("data", data)
 
+  const { mutate: editUserMutate, isSuccess, isError } = useEditUserMutation(user?.id || 0);
+
+  const onSubmit: SubmitHandler<EditUserInputs> = async (data) => {
+    if (user) {
+      onSave(user);
+      const editUserRequest: EditUserRequest = {
+        ...data,
+        id: user.id,
+        password: data.newPassword,
+        roles: data.roles.map((role) => fromRoleTypeToRole(role)),
+      }
+      editUserMutate(editUserRequest)
+    }
   }
 
   const handleOncancel = () => {
@@ -119,19 +131,25 @@ export function EditUserDialog({ user, onCancel, onSave }: EditUserDialogProps) 
                 Role
               </Label>
               <div className="col-span-3">
-                <Select>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder={user?.roles?.[0] || "Select a role"} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {roles.map((role) => (
-                      <SelectItem key={role.id} value={role.name}>
-                        {role.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {errors.role && <span className="text-destructive col-span-4">This field is required</span>}
+                <Controller
+                  name="roles"
+                  control={control}
+                  render={({ field }) => (
+                    <Select value={field.value[0] || RoleType.USER} onValueChange={(value) => field.onChange([value])}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder={field.value || user?.roles?.[0] || "Select a role"} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {roles.map((role) => (
+                          <SelectItem key={role.id} value={role.name}>
+                            {role.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+                {errors.roles && <span className="text-destructive col-span-4">This field is required</span>}
               </div>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -139,16 +157,21 @@ export function EditUserDialog({ user, onCancel, onSave }: EditUserDialogProps) 
                 Account enabled
               </Label>
               <div className="col-span-3">
-                <Select
-                >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder={user?.accountEnabled ? "True" : "False"} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="true">True</SelectItem>
-                    <SelectItem value="false">False</SelectItem>
-                  </SelectContent>
-                </Select>
+                <Controller
+                  name="isAccountEnabled"
+                  control={control}
+                  render={({ field }) => (
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder={field.value} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="true">True</SelectItem>
+                        <SelectItem value="false">False</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
               </div>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -156,16 +179,21 @@ export function EditUserDialog({ user, onCancel, onSave }: EditUserDialogProps) 
                 Account locked
               </Label>
               <div className="col-span-3">
-                <Select
-                >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder={user?.accountEnabled ? "True" : "False"} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="true">True</SelectItem>
-                    <SelectItem value="false">False</SelectItem>
-                  </SelectContent>
-                </Select>
+                <Controller
+                  name="isAccountLocked"
+                  control={control}
+                  render={({ field }) => (
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder={field.value} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="true">True</SelectItem>
+                        <SelectItem value="false">False</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
               </div>
             </div>
           </div>

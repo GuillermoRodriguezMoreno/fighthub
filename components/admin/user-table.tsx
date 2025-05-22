@@ -58,8 +58,7 @@ export function UserTable() {
     setSelectedUser(user)
   }
 
-  const handleSaveChanges = (updatedUser) => {
-    console.log("Usuario actualizado:", updatedUser)
+  const handleSaveChanges = () => {
     setSelectedUser(null)
   }
 
