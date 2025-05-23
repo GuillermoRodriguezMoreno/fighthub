@@ -15,7 +15,6 @@ import {
 
 import { buttonVariants } from "@/components/ui/button";
 import { Github, Menu } from "lucide-react";
-import { LogoIcon } from "./Icons";
 import { ModeToggle } from "../core/mode-toggle";
 import Link from "next/link";
 import Image from "next/image";

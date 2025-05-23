@@ -11,6 +11,9 @@ export type UserResponse = {
   roles: RoleType[];
 };
 
+export type NewUserInputs = EditUserInputs
+
+export type NewUserRequest = Omit<EditUserRequest, 'id'>;
 
 export type EditUserInputs = {
   username: string;

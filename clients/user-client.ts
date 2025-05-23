@@ -1,6 +1,6 @@
 import { apiEndpoint } from "@/config/api-endpoint";
 import { PageResponse } from "@/domains/page-response";
-import { EditUserRequest, UserResponse } from "@/domains/user";
+import { EditUserRequest, NewUserRequest, UserResponse } from "@/domains/user";
 
 export async function getUsers(): Promise<PageResponse<UserResponse>> {
   const res = await fetch(apiEndpoint.users);
@@ -10,6 +10,17 @@ export async function getUsers(): Promise<PageResponse<UserResponse>> {
 export async function getUser(id: number): Promise<UserResponse> {
   const res = await fetch(`${apiEndpoint.users}/${id}`);
     return await res.json();
+}
+
+export async function newUser(user: NewUserRequest): Promise<Number> {
+  const res = await fetch(apiEndpoint.users, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
+  });
+  return await res.json();
 }
 
 export async function editUser(id: number, user: EditUserRequest): Promise<UserResponse> {
@@ -23,17 +34,13 @@ export async function editUser(id: number, user: EditUserRequest): Promise<UserR
   return await res.json();
 }
 
-export async function deleteUser(id: number): Promise<void> {
+export async function deleteUser(id: number): Promise<string> {
   const res = await fetch(`${apiEndpoint.users}/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
     },
   });
-  if (!res.ok) {
-    throw new Error("Failed to delete user");
-  }
-  else {
-    return await res.json();
-  }
+
+  return await res.json();  
 }

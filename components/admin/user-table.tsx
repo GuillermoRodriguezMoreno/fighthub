@@ -13,7 +13,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+import { ArrowUpDown, ChevronDown, MoreHorizontal, Pencil, Plus, Trash } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -39,6 +39,7 @@ import { Badge } from "../ui/badge"
 import { UserResponse } from "@/domains/user"
 import { EditUserDialog } from "./edit-user-dialog"
 import { DeleteUserDialog } from "./delete-user-dialog"
+import { NewUserDialog } from "./new-user-dialog"
 
 export function UserTable() {
 
@@ -52,34 +53,39 @@ export function UserTable() {
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
   const [selectedUser, setSelectedUser] = React.useState<UserResponse | null>(null)
+  const [NewUserDialogIsOpen, setNewUserDialogIsOpen] = React.useState<boolean>(false)
   const [editUserDialogIsOpen, setEditDialogIsOpen] = React.useState<boolean>(false)
   const [deleteUserDialogIsOpen, setDeleteDialogIsOpen] = React.useState<boolean>(false)
 
+  const handleNewUserClick = () => {
+    setNewUserDialogIsOpen(true)
+  }
+  const handleSaveNewUserChanges = () => {
+    setNewUserDialogIsOpen(false)
+  }
+  const handleCancelNewUserChanges = () => {
+    setNewUserDialogIsOpen(false)
+  }
   const handleEditClick = (user: UserResponse) => {
     setSelectedUser(user)
     setEditDialogIsOpen(true)
   }
-
   const handleSaveEditChanges = () => {
     setSelectedUser(null)
     setEditDialogIsOpen(false)
   }
-
   const handleCancelEditChanges = () => {
     setSelectedUser(null)
     setEditDialogIsOpen(false)
   }
-
   const handleDeleteClick = (user: UserResponse) => {
     setSelectedUser(user)
     setDeleteDialogIsOpen(true)
   }
-
   const handleSaveDeleteChanges = () => {
     setSelectedUser(null)
     setDeleteDialogIsOpen(false)
   }
-
   const handleCancelDeleteChanges = () => {
     setSelectedUser(null)
     setDeleteDialogIsOpen(false)
@@ -186,12 +192,9 @@ export function UserTable() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem>
-                See User
-              </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => handleEditClick(user)}>Edit</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleDeleteClick(user)}>Delete</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleEditClick(user)}><Pencil />Edit</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleDeleteClick(user)}><Trash />Delete</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         )
@@ -238,7 +241,7 @@ export function UserTable() {
             }
             className="max-w-sm"
           />
-          <Button>New User</Button>
+          <Button onClick={handleNewUserClick}><Plus />New User</Button>
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -344,6 +347,11 @@ export function UserTable() {
           </Button>
         </div>
       </div>
+      <NewUserDialog
+        newUserDialogIsOpen={NewUserDialogIsOpen}
+        onSave={handleSaveNewUserChanges}
+        onCancel={handleCancelNewUserChanges}
+       />
       <EditUserDialog 
         editUserDialogIsOpen={editUserDialogIsOpen}
         user={selectedUser}
