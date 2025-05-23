@@ -22,3 +22,18 @@ export async function editUser(id: number, user: EditUserRequest): Promise<UserR
   });
   return await res.json();
 }
+
+export async function deleteUser(id: number): Promise<void> {
+  const res = await fetch(`${apiEndpoint.users}/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (!res.ok) {
+    throw new Error("Failed to delete user");
+  }
+  else {
+    return await res.json();
+  }
+}

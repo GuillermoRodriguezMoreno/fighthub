@@ -13,12 +13,13 @@ import { RoleType } from "@/domains/roles"
 import { fromRoleTypeToRole } from "@/lib/user-utils"
 
 export type EditUserDialogProps = {
+  editUserDialogIsOpen: boolean
   user: UserResponse | null
   onSave: (user: UserResponse) => void
   onCancel: () => void
 }
 
-export function EditUserDialog({ user, onCancel, onSave }: EditUserDialogProps) {
+export function EditUserDialog({ user, editUserDialogIsOpen, onCancel, onSave }: EditUserDialogProps) {
   const {
     register,
     handleSubmit,
@@ -39,7 +40,7 @@ export function EditUserDialog({ user, onCancel, onSave }: EditUserDialogProps) 
   })
 
   useEffect(() => {
-    if (user) {
+    if (user && editUserDialogIsOpen) {
       reset({
         username: user.username || "",
         email: user.email || "",
@@ -50,7 +51,7 @@ export function EditUserDialog({ user, onCancel, onSave }: EditUserDialogProps) 
         isAccountLocked: String(user.accountLocked) || "false",
       });
     }
-  }, [user, reset]);
+  }, [user, editUserDialogIsOpen, reset]);
 
 
   const { mutate: editUserMutate, isSuccess, isError } = useEditUserMutation(user?.id || 0);
@@ -76,7 +77,7 @@ export function EditUserDialog({ user, onCancel, onSave }: EditUserDialogProps) 
   const roles = UseGetRolesQuery().data?.content || []
 
   return (
-    <Dialog open={!!user}>
+    <Dialog open={editUserDialogIsOpen}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader >
           <DialogTitle>Edit user</DialogTitle>

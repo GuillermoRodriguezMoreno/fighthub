@@ -38,7 +38,7 @@ import { UseGetUsersQuery } from "@/hooks/user/use-get-users-query"
 import { Badge } from "../ui/badge"
 import { UserResponse } from "@/domains/user"
 import { EditUserDialog } from "./edit-user-dialog"
-
+import { DeleteUserDialog } from "./delete-user-dialog"
 
 export function UserTable() {
 
@@ -51,15 +51,38 @@ export function UserTable() {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
-
   const [selectedUser, setSelectedUser] = React.useState<UserResponse | null>(null)
+  const [editUserDialogIsOpen, setEditDialogIsOpen] = React.useState<boolean>(false)
+  const [deleteUserDialogIsOpen, setDeleteDialogIsOpen] = React.useState<boolean>(false)
 
   const handleEditClick = (user: UserResponse) => {
     setSelectedUser(user)
+    setEditDialogIsOpen(true)
   }
 
-  const handleSaveChanges = () => {
+  const handleSaveEditChanges = () => {
     setSelectedUser(null)
+    setEditDialogIsOpen(false)
+  }
+
+  const handleCancelEditChanges = () => {
+    setSelectedUser(null)
+    setEditDialogIsOpen(false)
+  }
+
+  const handleDeleteClick = (user: UserResponse) => {
+    setSelectedUser(user)
+    setDeleteDialogIsOpen(true)
+  }
+
+  const handleSaveDeleteChanges = () => {
+    setSelectedUser(null)
+    setDeleteDialogIsOpen(false)
+  }
+
+  const handleCancelDeleteChanges = () => {
+    setSelectedUser(null)
+    setDeleteDialogIsOpen(false)
   }
 
   const columns: ColumnDef<UserResponse>[] = [
@@ -168,7 +191,7 @@ export function UserTable() {
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => handleEditClick(user)}>Edit</DropdownMenuItem>
-              <DropdownMenuItem>Delete</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleDeleteClick(user)}>Delete</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         )
@@ -322,9 +345,15 @@ export function UserTable() {
         </div>
       </div>
       <EditUserDialog 
+        editUserDialogIsOpen={editUserDialogIsOpen}
         user={selectedUser}
-        onSave={handleSaveChanges}
-        onCancel={() => setSelectedUser(null)} />
+        onSave={handleSaveEditChanges}
+        onCancel={handleCancelEditChanges} />
+      <DeleteUserDialog
+        deleteUserDialogIsOpen={deleteUserDialogIsOpen}
+        user={selectedUser}
+        onDelete={handleSaveDeleteChanges}
+        onCancel={handleCancelDeleteChanges} />
     </div>
   )
 }
