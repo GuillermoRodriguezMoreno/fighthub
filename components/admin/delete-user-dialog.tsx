@@ -22,7 +22,7 @@ export function DeleteUserDialog({ user, deleteUserDialogIsOpen, onCancel, onDel
 
     const handleDeleteUser = async () => {
         if (user) {
-            deleteUserMutate()
+            deleteUserMutate(user.id)
             onDelete(user)
         }
     }

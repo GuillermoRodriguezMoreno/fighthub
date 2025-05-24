@@ -42,5 +42,5 @@ export async function deleteUser(id: number): Promise<string> {
     },
   });
 
-  return await res.json();  
+  return await res.text();  
 }
