@@ -36,8 +36,8 @@ export function DeleteUserDialog({ user, deleteUserDialogIsOpen, onCancel, onDel
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader >
                     <DialogTitle>Delete user</DialogTitle>
-                    <DialogDescription className="font-bold">
-                        Are you sure you want to delete user {user?.email}.
+                    <DialogDescription>
+                        Are you sure you want to delete user <span className="font-bold">{user?.email}</span>.
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>

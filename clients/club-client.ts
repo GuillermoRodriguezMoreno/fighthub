@@ -14,3 +14,12 @@ export async function getClub(id: number): Promise<ClubResponse> {
   const res = await fetch(`${apiEndpoint.clubs}/${id}`);
     return await res.json();
 }
+
+export async function getMyClubs(ownerId: number): Promise<ClubResponse[]> {
+  const url = `${apiEndpoint.clubs}/owner/${ownerId}`;
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error(`Error fetching clubs for owner ${ownerId}: ${res.statusText}`);
+  }
+  return await res.json();
+}

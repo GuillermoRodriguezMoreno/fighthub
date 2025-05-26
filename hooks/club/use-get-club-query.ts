@@ -1,6 +1,6 @@
-import { getClub } from "@/clients/club-client";
+import { getMyClubs } from "@/clients/club-client";
 import { useQuery } from "@tanstack/react-query";
 
-export function UseGetClubQuery(clubId: number) {
-  return useQuery({queryKey: ["club"], queryFn: async () => getClub(clubId)});
+export function UseGetMyClubsQuery(ownerId: number) {
+  return useQuery({queryKey: [`my-clubs-${ownerId}`], queryFn: async () => getMyClubs(ownerId)});
 }

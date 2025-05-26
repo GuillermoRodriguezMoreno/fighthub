@@ -324,7 +324,9 @@ export function UserTable() {
           </TableBody>
         </Table>
       </div>
+      <div className="py-4">
       <UserTablePagination table={table} />
+      </div>
       <NewUserDialog
         newUserDialogIsOpen={NewUserDialogIsOpen}
         onSave={handleSaveNewUserChanges}

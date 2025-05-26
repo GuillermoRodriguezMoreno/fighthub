@@ -8,6 +8,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
+import { MainHeader } from "@/components/core/main-header";
 
 export default function BaseLayout({
   children,

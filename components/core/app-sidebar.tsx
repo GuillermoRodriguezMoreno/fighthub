@@ -23,8 +23,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useSession } from "next-auth/react"
 
-// Menu items.
-const items = [
+const routes = [
   {
     title: "Home",
     url: "/dashboard",
@@ -106,11 +105,12 @@ const items = [
     title: "Admin",
     url: "/dashboard/admin",
     icon: Settings,
+    protected: true,
   },
 ]
 
 export function AppSidebar() {
-  const user = useSession().data?.user
+  // const user = useSession().data?.user
   const path = usePathname()
   return (
     <Sidebar>
@@ -123,7 +123,9 @@ export function AppSidebar() {
           <SidebarGroupLabel>Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
+              {routes
+              // .filter((item) => !item.protected && role != admin) // add role role
+              .map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <Link href={item.url}>
