@@ -15,31 +15,37 @@ import { CalendarIcon, MapPin, Users, CalendarDays, Plus, Trash } from "lucide-r
 import { cn } from "@/lib/utils"
 import { UseGetMyClubsQuery } from "@/hooks/club/use-get-club-query"
 import { ClubResponse } from "@/domains/club"
+import { Controller, SubmitHandler, useForm } from "react-hook-form"
+import { EventRequest, NewEventInputs } from "@/domains/event"
+import { useNewEventMutation } from "@/hooks/event/use-new-event-mutation"
+import { EventDateTimePicker } from "./event-date-time-picker"
 
 export type CreateEventFormProps = {
   clubs: ClubResponse[]
 }
 
 export default function CreateEventForm({ clubs }: CreateEventFormProps) {
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    try {
-      // Aquí harías la llamada a tu API
-      //   const eventRequest = {
-      //     id: formData.id,
-      //     name: formData.name,
-      //     description: formData.description,
-      //     address: formData.address,
-      //     startDate: formData.startDate?.toISOString().split("T")[0],
-      //     endDate: formData.endDate?.toISOString().split("T")[0],
-      //     organizer: formData.organizer,
-      //   }
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm<NewEventInputs>()
 
+  const { mutate: newEventMutate, isSuccess, isError } = useNewEventMutation();
 
-    } catch (error) {
-      console.error("Error al crear evento:", error)
-      alert("Error al crear el evento")
+  const onSubmit: SubmitHandler<NewEventInputs> = async (data) => {
+    const newEventRequest: EventRequest = {
+      ...data,
+      startDate: data.startDate.toISOString(),
+      endDate: data.endDate.toISOString(),
+      organizer: {
+        id: parseInt(data.organizer),
+      },
     }
+    newEventMutate(newEventRequest)
+    reset()
   }
 
   return (
@@ -53,13 +59,15 @@ export default function CreateEventForm({ clubs }: CreateEventFormProps) {
           <CardDescription>Fill in the information to create a new event</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
             <div className="space-y-2">
               <Label htmlFor="name">Event Name</Label>
               <Input
                 id="name"
                 placeholder="E.g.: National MMA Championship 2024"
+                {...register("name", { required: "Event name is required" })}
               />
+              {errors.name && <span className="text-destructive">{errors.name.message}</span>}
             </div>
             <div className="space-y-2">
               <Label htmlFor="description">Description</Label>
@@ -67,7 +75,9 @@ export default function CreateEventForm({ clubs }: CreateEventFormProps) {
                 id="description"
                 placeholder="Describe the event details, categories, rules, etc."
                 rows={4}
+                {...register("description", { required: "Description is required" })}
               />
+              {errors.description && <span className="text-destructive">{errors.description.message}</span>}
             </div>
             <div className="space-y-2">
               <Label htmlFor="address" className="flex items-center gap-2">
@@ -77,47 +87,22 @@ export default function CreateEventForm({ clubs }: CreateEventFormProps) {
               <Input
                 id="address"
                 placeholder="E.g.: Municipal Sports Pavilion, Main Street 123, Madrid"
+                {...register("address", { required: "Address is required" })}
               />
+              {errors.address && <span className="text-destructive">{errors.address.message}</span>}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Start Date</Label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {<span>Select date</span>}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
+                <EventDateTimePicker control={control} fieldName={"startDate"} />
+                {errors.startDate && <span className="text-destructive">{errors.startDate.message}</span>}
               </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>End Date</Label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {<span>Select date</span>}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
+                <EventDateTimePicker control={control} fieldName={"endDate"} />
+                {errors.startDate && <span className="text-destructive">{errors.startDate.message}</span>}
               </div>
             </div>
             <div className="space-y-2">
@@ -125,24 +110,26 @@ export default function CreateEventForm({ clubs }: CreateEventFormProps) {
                 <Users className="h-4 w-4" />
                 Organizer Club
               </Label>
-              <Select
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select the organizer club" />
-                </SelectTrigger>
-                <SelectContent>
-                  {clubs.map((club) => (
-                    <SelectItem key={club.id} value={String(club.id)}>
-                      {club.name}
-                    </SelectItem>
-                  ))}
-                  {/* {clubs.map((club) => (
-                    <SelectItem key={club?.id} value={club.id ? String(club.id) : ""} >
-                      {club.name}
-                    </SelectItem>
-                  ))} */}
-                </SelectContent>
-              </Select>
+              <Controller
+                name="organizer"
+                control={control}
+                rules={{ required: "Organizer club is required" }}
+                render={({ field }) => (
+                  <Select value={field.value} onValueChange={(value) => field.onChange(value)}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {clubs.map((club) => (
+                        <SelectItem key={club.id} value={String(club.id) || "-1"}>
+                          {club.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              {errors.organizer && <span className="text-destructive col-span-4">This field is required</span>}
             </div>
             <div className="grid grid-cols-4 gap-4 justify-end">
               <Button type="submit" className="col-start-4 col-span-1">
@@ -168,6 +155,6 @@ export function CreateEventContainer() {
     return <div>No clubs found. Please create a club first.</div>
   }
   return (
-      <CreateEventForm clubs={myClubsQuery.data} />
+    <CreateEventForm clubs={myClubsQuery.data} />
   )
 }
