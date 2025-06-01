@@ -19,6 +19,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { EventRequest, NewEventInputs } from "@/domains/event"
 import { useNewEventMutation } from "@/hooks/event/use-new-event-mutation"
 import { EventDateTimePicker } from "./event-date-time-picker"
+import { useSession } from "next-auth/react"
 
 export type CreateEventFormProps = {
   clubs: ClubResponse[]
@@ -33,7 +34,7 @@ export default function CreateEventForm({ clubs }: CreateEventFormProps) {
     formState: { errors },
   } = useForm<NewEventInputs>()
 
-  const { mutate: newEventMutate, isSuccess, isError } = useNewEventMutation();
+  const { mutate: newEventMutate } = useNewEventMutation();
 
   const onSubmit: SubmitHandler<NewEventInputs> = async (data) => {
     const newEventRequest: EventRequest = {
@@ -144,16 +145,24 @@ export default function CreateEventForm({ clubs }: CreateEventFormProps) {
 }
 
 export function CreateEventContainer() {
-  const myClubsQuery = UseGetMyClubsQuery(1) // Replace with actual owner ID
+  const session = useSession();
+const ownerEmail = session.data?.user?.email || "";
 
-  const isLoading = myClubsQuery.isLoading
+const myClubsQuery = UseGetMyClubsQuery(ownerEmail, !!ownerEmail,);
 
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
-  if (!myClubsQuery.data || myClubsQuery.data.length === 0) {
-    return <div>No clubs found. Please create a club first.</div>
-  }
+const isLoading = myClubsQuery.isLoading;
+
+if (isLoading) {
+  return <div>Loading...</div>;
+}
+
+if (!ownerEmail) {
+  return <div>Please log in to create an event.</div>;
+}
+
+if (!myClubsQuery.data || myClubsQuery.data.length === 0) {
+  return <div>No clubs found. Please create a club first.</div>;
+}
   return (
     <CreateEventForm clubs={myClubsQuery.data} />
   )
