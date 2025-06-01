@@ -28,9 +28,14 @@ const authOptions:NextAuthOptions = {
   },
   callbacks: {
     jwt({ token, user }) {
-      return { ...token, ...user };
+      if (user) {
+        token.accessToken = user.token;
+      }
+      return token;
     },
-    async session({ session }) {
+    async session({ session, token }) {
+      session.accessToken = token.accessToken as string;
+      console.log("Session in authOptions:", session);
       return session;
     },
   },
