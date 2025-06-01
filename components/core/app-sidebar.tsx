@@ -110,7 +110,8 @@ const routes = [
 ]
 
 export function AppSidebar() {
-  // const user = useSession().data?.user
+  const roles = useSession().data?.roles
+  const adminRole = "ROLE_ADMIN"
   const path = usePathname()
   return (
     <Sidebar>
@@ -124,7 +125,7 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {routes
-              // .filter((item) => !item.protected && role != admin) // add role role
+              .filter((item) => roles?.includes(adminRole) || !item.protected)
               .map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>

@@ -30,12 +30,13 @@ const authOptions:NextAuthOptions = {
     jwt({ token, user }) {
       if (user) {
         token.accessToken = user.token;
+        token.roles = user.roles || [];
       }
       return token;
     },
     async session({ session, token }) {
       session.accessToken = token.accessToken as string;
-      console.log("Session in authOptions:", session);
+      session.roles = token.roles as string[] || [];
       return session;
     },
   },
