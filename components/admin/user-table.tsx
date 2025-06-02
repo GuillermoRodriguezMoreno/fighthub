@@ -149,6 +149,21 @@ export function UserTable() {
       },
     },
     {
+      accessorKey: "createdBy",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Created by
+            <ArrowUpDown />
+          </Button>
+        )
+      },
+      cell: ({ row }) => <div>{row.getValue("createdBy") || "-"}</div>,
+    },
+    {
       accessorKey: "createdAt",
       header: ({ column }) => {
         return (
@@ -162,6 +177,21 @@ export function UserTable() {
         )
       },
       cell: ({ row }) => <div>{row.getValue("createdAt")}</div>,
+    },
+    {
+      accessorKey: "lastUpdatedBy",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Last updated by
+            <ArrowUpDown />
+          </Button>
+        )
+      },
+      cell: ({ row }) => <div>{row.getValue("lastUpdatedBy") || "-"}</div>,
     },
     {
       accessorKey: "updatedAt",
