@@ -140,7 +140,7 @@ export function UserTable() {
         return (
           <div>
             {roles.map((role) => (
-              <Badge key={role} className={`${role === 'ADMIN' ? "bg-amber-200" : "bg-blue-300"}`}>
+              <Badge key={role} className={`${role === 'ROLE_ADMIN' ? "bg-amber-200" : "bg-blue-300"}`}>
                 {role}
               </Badge>
             ))}
