@@ -31,7 +31,7 @@ export const Hero = () => {
 
         <div className="space-y-4 md:space-y-0 md:space-x-4">
           <Button className="w-full md:w-1/3">
-            <Link href={path.signin} className="w-100">
+            <Link href={path.dashboard.base} className="w-100">
               Get started
             </Link>
           </Button>

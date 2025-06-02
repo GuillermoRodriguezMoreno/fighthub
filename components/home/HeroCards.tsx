@@ -123,7 +123,7 @@ export const HeroCards = () => {
         <hr className="w-4/5 m-auto mb-4" />
         <CardFooter>
           <Button className="w-full">
-            <Link href={path.signin} className="w-100">
+            <Link href={path.dashboard.base} className="w-100">
               Get started
             </Link>
           </Button>
