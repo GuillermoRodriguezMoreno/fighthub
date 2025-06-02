@@ -4,7 +4,9 @@ import { buildUrlWithQueryParams, fetchWithAuth } from "./utils";
 import { PageResponse } from "@/domains/page-response";
 import { EventRequest, EventResponse } from "@/domains/event";
 
-export async function getEvents(queryParams: defaultQueryParams): Promise<PageResponse<EventResponse>> {
+export async function getEvents(
+  queryParams: defaultQueryParams,
+): Promise<PageResponse<EventResponse>> {
   const url = buildUrlWithQueryParams(apiEndpoint.events, queryParams);
   const res = await fetchWithAuth(url);
   return await res.json();
@@ -12,7 +14,7 @@ export async function getEvents(queryParams: defaultQueryParams): Promise<PageRe
 
 export async function getEvent(id: number): Promise<EventResponse> {
   const res = await fetchWithAuth(`${apiEndpoint.events}/${id}`);
-    return await res.json();
+  return await res.json();
 }
 
 export async function newEvent(eventRequest: EventRequest): Promise<Number> {
@@ -29,7 +31,9 @@ export async function newEvent(eventRequest: EventRequest): Promise<Number> {
   return await res.json();
 }
 
-export async function getMyEvents(organizerEmail: string): Promise<PageResponse<EventResponse>> {
+export async function getMyEvents(
+  organizerEmail: string,
+): Promise<PageResponse<EventResponse>> {
   const url = `${apiEndpoint.events}/organizer/${organizerEmail}`;
   const res = await fetchWithAuth(url);
   return await res.json();

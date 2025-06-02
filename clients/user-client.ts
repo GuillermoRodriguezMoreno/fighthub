@@ -5,12 +5,12 @@ import { fetchWithAuth } from "./utils";
 
 export async function getUsers(): Promise<PageResponse<UserResponse>> {
   const res = await fetchWithAuth(apiEndpoint.users);
-  return await res.json() ;
+  return await res.json();
 }
 
 export async function getUser(id: number): Promise<UserResponse> {
   const res = await fetchWithAuth(`${apiEndpoint.users}/${id}`);
-    return await res.json();
+  return await res.json();
 }
 
 export async function newUser(user: NewUserRequest): Promise<Number> {
@@ -24,7 +24,10 @@ export async function newUser(user: NewUserRequest): Promise<Number> {
   return await res.json();
 }
 
-export async function editUser(id: number, user: EditUserRequest): Promise<UserResponse> {
+export async function editUser(
+  id: number,
+  user: EditUserRequest,
+): Promise<UserResponse> {
   const res = await fetchWithAuth(`${apiEndpoint.users}/${id}`, {
     method: "PUT",
     headers: {
@@ -43,5 +46,5 @@ export async function deleteUser(id: number): Promise<string> {
     },
   });
 
-  return await res.text();  
+  return await res.text();
 }

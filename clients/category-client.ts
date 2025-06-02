@@ -5,10 +5,10 @@ import { fetchWithAuth } from "./utils";
 
 export async function getCategories(): Promise<PageResponse<CategoryResponse>> {
   const res = await fetchWithAuth(`${apiEndpoint.categories}`);
-    return await res.json();
+  return await res.json();
 }
 
 export async function getCategory(id: number): Promise<CategoryResponse> {
   const res = await fetchWithAuth(`${apiEndpoint.categories}/${id}`);
-    return await res.json();
+  return await res.json();
 }

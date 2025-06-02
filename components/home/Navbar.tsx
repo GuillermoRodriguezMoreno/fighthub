@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useState } from "react";
 import {
   NavigationMenu,
@@ -64,10 +64,7 @@ export const Navbar = () => {
           <span className="flex md:hidden">
             <ModeToggle />
 
-            <Sheet
-              open={isOpen}
-              onOpenChange={setIsOpen}
-            >
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger className="px-2">
                 <Menu
                   className="flex md:hidden h-5 w-5"
@@ -79,7 +76,12 @@ export const Navbar = () => {
 
               <SheetContent side={"left"}>
                 <SheetHeader className="flex flex-row items-center">
-                  <Image src="/logo.png" alt="logo image" width={50} height={50} />
+                  <Image
+                    src="/logo.png"
+                    alt="logo image"
+                    width={50}
+                    height={50}
+                  />
                   <SheetTitle className="font-bold text-xl">
                     FightHub
                   </SheetTitle>

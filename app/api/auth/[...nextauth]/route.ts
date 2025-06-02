@@ -1,20 +1,27 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-const authOptions:NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "credentials",
       credentials: {
-        email: { label: "Email", type: "email", placeholder: "hello@example.com"},
+        email: {
+          label: "Email",
+          type: "email",
+          placeholder: "hello@example.com",
+        },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const res = await fetch("http://localhost:8080/api/v1/auth/authenticate", {
-          method: "POST",
-          body: JSON.stringify(credentials),
-          headers: { "Content-Type": "application/json" },
-        });
+        const res = await fetch(
+          "http://localhost:8080/api/v1/auth/authenticate",
+          {
+            method: "POST",
+            body: JSON.stringify(credentials),
+            headers: { "Content-Type": "application/json" },
+          },
+        );
         const user = await res.json();
         if (res.ok && user.token) {
           return { ...user };
@@ -36,7 +43,7 @@ const authOptions:NextAuthOptions = {
     },
     async session({ session, token }) {
       session.accessToken = token.accessToken as string;
-      session.roles = token.roles as string[] || [];
+      session.roles = (token.roles as string[]) || [];
       return session;
     },
   },

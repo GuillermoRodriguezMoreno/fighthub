@@ -1,4 +1,3 @@
-
 import { EventFigths } from "@/components/events/event-fights";
 import EventInfo from "@/components/events/event-info";
 import EventPhotos from "@/components/events/event-photos";
@@ -17,5 +16,5 @@ export default function Page() {
       </div>
       <EventFigths />
     </>
-  )
+  );
 }

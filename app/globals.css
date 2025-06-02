@@ -143,5 +143,5 @@
 .border-gradient-gold {
   border-image-slice: 1;
   border-width: 2px;
-  border-image-source: linear-gradient(45deg, #FFD700, #FFEC8B);
+  border-image-source: linear-gradient(45deg, #ffd700, #ffec8b);
 }

@@ -1,8 +1,15 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { Mail, Phone, MapPin } from "lucide-react"
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Mail, Phone, MapPin } from "lucide-react";
 
 export default function EventInfo() {
   return (
@@ -11,7 +18,10 @@ export default function EventInfo() {
       <Card>
         <CardHeader className="flex flex-row items-center gap-4">
           <Avatar className="h-14 w-14">
-            <AvatarImage src="/placeholder.svg?height=56&width=56" alt="Profile picture" />
+            <AvatarImage
+              src="/placeholder.svg?height=56&width=56"
+              alt="Profile picture"
+            />
             <AvatarFallback>JD</AvatarFallback>
           </Avatar>
           <div>
@@ -50,6 +60,5 @@ export default function EventInfo() {
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }
-

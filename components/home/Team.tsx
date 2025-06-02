@@ -27,7 +27,8 @@ const teamList: TeamProps[] = [
     imageUrl: "/profile-photo.jpeg",
     name: "Guillermo Rodriguez",
     position: "Founder",
-    description: "Combining my passion for combat sports with technology to build a platform that connects and empowers fighters worldwide.",
+    description:
+      "Combining my passion for combat sports with technology to build a platform that connects and empowers fighters worldwide.",
     socialNetworks: [
       {
         name: "Linkedin",
@@ -43,7 +44,8 @@ const teamList: TeamProps[] = [
     imageUrl: "/profile-photo2.webp",
     name: "Wadii Kadiri",
     position: "Pro Fighter",
-    description: "Dedicated to mastering and teaching the art of combat sports, inspiring the next generation of fighters.",
+    description:
+      "Dedicated to mastering and teaching the art of combat sports, inspiring the next generation of fighters.",
     socialNetworks: [
       {
         name: "Website",
@@ -72,35 +74,42 @@ export const Team = () => {
 
       case "Instagram":
         return <Instagram size="20" />;
-      
+
       case "Github":
         return <Github size="20" />;
-      
+
       case "Website":
         return <Globe size="20" />;
     }
   };
 
   return (
-    <section
-      id="team"
-      className="container py-24 sm:py-32"
-    >
+    <section id="team" className="container py-24 sm:py-32">
       <h2 className="text-3xl md:text-4xl font-bold">
         <span className="bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text">
           Our Dedicated{" "}
         </span>
         Crew
       </h2>
-      <h2 className="text-2xl sm:text-3xl font-bold">Passionate Fighters, Experienced Coaches, and a Thriving Community.</h2>
+      <h2 className="text-2xl sm:text-3xl font-bold">
+        Passionate Fighters, Experienced Coaches, and a Thriving Community.
+      </h2>
       <p className="mt-4 mb-10 text-xl text-muted-foreground">
-      
-      Our team is made up of professional K1, Muay Thai, and MMA fighters, along with dedicated trainers and enthusiasts who share a love for combat sports. Together, we’re building a space where warriors connect, grow, and inspire each other.
+        Our team is made up of professional K1, Muay Thai, and MMA fighters,
+        along with dedicated trainers and enthusiasts who share a love for
+        combat sports. Together, we’re building a space where warriors connect,
+        grow, and inspire each other.
       </p>
 
       <div className="grid md:grid-cols-2 gap-8 gap-y-10">
         {teamList.map(
-          ({ imageUrl, name, position, socialNetworks, description }: TeamProps) => (
+          ({
+            imageUrl,
+            name,
+            position,
+            socialNetworks,
+            description,
+          }: TeamProps) => (
             <Card
               key={name}
               className="bg-muted/50 relative mt-8 flex flex-col justify-center items-center"
@@ -140,7 +149,7 @@ export const Team = () => {
                 ))}
               </CardFooter>
             </Card>
-          )
+          ),
         )}
       </div>
     </section>

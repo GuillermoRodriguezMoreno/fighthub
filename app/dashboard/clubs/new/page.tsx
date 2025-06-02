@@ -1,6 +1,3 @@
-
 export default function Page() {
-  return (
-    <div>helo</div>
-  )
+  return <div>helo</div>;
 }

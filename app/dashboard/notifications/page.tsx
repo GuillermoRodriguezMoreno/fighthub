@@ -1,9 +1,7 @@
-
 export default function Page() {
   return (
     <>
-    <div>WORK IN PROGRESS</div>
+      <div>WORK IN PROGRESS</div>
     </>
-    
-  )
+  );
 }

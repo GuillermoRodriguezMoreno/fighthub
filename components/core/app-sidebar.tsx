@@ -1,4 +1,11 @@
-import { CalendarSearch, Home, Dumbbell, BicepsFlexed, Settings, Trophy } from "lucide-react"
+import {
+  CalendarSearch,
+  Home,
+  Dumbbell,
+  BicepsFlexed,
+  Settings,
+  Trophy,
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -14,14 +21,13 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "@/components/ui/sidebar"
-import { NavUser } from "./nav-user"
-import Image from "next/image"
-import { ModeToggle } from "./mode-toggle"
-import { ModeSwitch } from "./mode-switch"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { useSession } from "next-auth/react"
+} from "@/components/ui/sidebar";
+import { NavUser } from "./nav-user";
+import Image from "next/image";
+import { ModeSwitch } from "./mode-switch";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const routes = [
   {
@@ -42,7 +48,7 @@ const routes = [
         title: "My Events",
         url: "/dashboard/events/my-events",
       },
-    ]
+    ],
   },
   {
     title: "Fights",
@@ -57,7 +63,7 @@ const routes = [
         title: "My Fights",
         url: "/dashboard/fights/my-fights",
       },
-    ]
+    ],
   },
   {
     title: "Fighters",
@@ -76,7 +82,7 @@ const routes = [
         title: "All",
         url: "/dashboard/fighters/all",
       },
-    ]
+    ],
   },
   {
     title: "Clubs",
@@ -95,7 +101,7 @@ const routes = [
         title: "My Club",
         url: "/dashboard/clubs/my-club",
       },
-    ]
+    ],
   },
   {
     title: "Admin",
@@ -103,16 +109,22 @@ const routes = [
     icon: Settings,
     protected: true,
   },
-]
+];
 
 export function AppSidebar() {
-  const roles = useSession().data?.roles
-  const adminRole = "ROLE_ADMIN"
-  const path = usePathname()
+  const roles = useSession().data?.roles;
+  const adminRole = "ROLE_ADMIN";
+  const path = usePathname();
   return (
     <Sidebar>
       <SidebarHeader className="gap-2">
-        <Image src="/login-image.jpg" alt="logo image"  width={80} height={80} className="rounded-full"  />
+        <Image
+          src="/login-image.jpg"
+          alt="logo image"
+          width={80}
+          height={80}
+          className="rounded-full"
+        />
         <h1 className="text-xl font-bold">FightHub</h1>
       </SidebarHeader>
       <SidebarContent>
@@ -121,28 +133,31 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {routes
-              .filter((item) => roles?.includes(adminRole) || !item.protected)
-              .map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                  {item.items?.length ? (
-                  <SidebarMenuSub>
-                    {item.items.map((item) => (
-                      <SidebarMenuSubItem key={item.title}>
-                        <SidebarMenuSubButton asChild isActive={path === item.url}>
-                          <a href={item.url}>{item.title}</a>
-                        </SidebarMenuSubButton>
-                      </SidebarMenuSubItem>
-                    ))}
-                  </SidebarMenuSub>
-                ) : null}
-                </SidebarMenuItem>
-              ))}
+                .filter((item) => roles?.includes(adminRole) || !item.protected)
+                .map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <Link href={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                    {item.items?.length ? (
+                      <SidebarMenuSub>
+                        {item.items.map((item) => (
+                          <SidebarMenuSubItem key={item.title}>
+                            <SidebarMenuSubButton
+                              asChild
+                              isActive={path === item.url}
+                            >
+                              <a href={item.url}>{item.title}</a>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                        ))}
+                      </SidebarMenuSub>
+                    ) : null}
+                  </SidebarMenuItem>
+                ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -157,5 +172,5 @@ export function AppSidebar() {
         <NavUser />
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }

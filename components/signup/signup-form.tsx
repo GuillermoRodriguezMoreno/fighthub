@@ -1,41 +1,41 @@
-'use client'
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { signIn } from "next-auth/react"
-import Link from "next/link"
-import { SignupInputs } from "@/domains/singup/singup-inputs"
-import { useForm, SubmitHandler } from "react-hook-form"
-import { useRegisterMutation } from "@/hooks/auth/use-register-mutation"
-import React from "react"
-
+"use client";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import Link from "next/link";
+import { SignupInputs } from "@/domains/singup/singup-inputs";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { useRegisterMutation } from "@/hooks/auth/use-register-mutation";
+import React from "react";
 
 export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const mutation = useRegisterMutation()
+  const mutation = useRegisterMutation();
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-  } = useForm<SignupInputs>()
-  const onSubmit: SubmitHandler<SignupInputs> = (data) =>  {
-    mutation.mutate(data)
+  } = useForm<SignupInputs>();
+  const onSubmit: SubmitHandler<SignupInputs> = (data) => {
+    mutation.mutate(data);
     if (mutation.isSuccess) {
-      mutation.reset()
-
+      mutation.reset();
     }
-  }
+  };
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form onSubmit={handleSubmit(onSubmit)} noValidate className="p-6 md:p-8">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
+            className="p-6 md:p-8"
+          >
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Join us</h1>
@@ -49,9 +49,13 @@ export function SignupForm({
                   id="firstname"
                   type="text"
                   placeholder="First name"
-                  {...register("firstname", { required: true,  })}
+                  {...register("firstname", { required: true })}
                 />
-                {errors.firstname && <span className="text-destructive">This field is required</span>}
+                {errors.firstname && (
+                  <span className="text-destructive">
+                    This field is required
+                  </span>
+                )}
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="lastname">Last name</Label>
@@ -59,9 +63,13 @@ export function SignupForm({
                   id="lastname"
                   type="text"
                   placeholder="Lastname"
-                  {...register("lastname", { required: true,  })}
+                  {...register("lastname", { required: true })}
                 />
-                {errors.lastname && <span className="text-destructive">This field is required</span>}
+                {errors.lastname && (
+                  <span className="text-destructive">
+                    This field is required
+                  </span>
+                )}
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="username">Username</Label>
@@ -69,9 +77,13 @@ export function SignupForm({
                   id="username"
                   type="text"
                   placeholder="Username"
-                  {...register("username", { required: true,  })}
+                  {...register("username", { required: true })}
                 />
-                {errors.username && <span className="text-destructive">This field is required</span>}
+                {errors.username && (
+                  <span className="text-destructive">
+                    This field is required
+                  </span>
+                )}
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="email">Email</Label>
@@ -79,36 +91,53 @@ export function SignupForm({
                   id="email"
                   type="email"
                   placeholder="mail@example.com"
-                  {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+                  {...register("email", {
+                    required: true,
+                    pattern: /^\S+@\S+$/i,
+                  })}
                 />
-                {errors.email?.type === "required" && <span className="text-destructive">This field is required</span>}
-                {errors.email?.type === "pattern" && <span className="text-destructive">Invalid email</span>}
+                {errors.email?.type === "required" && (
+                  <span className="text-destructive">
+                    This field is required
+                  </span>
+                )}
+                {errors.email?.type === "pattern" && (
+                  <span className="text-destructive">Invalid email</span>
+                )}
               </div>
               <div className="grid gap-3">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                 </div>
-                <Input 
-                  id="password" 
-                  type="password"  
+                <Input
+                  id="password"
+                  type="password"
                   {...register("password", { required: true, minLength: 8 })}
                 />
-                {errors.password?.type === "required" && <span className="text-destructive">This field is required</span>}
-                {errors.password?.type === "minLength" && <span className="text-destructive">Password must be at least 8 characters</span>}
+                {errors.password?.type === "required" && (
+                  <span className="text-destructive">
+                    This field is required
+                  </span>
+                )}
+                {errors.password?.type === "minLength" && (
+                  <span className="text-destructive">
+                    Password must be at least 8 characters
+                  </span>
+                )}
               </div>
               <Button type="submit" className="w-full">
                 Create account
               </Button>
-              {mutation.isError && 
+              {mutation.isError && (
                 <div className="text-red-500 text-sm">
                   "An unexpected error occurred. Please try again."
                 </div>
-              }
-              {mutation.isSuccess && 
+              )}
+              {mutation.isSuccess && (
                 <div className="text-green-500 text-sm">
                   "Account created successfully. Please check your email."
                 </div>
-              }
+              )}
               {/* <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
                 <span className="bg-background text-muted-foreground relative z-10 px-2">
                   Or continue with
@@ -165,5 +194,5 @@ export function SignupForm({
         and <a href="#">Privacy Policy</a>. {"(work in progress)"}
       </div>
     </div>
-  )
+  );
 }

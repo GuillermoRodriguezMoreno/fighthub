@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -12,10 +12,17 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal, Pencil, Plus, Trash } from "lucide-react"
+} from "@tanstack/react-table";
+import {
+  ArrowUpDown,
+  ChevronDown,
+  MoreHorizontal,
+  Pencil,
+  Plus,
+  Trash,
+} from "lucide-react";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -24,8 +31,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -33,64 +40,68 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { UseGetUsersQuery } from "@/hooks/user/use-get-users-query"
-import { Badge } from "../ui/badge"
-import { UserResponse } from "@/domains/user"
-import { EditUserDialog } from "./edit-user-dialog"
-import { DeleteUserDialog } from "./delete-user-dialog"
-import { NewUserDialog } from "./new-user-dialog"
-import { UserTablePagination } from "./user-table-pagination"
+} from "@/components/ui/table";
+import { UseGetUsersQuery } from "@/hooks/user/use-get-users-query";
+import { Badge } from "../ui/badge";
+import { UserResponse } from "@/domains/user";
+import { EditUserDialog } from "./edit-user-dialog";
+import { DeleteUserDialog } from "./delete-user-dialog";
+import { NewUserDialog } from "./new-user-dialog";
+import { UserTablePagination } from "./user-table-pagination";
 
 export function UserTable() {
+  const { data, isError, isLoading } = UseGetUsersQuery();
 
-  const { data, isError, isLoading } = UseGetUsersQuery()
-
-  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
+    [],
+  );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
-  const [selectedUser, setSelectedUser] = React.useState<UserResponse | null>(null)
-  const [NewUserDialogIsOpen, setNewUserDialogIsOpen] = React.useState<boolean>(false)
-  const [editUserDialogIsOpen, setEditDialogIsOpen] = React.useState<boolean>(false)
-  const [deleteUserDialogIsOpen, setDeleteDialogIsOpen] = React.useState<boolean>(false)
+    React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
+  const [selectedUser, setSelectedUser] = React.useState<UserResponse | null>(
+    null,
+  );
+  const [NewUserDialogIsOpen, setNewUserDialogIsOpen] =
+    React.useState<boolean>(false);
+  const [editUserDialogIsOpen, setEditDialogIsOpen] =
+    React.useState<boolean>(false);
+  const [deleteUserDialogIsOpen, setDeleteDialogIsOpen] =
+    React.useState<boolean>(false);
 
   const handleNewUserClick = () => {
-    setNewUserDialogIsOpen(true)
-  }
+    setNewUserDialogIsOpen(true);
+  };
   const handleSaveNewUserChanges = () => {
-    setNewUserDialogIsOpen(false)
-  }
+    setNewUserDialogIsOpen(false);
+  };
   const handleCancelNewUserChanges = () => {
-    setNewUserDialogIsOpen(false)
-  }
+    setNewUserDialogIsOpen(false);
+  };
   const handleEditClick = (user: UserResponse) => {
-    setSelectedUser(user)
-    setEditDialogIsOpen(true)
-  }
+    setSelectedUser(user);
+    setEditDialogIsOpen(true);
+  };
   const handleSaveEditChanges = () => {
-    setSelectedUser(null)
-    setEditDialogIsOpen(false)
-  }
+    setSelectedUser(null);
+    setEditDialogIsOpen(false);
+  };
   const handleCancelEditChanges = () => {
-    setSelectedUser(null)
-    setEditDialogIsOpen(false)
-  }
+    setSelectedUser(null);
+    setEditDialogIsOpen(false);
+  };
   const handleDeleteClick = (user: UserResponse) => {
-    setSelectedUser(user)
-    setDeleteDialogIsOpen(true)
-  }
+    setSelectedUser(user);
+    setDeleteDialogIsOpen(true);
+  };
   const handleSaveDeleteChanges = () => {
-    setSelectedUser(null)
-    setDeleteDialogIsOpen(false)
-  }
+    setSelectedUser(null);
+    setDeleteDialogIsOpen(false);
+  };
   const handleCancelDeleteChanges = () => {
-    setSelectedUser(null)
-    setDeleteDialogIsOpen(false)
-  }
+    setSelectedUser(null);
+    setDeleteDialogIsOpen(false);
+  };
 
   const columns: ColumnDef<UserResponse>[] = [
     {
@@ -98,13 +109,15 @@ export function UserTable() {
       header: "status",
       cell: ({ row }) => {
         const isEnabled: boolean = row.getValue("accountEnabled");
-        const value = isEnabled ? 'enabled' : 'disabled';
+        const value = isEnabled ? "enabled" : "disabled";
         return (
-          <Badge className={`capitalize ${isEnabled ? 'bg-green-300' : 'bg-red-300'}`}>
+          <Badge
+            className={`capitalize ${isEnabled ? "bg-green-300" : "bg-red-300"}`}
+          >
             {value}
           </Badge>
         );
-      }
+      },
     },
     {
       accessorKey: "id",
@@ -122,9 +135,11 @@ export function UserTable() {
             Email
             <ArrowUpDown />
           </Button>
-        )
+        );
       },
-      cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+      cell: ({ row }) => (
+        <div className="lowercase">{row.getValue("email")}</div>
+      ),
       enableHiding: false,
     },
     {
@@ -136,16 +151,19 @@ export function UserTable() {
       accessorKey: "roles",
       header: "Roles",
       cell: ({ row }) => {
-        const roles = row.getValue("roles") as string[]
+        const roles = row.getValue("roles") as string[];
         return (
           <div>
             {roles.map((role) => (
-              <Badge key={role} className={`${role === 'ROLE_ADMIN' ? "bg-amber-200" : "bg-blue-300"}`}>
+              <Badge
+                key={role}
+                className={`${role === "ROLE_ADMIN" ? "bg-amber-200" : "bg-blue-300"}`}
+              >
                 {role}
               </Badge>
             ))}
           </div>
-        )
+        );
       },
     },
     {
@@ -159,7 +177,7 @@ export function UserTable() {
             Created by
             <ArrowUpDown />
           </Button>
-        )
+        );
       },
       cell: ({ row }) => <div>{row.getValue("createdBy") || "-"}</div>,
     },
@@ -174,7 +192,7 @@ export function UserTable() {
             Created at
             <ArrowUpDown />
           </Button>
-        )
+        );
       },
       cell: ({ row }) => <div>{row.getValue("createdAt")}</div>,
     },
@@ -189,7 +207,7 @@ export function UserTable() {
             Last updated by
             <ArrowUpDown />
           </Button>
-        )
+        );
       },
       cell: ({ row }) => <div>{row.getValue("lastUpdatedBy") || "-"}</div>,
     },
@@ -204,7 +222,7 @@ export function UserTable() {
             Updated at
             <ArrowUpDown />
           </Button>
-        )
+        );
       },
       cell: ({ row }) => <div>{row.getValue("updatedAt") || "-"}</div>,
     },
@@ -212,7 +230,7 @@ export function UserTable() {
       id: "actions",
       enableHiding: false,
       cell: ({ row }) => {
-        const user = row.original
+        const user = row.original;
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -224,14 +242,20 @@ export function UserTable() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => handleEditClick(user)}><Pencil />Edit</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleDeleteClick(user)}><Trash />Delete</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleEditClick(user)}>
+                <Pencil />
+                Edit
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleDeleteClick(user)}>
+                <Trash />
+                Delete
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        )
+        );
       },
     },
-  ]
+  ];
 
   const table = useReactTable({
     data: data?.content ?? [],
@@ -250,14 +274,14 @@ export function UserTable() {
       columnVisibility,
       rowSelection,
     },
-  })
+  });
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   if (isError) {
-    return <div>Error</div>
+    return <div>Error</div>;
   }
 
   return (
@@ -272,7 +296,10 @@ export function UserTable() {
             }
             className="max-w-sm"
           />
-          <Button onClick={handleNewUserClick}><Plus />New User</Button>
+          <Button onClick={handleNewUserClick}>
+            <Plus />
+            New User
+          </Button>
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -296,7 +323,7 @@ export function UserTable() {
                   >
                     {columnIdMapper(column.id)}
                   </DropdownMenuCheckboxItem>
-                )
+                );
               })}
           </DropdownMenuContent>
         </DropdownMenu>
@@ -312,11 +339,11 @@ export function UserTable() {
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -327,15 +354,13 @@ export function UserTable() {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  onClick={() => {
-
-                  }}
+                  onClick={() => {}}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}
@@ -355,42 +380,44 @@ export function UserTable() {
         </Table>
       </div>
       <div className="py-4">
-      <UserTablePagination table={table} />
+        <UserTablePagination table={table} />
       </div>
       <NewUserDialog
         newUserDialogIsOpen={NewUserDialogIsOpen}
         onSave={handleSaveNewUserChanges}
         onCancel={handleCancelNewUserChanges}
-       />
-      <EditUserDialog 
+      />
+      <EditUserDialog
         editUserDialogIsOpen={editUserDialogIsOpen}
         user={selectedUser}
         onSave={handleSaveEditChanges}
-        onCancel={handleCancelEditChanges} />
+        onCancel={handleCancelEditChanges}
+      />
       <DeleteUserDialog
         deleteUserDialogIsOpen={deleteUserDialogIsOpen}
         user={selectedUser}
         onDelete={handleSaveDeleteChanges}
-        onCancel={handleCancelDeleteChanges} />
+        onCancel={handleCancelDeleteChanges}
+      />
     </div>
-  )
+  );
 }
 
 const columnIdMapper = (columnId: string) => {
   switch (columnId) {
     case "accountEnabled":
-      return "Status"
+      return "Status";
     case "email":
-      return "Email"
+      return "Email";
     case "username":
-      return "Username"
+      return "Username";
     case "roles":
-      return "Roles"
+      return "Roles";
     case "createdAt":
-      return "Created at"
+      return "Created at";
     case "updatedAt":
-      return "Updated at"
+      return "Updated at";
     default:
-      return columnId
+      return columnId;
   }
-}
+};

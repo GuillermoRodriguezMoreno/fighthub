@@ -10,7 +10,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Check, GithubIcon, Linkedin } from "lucide-react";
-import { LightBulbIcon, MapIcon } from "./Icons";
+import { MapIcon } from "./Icons";
 import Image from "next/image";
 import Link from "next/link";
 import { path } from "@/config/path";
@@ -22,10 +22,7 @@ export const HeroCards = () => {
       <Card className="absolute w-[340px] -top-[15px] drop-shadow-xl shadow-black/10 dark:shadow-white/10">
         <CardHeader className="flex flex-row items-center gap-4 pb-2">
           <Avatar>
-            <AvatarImage
-              alt=""
-              src="/profile-photo2.webp"
-            />
+            <AvatarImage alt="" src="/profile-photo2.webp" />
             <AvatarFallback>SH</AvatarFallback>
           </Avatar>
 
@@ -35,7 +32,10 @@ export const HeroCards = () => {
           </div>
         </CardHeader>
 
-        <CardContent>This platform helped me connect with top-level fighters and find my next big fight!</CardContent>
+        <CardContent>
+          This platform helped me connect with top-level fighters and find my
+          next big fight!
+        </CardContent>
       </Card>
 
       {/* Team */}
@@ -56,7 +56,8 @@ export const HeroCards = () => {
 
         <CardContent className="text-center pb-2">
           <p>
-            Passionate about pushing my limits and helping others grow in combat sports.
+            Passionate about pushing my limits and helping others grow in combat
+            sports.
           </p>
         </CardContent>
 
@@ -95,10 +96,7 @@ export const HeroCards = () => {
         <CardHeader>
           <CardTitle className="flex item-center justify-between">
             Free
-            <Badge
-              variant="secondary"
-              className="text-sm text-primary"
-            >
+            <Badge variant="secondary" className="text-sm text-primary">
               Most popular
             </Badge>
           </CardTitle>
@@ -110,22 +108,25 @@ export const HeroCards = () => {
 
         <CardContent>
           <div className="space-y-4">
-            {["Create and showcase your fighter profile 🥊", "Find and connect with other fighters 🌎", "Get access to upcoming fight opportunities 🔥"].map(
-              (benefit: string) => (
-                <span
-                  key={benefit}
-                  className="flex"
-                >
-                  <Check className="text-green-500" />{" "}
-                  <h3 className="ml-2">{benefit}</h3>
-                </span>
-              )
-            )}
+            {[
+              "Create and showcase your fighter profile 🥊",
+              "Find and connect with other fighters 🌎",
+              "Get access to upcoming fight opportunities 🔥",
+            ].map((benefit: string) => (
+              <span key={benefit} className="flex">
+                <Check className="text-green-500" />{" "}
+                <h3 className="ml-2">{benefit}</h3>
+              </span>
+            ))}
           </div>
         </CardContent>
         <hr className="w-4/5 m-auto mb-4" />
         <CardFooter>
-          <Button className="w-full"><Link href={path.signin} className="w-100">Get started</Link></Button>
+          <Button className="w-full">
+            <Link href={path.signin} className="w-100">
+              Get started
+            </Link>
+          </Button>
         </CardFooter>
       </Card>
 
@@ -138,7 +139,8 @@ export const HeroCards = () => {
           <div>
             <CardTitle>Find Fights, Clubs & Events</CardTitle>
             <CardDescription className="text-md mt-2">
-              Connect with promoters, gyms, and other fighters to find fights and build your record.
+              Connect with promoters, gyms, and other fighters to find fights
+              and build your record.
             </CardDescription>
           </div>
         </CardHeader>

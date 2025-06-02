@@ -1,25 +1,43 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
-import { EditUserInputs, EditUserRequest, UserResponse } from "@/domains/user"
-import { UseGetRolesQuery } from "@/hooks/role/use-get-roles-query"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
-import { Controller, SubmitHandler, useForm } from "react-hook-form"
-import { useEffect } from "react"
-import { useEditUserMutation } from "@/hooks/user/use-edit-user-mutation"
-import { RoleType } from "@/domains/roles"
-import { fromRoleTypeToRole } from "@/lib/user-utils"
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { EditUserInputs, EditUserRequest, UserResponse } from "@/domains/user";
+import { UseGetRolesQuery } from "@/hooks/role/use-get-roles-query";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { useEditUserMutation } from "@/hooks/user/use-edit-user-mutation";
+import { RoleType } from "@/domains/roles";
+import { fromRoleTypeToRole } from "@/lib/user-utils";
 
 export type EditUserDialogProps = {
-  editUserDialogIsOpen: boolean
-  user: UserResponse | null
-  onSave: (user: UserResponse) => void
-  onCancel: () => void
-}
+  editUserDialogIsOpen: boolean;
+  user: UserResponse | null;
+  onSave: (user: UserResponse) => void;
+  onCancel: () => void;
+};
 
-export function EditUserDialog({ user, editUserDialogIsOpen, onCancel, onSave }: EditUserDialogProps) {
+export function EditUserDialog({
+  user,
+  editUserDialogIsOpen,
+  onCancel,
+  onSave,
+}: EditUserDialogProps) {
   const {
     register,
     handleSubmit,
@@ -36,8 +54,8 @@ export function EditUserDialog({ user, editUserDialogIsOpen, onCancel, onSave }:
       roles: [RoleType.USER],
       isAccountEnabled: "false",
       isAccountLocked: "false",
-    }
-  })
+    },
+  });
 
   useEffect(() => {
     if (user && editUserDialogIsOpen) {
@@ -53,8 +71,11 @@ export function EditUserDialog({ user, editUserDialogIsOpen, onCancel, onSave }:
     }
   }, [user, editUserDialogIsOpen, reset]);
 
-
-  const { mutate: editUserMutate, isSuccess, isError } = useEditUserMutation(user?.id || 0);
+  const {
+    mutate: editUserMutate,
+    isSuccess,
+    isError,
+  } = useEditUserMutation(user?.id || 0);
 
   const onSubmit: SubmitHandler<EditUserInputs> = async (data) => {
     if (user) {
@@ -64,22 +85,22 @@ export function EditUserDialog({ user, editUserDialogIsOpen, onCancel, onSave }:
         id: user.id,
         password: data.newPassword,
         roles: data.roles.map((role) => fromRoleTypeToRole(role)),
-      }
-      editUserMutate(editUserRequest)
+      };
+      editUserMutate(editUserRequest);
     }
-  }
+  };
 
   const handleOncancel = () => {
-    reset()
-    onCancel()
-  }
+    reset();
+    onCancel();
+  };
 
-  const roles = UseGetRolesQuery().data?.content || []
+  const roles = UseGetRolesQuery().data?.content || [];
 
   return (
     <Dialog open={editUserDialogIsOpen}>
       <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader >
+        <DialogHeader>
           <DialogTitle>Edit user</DialogTitle>
           <DialogDescription>
             Make changes to user here. Click save when you're done.
@@ -91,41 +112,80 @@ export function EditUserDialog({ user, editUserDialogIsOpen, onCancel, onSave }:
               <Label htmlFor="username" className="text-right">
                 Username
               </Label>
-              <Input id="name" placeholder={user?.username} className="col-span-3"
+              <Input
+                id="name"
+                placeholder={user?.username}
+                className="col-span-3"
                 {...register("username", { required: true })}
               />
-              {errors.username?.type === "required" && <span className="text-destructive col-span-4">This field is required</span>}
+              {errors.username?.type === "required" && (
+                <span className="text-destructive col-span-4">
+                  This field is required
+                </span>
+              )}
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="email" className="text-right">
                 Email
               </Label>
-              <Input id="email" placeholder={user?.email} className="col-span-3"
-                {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
-              />
-              {errors.email?.type === "required" && <span className="text-destructive col-span-4">This field is required</span>}
-              {errors.email?.type === "pattern" && <span className="text-destructive col-span-4">Invalid email</span>}
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="newPassword">
-                New password
-              </Label>
-              <Input id="newPassword" type="password" className="col-span-3"
-                {...register("newPassword", { required: true, minLength: 8 })}
-              />
-              {errors.newPassword?.type === "required" && <span className="text-destructive col-span-4">This field is required</span>}
-              {errors.newPassword?.type === "minLength" && <span className="text-destructive col-span-4">Password must be at least 8 characters</span>}
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="repeatPassword">
-                Repeat password
-              </Label>
-              <Input id="repeatPassword" type="password" className="col-span-3"
-                {...register("repeatPassword", {
-                  required: true, minLength: 8, validate: (value) => value === watch("newPassword") || "The passwords do not match"
+              <Input
+                id="email"
+                placeholder={user?.email}
+                className="col-span-3"
+                {...register("email", {
+                  required: true,
+                  pattern: /^\S+@\S+$/i,
                 })}
               />
-              {errors.repeatPassword && <span className="text-destructive col-span-4">The passwords do not match</span>}
+              {errors.email?.type === "required" && (
+                <span className="text-destructive col-span-4">
+                  This field is required
+                </span>
+              )}
+              {errors.email?.type === "pattern" && (
+                <span className="text-destructive col-span-4">
+                  Invalid email
+                </span>
+              )}
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="newPassword">New password</Label>
+              <Input
+                id="newPassword"
+                type="password"
+                className="col-span-3"
+                {...register("newPassword", { required: true, minLength: 8 })}
+              />
+              {errors.newPassword?.type === "required" && (
+                <span className="text-destructive col-span-4">
+                  This field is required
+                </span>
+              )}
+              {errors.newPassword?.type === "minLength" && (
+                <span className="text-destructive col-span-4">
+                  Password must be at least 8 characters
+                </span>
+              )}
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="repeatPassword">Repeat password</Label>
+              <Input
+                id="repeatPassword"
+                type="password"
+                className="col-span-3"
+                {...register("repeatPassword", {
+                  required: true,
+                  minLength: 8,
+                  validate: (value) =>
+                    value === watch("newPassword") ||
+                    "The passwords do not match",
+                })}
+              />
+              {errors.repeatPassword && (
+                <span className="text-destructive col-span-4">
+                  The passwords do not match
+                </span>
+              )}
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="role" className="text-right">
@@ -136,9 +196,16 @@ export function EditUserDialog({ user, editUserDialogIsOpen, onCancel, onSave }:
                   name="roles"
                   control={control}
                   render={({ field }) => (
-                    <Select value={field.value[0] || RoleType.USER} onValueChange={(value) => field.onChange([value])}>
+                    <Select
+                      value={field.value[0] || RoleType.USER}
+                      onValueChange={(value) => field.onChange([value])}
+                    >
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder={field.value || user?.roles?.[0] || "Select a role"} />
+                        <SelectValue
+                          placeholder={
+                            field.value || user?.roles?.[0] || "Select a role"
+                          }
+                        />
                       </SelectTrigger>
                       <SelectContent>
                         {roles.map((role) => (
@@ -150,13 +217,15 @@ export function EditUserDialog({ user, editUserDialogIsOpen, onCancel, onSave }:
                     </Select>
                   )}
                 />
-                {errors.roles && <span className="text-destructive col-span-4">This field is required</span>}
+                {errors.roles && (
+                  <span className="text-destructive col-span-4">
+                    This field is required
+                  </span>
+                )}
               </div>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="accountEnabled">
-                Account enabled
-              </Label>
+              <Label htmlFor="accountEnabled">Account enabled</Label>
               <div className="col-span-3">
                 <Controller
                   name="isAccountEnabled"
@@ -176,9 +245,7 @@ export function EditUserDialog({ user, editUserDialogIsOpen, onCancel, onSave }:
               </div>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="accountLocked">
-                Account locked
-              </Label>
+              <Label htmlFor="accountLocked">Account locked</Label>
               <div className="col-span-3">
                 <Controller
                   name="isAccountLocked"
@@ -207,5 +274,5 @@ export function EditUserDialog({ user, editUserDialogIsOpen, onCancel, onSave }:
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

@@ -1,8 +1,9 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { Mail, Phone, MapPin } from "lucide-react"
+import {
+  Card,
+  CardContent,
+
+} from "@/components/ui/card";
+
 
 export default function ProfilePhotos() {
   return (
@@ -36,6 +37,5 @@ export default function ProfilePhotos() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
-

@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { LogoIcon } from "./Icons";
 
 export const Footer = () => {
   return (
@@ -13,7 +12,7 @@ export const Footer = () => {
             href="/"
             className="font-bold text-xl flex flex-col items-center gap-2"
           >
-            <Image src="/logo.png" alt="logo image" width={100}  height={100} />
+            <Image src="/logo.png" alt="logo image" width={100} height={100} />
             FightHub
           </a>
         </div>

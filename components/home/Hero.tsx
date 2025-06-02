@@ -25,11 +25,16 @@ export const Hero = () => {
         </main>
 
         <p className="text-xl text-muted-foreground md:w-10/12 mx-auto lg:mx-0">
-          Join fighters worldwide. Share your story, find fights, and build your legacy.
+          Join fighters worldwide. Share your story, find fights, and build your
+          legacy.
         </p>
 
         <div className="space-y-4 md:space-y-0 md:space-x-4">
-          <Button className="w-full md:w-1/3"><Link href={path.signin} className="w-100" >Get started</Link></Button>
+          <Button className="w-full md:w-1/3">
+            <Link href={path.signin} className="w-100">
+              Get started
+            </Link>
+          </Button>
 
           <a
             rel="noreferrer noopener"

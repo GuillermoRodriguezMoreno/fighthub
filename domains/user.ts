@@ -11,9 +11,9 @@ export type UserResponse = {
   roles: RoleType[];
 };
 
-export type NewUserInputs = EditUserInputs
+export type NewUserInputs = EditUserInputs;
 
-export type NewUserRequest = Omit<EditUserRequest, 'id'>;
+export type NewUserRequest = Omit<EditUserRequest, "id">;
 
 export type EditUserInputs = {
   username: string;
@@ -23,7 +23,7 @@ export type EditUserInputs = {
   roles: RoleType[];
   isAccountEnabled: string;
   isAccountLocked: string;
-}
+};
 
 export type EditUserRequest = {
   id: number;
@@ -33,4 +33,4 @@ export type EditUserRequest = {
   roles: RoleRequest[];
   isAccountEnabled: string;
   isAccountLocked: string;
-}
+};

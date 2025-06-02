@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -20,7 +20,10 @@ export const Newsletter = () => {
           </span>
         </h3>
         <p className="text-xl text-muted-foreground text-center mt-4 mb-8">
-        Subscribe to our newsletter and stay updated on the latest fight news, exclusive training tips, upcoming events, and sponsorship opportunities. Join our community and never miss a chance to level up your fight career!
+          Subscribe to our newsletter and stay updated on the latest fight news,
+          exclusive training tips, upcoming events, and sponsorship
+          opportunities. Join our community and never miss a chance to level up
+          your fight career!
         </p>
 
         <form

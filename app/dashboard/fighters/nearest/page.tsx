@@ -1,9 +1,7 @@
-
 export default function Page() {
   return (
     <>
-    <div>hello</div>
+      <div>hello</div>
     </>
-    
-  )
+  );
 }
