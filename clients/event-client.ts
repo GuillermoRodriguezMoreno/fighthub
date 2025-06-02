@@ -28,3 +28,9 @@ export async function newEvent(eventRequest: EventRequest): Promise<Number> {
   }
   return await res.json();
 }
+
+export async function getMyEvents(organizerEmail: string): Promise<PageResponse<EventResponse>> {
+  const url = `${apiEndpoint.events}/organizer/${organizerEmail}`;
+  const res = await fetchWithAuth(url);
+  return await res.json();
+}

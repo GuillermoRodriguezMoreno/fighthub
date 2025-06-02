@@ -2,18 +2,14 @@
 
 import type React from "react"
 
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { CalendarIcon, MapPin, Users, CalendarDays, Plus, Trash } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { UseGetMyClubsQuery } from "@/hooks/club/use-get-club-query"
+import { MapPin, Users, CalendarDays, Plus, Trash } from "lucide-react"
+import { UseGetMyClubsQuery } from "@/hooks/club/use-get-my-clubs-query"
 import { ClubResponse } from "@/domains/club"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { EventRequest, NewEventInputs } from "@/domains/event"
@@ -146,23 +142,23 @@ export default function CreateEventForm({ clubs }: CreateEventFormProps) {
 
 export function CreateEventContainer() {
   const session = useSession();
-const ownerEmail = session.data?.user?.email || "";
+  const ownerEmail = session.data?.user?.email || "";
 
-const myClubsQuery = UseGetMyClubsQuery(ownerEmail, !!ownerEmail,);
+  const myClubsQuery = UseGetMyClubsQuery(ownerEmail, !!ownerEmail,);
 
-const isLoading = myClubsQuery.isLoading;
+  const isLoading = myClubsQuery.isLoading;
 
-if (isLoading) {
-  return <div>Loading...</div>;
-}
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
-if (!ownerEmail) {
-  return <div>Please log in to create an event.</div>;
-}
+  if (!ownerEmail) {
+    return <div>Please log in to create an event.</div>;
+  }
 
-if (!myClubsQuery.data || myClubsQuery.data.length === 0) {
-  return <div>No clubs found. Please create a club first.</div>;
-}
+  if (!myClubsQuery.data || myClubsQuery.data.length === 0) {
+    return <div>No clubs found. Please create a club first.</div>;
+  }
   return (
     <CreateEventForm clubs={myClubsQuery.data} />
   )

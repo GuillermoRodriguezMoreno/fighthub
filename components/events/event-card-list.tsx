@@ -2,7 +2,9 @@
 import { path } from "@/config/path";
 import { EventResponse } from "@/domains/event";
 import { UseGetEventsQuery } from "@/hooks/event/use-get-events-query";
+import { UseGetMyEventsQuery } from "@/hooks/event/use-get-my-events";
 import { ArrowRight } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 type EventCardProps = {
@@ -44,10 +46,31 @@ export function EventCard({ event }: EventCardProps) {
     );
 }
 
-export function EventsList(){
+export function AllEventsListContainer(){
     const allEventsQuery = UseGetEventsQuery()
     const isLoading = allEventsQuery.isLoading
     const events = allEventsQuery.data?.content || []
+    if (isLoading) {
+        return <div>Loading...</div>
+    }
+    if (events.length === 0) {
+        return <div>No events found</div>
+    }
+    return (
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {events.map((event) => (
+                <EventCard key={event.id} event={event} />
+            ))}
+        </div>
+    )
+}
+
+export function MyEventsListContainer(){
+    const session = useSession();
+    const organizerEmail = session.data?.user?.email || "";
+    const myEventsQuery = UseGetMyEventsQuery(organizerEmail, !!organizerEmail);
+    const isLoading = myEventsQuery.isLoading
+    const events = myEventsQuery.data?.content || []
     if (isLoading) {
         return <div>Loading...</div>
     }

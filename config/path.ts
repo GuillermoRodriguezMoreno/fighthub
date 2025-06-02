@@ -18,7 +18,6 @@ export const path = {
             base: `${baseUrl}/dashboard/events`,
             all: `${baseUrl}/dashboard/events/all`,
             my_events: `${baseUrl}/dashboard/events/my-events`,
-            upcoming: `${baseUrl}/dashboard/events/upcoming`,
             new: `${baseUrl}/dashboard/events/new`,
         },
         fighters: {

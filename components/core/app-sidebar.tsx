@@ -31,13 +31,9 @@ const routes = [
   },
   {
     title: "Events",
-    url: "/dashboard/events/upcoming",
+    url: "/dashboard/events/all",
     icon: CalendarSearch,
     items: [
-      {
-        title: "Upcoming",
-        url: "/dashboard/events/upcoming",
-      },
       {
         title: "All",
         url: "/dashboard/events/all",

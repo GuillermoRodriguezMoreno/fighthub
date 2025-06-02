@@ -1,9 +1,6 @@
+import { path } from "@/config/path";
+import { redirect } from "next/navigation";
 
 export default function Page() {
-  return (
-    <>
-    <div>hello</div>
-    </>
-    
-  )
+  redirect(path.dashboard.events.all);
 }

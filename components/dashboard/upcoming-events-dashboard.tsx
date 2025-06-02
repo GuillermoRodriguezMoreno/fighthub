@@ -57,7 +57,7 @@ export const UpcomingEventsDashboard = ({ upcommingEvents }: UpcomingEventsDashb
                             Upcoming Events
                         </h2>
                         <Link
-                            href={path.dashboard.events.upcoming}
+                            href={path.dashboard.events.all}
                             className="group flex items-center gap-1 text-sm font-medium md:text-base lg:text-lg"
                         >
                             See all

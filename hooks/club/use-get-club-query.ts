@@ -1,11 +1,6 @@
-import { getMyClubs } from "@/clients/club-client";
+import { getClub } from "@/clients/club-client";
 import { useQuery } from "@tanstack/react-query";
 
-export function UseGetMyClubsQuery(ownerEmail: string, enabled: boolean = true) {
-
-  return useQuery({
-    queryKey: [`my-clubs-${ownerEmail}`],
-    queryFn: async () => getMyClubs(ownerEmail),
-    enabled, // Agregamos el argumento enabled
-  });
+export function UseGetClubQuery(clubId: number) {
+  return useQuery({queryKey: ["club"], queryFn: async () => getClub(clubId)});
 }
