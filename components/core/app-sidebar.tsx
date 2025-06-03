@@ -25,9 +25,9 @@ import {
 import { NavUser } from "./nav-user";
 import Image from "next/image";
 import { ModeSwitch } from "./mode-switch";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 const routes = [
   {

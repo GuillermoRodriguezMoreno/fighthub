@@ -9,7 +9,7 @@ export default function EventLayout({
 }>) {
   return (
     <div>
-      <NewElementHeader title={"Fights"} link={path.dashboard.fights.new} />
+      <NewElementHeader title={"New Event"} />
       {children}
     </div>
   );

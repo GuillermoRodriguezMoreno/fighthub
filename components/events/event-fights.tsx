@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -12,67 +12,16 @@ import {
 } from "@/components/ui/carousel";
 import React from "react";
 import Link from "next/link";
-
-interface GalleryItem {
-  id: string;
-  title: string;
-  summary: string;
-  url: string;
-  image: string;
-}
+import { FightResponse } from "@/domains/fight";
+import { UseGetFightsByEventQuery } from "@/hooks/fight/use-get-fights-by-event-query";
+import { path } from "@/config/path";
 
 interface EventFigthsProps {
   heading?: string;
-  seeAllUrl?: string;
-  items?: GalleryItem[];
+  eventFights: FightResponse[];
 }
 
-const EventFigths = ({
-  heading = "Fights",
-  seeAllUrl = "/dashboard/events/all",
-  items = [
-    {
-      id: "item-1",
-      title: "Build Modern UIs",
-      summary:
-        "Create stunning user interfaces with our comprehensive design system.",
-      url: "#",
-      image: "https://shadcnblocks.com/images/block/placeholder-dark-1.svg",
-    },
-    {
-      id: "item-2",
-      title: "Computer Vision Technology",
-      summary:
-        "Powerful image recognition and processing capabilities that allow AI systems to analyze, understand, and interpret visual information from the world.",
-      url: "#",
-      image: "https://shadcnblocks.com/images/block/placeholder-dark-1.svg",
-    },
-    {
-      id: "item-3",
-      title: "Machine Learning Automation",
-      summary:
-        "Self-improving algorithms that learn from data patterns to automate complex tasks and make intelligent decisions with minimal human intervention.",
-      url: "#",
-      image: "https://shadcnblocks.com/images/block/placeholder-dark-1.svg",
-    },
-    {
-      id: "item-4",
-      title: "Predictive Analytics",
-      summary:
-        "Advanced forecasting capabilities that analyze historical data to predict future trends and outcomes, helping businesses make data-driven decisions.",
-      url: "#",
-      image: "https://shadcnblocks.com/images/block/placeholder-dark-1.svg",
-    },
-    {
-      id: "item-5",
-      title: "Neural Network Architecture",
-      summary:
-        "Sophisticated AI models inspired by human brain structure, capable of solving complex problems through deep learning and pattern recognition.",
-      url: "#",
-      image: "https://shadcnblocks.com/images/block/placeholder-dark-1.svg",
-    },
-  ],
-}: EventFigthsProps) => {
+const EventFigths = ({ heading = "Fights", eventFights }: EventFigthsProps) => {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
@@ -95,17 +44,11 @@ const EventFigths = ({
     <section>
       <div className="container">
         <div className="mb-8 flex flex-col justify-between md:mb-14 md:flex-row md:items-end lg:mb-16">
-          <div>
-            <h2 className="mb-3 text-3xl font-semibold md:mb-4 md:text-4xl lg:mb-6">
-              {heading}
-            </h2>
-            <Link
-              href={seeAllUrl}
-              className="group flex items-center gap-1 text-sm font-medium md:text-base lg:text-lg"
-            >
-              See all
-              <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-1" />
-            </Link>
+          <div className="flex gap-10 mb-3 md:mb-4 md:text-4xl lg:mb-6">
+            <h2 className="text-3xl font-semibold ">{heading}</h2>
+            <Button>
+              <Plus />
+            </Button>
           </div>
           <div className="mt-8 flex shrink-0 items-center justify-start gap-2">
             <Button
@@ -145,10 +88,10 @@ const EventFigths = ({
           }}
         >
           <CarouselContent>
-            {items.map((item) => (
-              <CarouselItem key={item.id} className="pl-4 md:max-w-[452px]">
-                <a
-                  href={item.url}
+            {eventFights.map((fight) => (
+              <CarouselItem key={fight.id} className="pl-4 md:max-w-[452px]">
+                <Link
+                  href={`${path.dashboard.fights.base}/${fight.id}`}
                   className="group flex flex-col justify-between"
                 >
                   <div>
@@ -156,8 +99,8 @@ const EventFigths = ({
                       <div className="flex-1">
                         <div className="relative h-full w-full origin-bottom transition duration-300 group-hover:scale-105">
                           <img
-                            src={item.image}
-                            alt={item.title}
+                            src="" //{fight.image}
+                            alt={fight.eventName}
                             className="h-full w-full object-cover object-center"
                           />
                         </div>
@@ -165,16 +108,16 @@ const EventFigths = ({
                     </div>
                   </div>
                   <div className="mb-2 line-clamp-3 break-words pt-4 text-lg font-medium md:mb-3 md:pt-4 md:text-xl lg:pt-4 lg:text-2xl">
-                    {item.title}
+                    {/* {fight.title} */}
                   </div>
                   <div className="mb-8 line-clamp-2 text-sm text-muted-foreground md:mb-12 md:text-base lg:mb-9">
-                    {item.summary}
+                    {/* {fight.summary} */}
                   </div>
                   <div className="flex items-center text-sm">
                     Read more{" "}
                     <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
                   </div>
-                </a>
+                </Link>
               </CarouselItem>
             ))}
           </CarouselContent>
@@ -184,4 +127,17 @@ const EventFigths = ({
   );
 };
 
-export { EventFigths };
+export function EventFightsContainer({ eventId }: { eventId: number }) {
+  const eventFightsQuery = UseGetFightsByEventQuery(String(eventId));
+  if (eventFightsQuery.isLoading) {
+    return <div>Loading...</div>;
+  }
+  if (eventFightsQuery.isError) {
+    return <div>Error loading event fights</div>;
+  }
+  if (!eventFightsQuery.data) {
+    return <div>No fights found for this event</div>;
+  }
+
+  return <EventFigths eventFights={eventFightsQuery.data.content} />;
+}

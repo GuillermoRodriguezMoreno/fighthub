@@ -12,7 +12,7 @@ export async function getEvents(
   return await res.json();
 }
 
-export async function getEvent(id: number): Promise<EventResponse> {
+export async function getEvent(id: string): Promise<EventResponse> {
   const res = await fetchWithAuth(`${apiEndpoint.events}/${id}`);
   return await res.json();
 }

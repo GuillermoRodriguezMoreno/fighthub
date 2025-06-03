@@ -1,4 +1,5 @@
 "use client";
+import { EditElementHeader } from "@/components/core/edit-element-header";
 import { NewElementHeader } from "@/components/core/new-element-header";
 import { path } from "@/config/path";
 
@@ -9,7 +10,11 @@ export default function EventLayout({
 }>) {
   return (
     <div>
-      <NewElementHeader title={"Fights"} link={path.dashboard.fights.new} />
+      <EditElementHeader
+        title={"Event"}
+        buttonContent={"Event"}
+        link={path.dashboard.events.new}
+      />
       {children}
     </div>
   );

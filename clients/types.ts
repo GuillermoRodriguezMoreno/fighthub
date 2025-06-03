@@ -6,6 +6,6 @@ export interface defaultQueryParams {
 
 export const defaultQueryParams: defaultQueryParams = {
   page: 0,
-  size: 25,
+  size: 50,
   orderBy: "startDate",
 };

@@ -12,3 +12,11 @@ export async function getFight(id: number): Promise<FightResponse> {
   const res = await fetchWithAuth(`${apiEndpoint.fights}/${id}`);
   return await res.json();
 }
+
+export async function getFightsByEvent(
+  eventId: string,
+): Promise<PageResponse<FightResponse>> {
+  const url = `${apiEndpoint.fights}/event/${eventId}`;
+  const res = await fetchWithAuth(url);
+  return await res.json();
+}

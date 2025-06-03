@@ -1,5 +1,5 @@
 "use client";
-import { MainHeader } from "@/components/core/main-header";
+import { NewElementHeader } from "@/components/core/new-element-header";
 import { path } from "@/config/path";
 
 export default function EventLayout({
@@ -9,8 +9,8 @@ export default function EventLayout({
 }>) {
   return (
     <div>
-      <MainHeader
-        title={"Events"}
+      <NewElementHeader
+        title={"All Events"}
         buttonContent={"Event"}
         link={path.dashboard.events.new}
       />

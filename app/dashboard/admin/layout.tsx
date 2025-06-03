@@ -1,5 +1,5 @@
 "use client";
-import { MainHeader } from "@/components/core/main-header";
+import { NewElementHeader } from "@/components/core/new-element-header";
 
 export default function EventLayout({
   children,
@@ -8,7 +8,7 @@ export default function EventLayout({
 }>) {
   return (
     <div>
-      <MainHeader title={"Admin"} />
+      <NewElementHeader title={"Admin"} />
       {children}
     </div>
   );

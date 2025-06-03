@@ -4,22 +4,22 @@ import { usePathname } from "next/navigation";
 import { JSX } from "react";
 import { Plus } from "lucide-react";
 
-export type MainHeaderProps = {
+export type NewElementHeaderProps = {
   title: string;
   link?: string;
   buttonContent?: string;
 };
 
-export function MainHeader({
+export function NewElementHeader({
   title,
   link,
   buttonContent,
-}: MainHeaderProps): JSX.Element {
+}: NewElementHeaderProps): JSX.Element {
   const path = usePathname();
   const isActive = path.includes("new");
   return (
     <div className="flex justify-between">
-      <h2 className="mb-3 text-3xl font-semibold md:mb-4 md:text-4xl lg:mb-6">
+      <h2 className="mb-3 text-3xl font-semibold md:mb-4 md:text-4xl lg:mb-10">
         {title}
       </h2>
       {buttonContent && link && !isActive ? (

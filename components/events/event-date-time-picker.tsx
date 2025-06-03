@@ -17,7 +17,7 @@ import { Control, Controller } from "react-hook-form";
 import { NewEventInputs } from "@/domains/event";
 
 export type EventDateTimePickerProps = {
-  control: Control<NewEventInputs, any>; // 
+  control: Control<NewEventInputs, any>; //
   fieldName: "startDate" | "endDate";
 };
 export function EventDateTimePicker({

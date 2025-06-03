@@ -1,9 +1,4 @@
-import {
-  Card,
-  CardContent,
-
-} from "@/components/ui/card";
-
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function ProfilePhotos() {
   return (
