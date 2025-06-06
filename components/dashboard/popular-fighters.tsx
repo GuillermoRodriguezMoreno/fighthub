@@ -18,8 +18,8 @@ import { useRouter } from "next/navigation";
 import { UseGetFighterProfilesQuery } from "@/hooks/fighter_profile/use-get-fighter-profiles-query";
 import { AlertError } from "../core/alert-error";
 import { AlertInfo } from "../core/alert-info";
-import { Skeleton } from "../ui/skeleton";
 import { FighterProfileResponse } from "@/domains/fighter-profile";
+import { DashboardSkeleton } from "./dashboard-skeleton";
 
 interface PopularFightersProps {
   popularFighters: FighterProfileResponse[];
@@ -50,11 +50,8 @@ export const PopularFighters = ({
   return (
     <section>
       <div className="container">
-        <div className="mb-8 flex flex-col justify-between md:mb-14 md:flex-row md:items-end lg:mb-16">
+        <div className="mb-8 flex flex-col justify-between md:mb-14 md:flex-row lg:mb-16">
           <div>
-            <h2 className="mb-3 text-3xl font-semibold md:mb-4 md:text-4xl lg:mb-6">
-              Popular Fighters
-            </h2>
             <Link
               href={path.dashboard.fighters.popular}
               className="group flex items-center gap-1 text-sm font-medium md:text-base lg:text-lg"
@@ -148,26 +145,38 @@ export const PopularFighters = ({
   );
 };
 
-export const PopularFightersContainer = (): JSX.Element => {
+export const PopularFightersContent = (): JSX.Element => {
   const popularFightersQuery = UseGetFighterProfilesQuery({
     size: 5,
     page: 0,
     orderBy: "winsInARow",
   });
-  const Loading = popularFightersQuery.isLoading || !popularFightersQuery.data;
+  const isQueryLoading =
+    popularFightersQuery.isLoading || !popularFightersQuery.data;
   const errorMessage = "Something went wrong";
   const emptyListMessage = "No fighters found";
 
   if (popularFightersQuery.isError) {
     return <AlertError description={errorMessage} />;
   }
-  if (Loading) {
-    return <Skeleton className="h-[400px] w-full rounded-xl" />;
+  if (isQueryLoading) {
+    return <DashboardSkeleton />;
   }
   if (popularFightersQuery.data.content.length === 0) {
     return <AlertInfo description={emptyListMessage} />;
   }
   return (
     <PopularFighters popularFighters={popularFightersQuery.data.content} />
+  );
+};
+
+export const PopularFightersContainer = (): JSX.Element => {
+  return (
+    <div>
+      <h2 className="mb-3 text-3xl font-semibold md:mb-4 md:text-4xl lg:mb-10">
+        Popular Fighters
+      </h2>
+      <PopularFightersContent />
+    </div>
   );
 };

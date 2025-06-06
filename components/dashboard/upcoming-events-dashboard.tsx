@@ -15,11 +15,11 @@ import Autoplay from "embla-carousel-autoplay";
 import Link from "next/link";
 import { path } from "@/config/path";
 import { UseGetEventsQuery } from "@/hooks/event/use-get-events-query";
-import { Skeleton } from "../ui/skeleton";
 import { AlertError } from "../core/alert-error";
 import { AlertInfo } from "../core/alert-info";
 import { useRouter } from "next/navigation";
 import { EventResponse } from "@/domains/event";
+import { DashboardSkeleton } from "./dashboard-skeleton";
 
 interface UpcomingEventsDashboardProps {
   upcommingEvents: EventResponse[];
@@ -50,11 +50,8 @@ export const UpcomingEventsDashboard = ({
   return (
     <section>
       <div className="container">
-        <div className="mb-8 flex flex-col justify-between md:mb-14 md:flex-row md:items-end lg:mb-16">
+        <div className="mb-8 flex flex-col justify-between md:mb-14 md:flex-row lg:mb-16">
           <div>
-            <h2 className="mb-3 text-3xl font-semibold md:mb-4 md:text-4xl lg:mb-6">
-              Upcoming Events
-            </h2>
             <Link
               href={path.dashboard.events.all}
               className="group flex items-center gap-1 text-sm font-medium md:text-base lg:text-lg"
@@ -148,26 +145,37 @@ export const UpcomingEventsDashboard = ({
   );
 };
 
-export const UpcomingEventsDashboardContainer = (): JSX.Element => {
+export const UpcomingEventsDashboardContent = (): JSX.Element => {
   const eventsQuery = UseGetEventsQuery({
     page: 0,
     size: 5,
     orderBy: "startDate",
   });
 
-  const Loading = eventsQuery.isLoading || !eventsQuery.data;
+  const isQueryLoading = eventsQuery.isLoading || !eventsQuery.data;
   const errorMessage = "Something went wrong";
   const emptyListMessage = "No events found";
 
   if (eventsQuery.isError) {
     return <AlertError description={errorMessage} />;
   }
-  if (Loading) {
-    return <Skeleton className="h-[400px] w-full rounded-xl" />;
+  if (isQueryLoading) {
+    return <DashboardSkeleton />;
   }
   if (eventsQuery.data.content.length === 0) {
     return <AlertInfo description={emptyListMessage} />;
   }
 
   return <UpcomingEventsDashboard upcommingEvents={eventsQuery.data.content} />;
+};
+
+export const UpcomingEventsDashboardContainer = (): JSX.Element => {
+  return (
+    <div>
+      <h2 className="mb-3 text-3xl font-semibold md:mb-4 md:text-4xl lg:mb-10">
+        Upcoming events
+      </h2>
+      <UpcomingEventsDashboardContent />
+    </div>
+  );
 };

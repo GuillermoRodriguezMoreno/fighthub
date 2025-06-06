@@ -18,8 +18,8 @@ import { useRouter } from "next/navigation";
 import { UseGetClubsQuery } from "@/hooks/club/use-get-clubs-query";
 import { AlertError } from "../core/alert-error";
 import { AlertInfo } from "../core/alert-info";
-import { Skeleton } from "../ui/skeleton";
 import { ClubResponse } from "@/domains/club";
+import { DashboardSkeleton } from "./dashboard-skeleton";
 
 interface NewClubsProps {
   newClubs: ClubResponse[];
@@ -48,11 +48,8 @@ export const NewClubs = ({ newClubs }: NewClubsProps): JSX.Element => {
   return (
     <section>
       <div className="container">
-        <div className="mb-8 flex flex-col justify-between md:mb-14 md:flex-row md:items-end lg:mb-16">
+        <div className="mb-8 flex flex-col justify-between md:mb-14 md:flex-row lg:mb-16">
           <div>
-            <h2 className="mb-3 text-3xl font-semibold md:mb-4 md:text-4xl lg:mb-6">
-              New Clubs
-            </h2>
             <Link
               href={path.dashboard.clubs.all}
               className="group flex items-center gap-1 text-sm font-medium md:text-base lg:text-lg"
@@ -146,24 +143,35 @@ export const NewClubs = ({ newClubs }: NewClubsProps): JSX.Element => {
   );
 };
 
-export const NewClubContainer = (): JSX.Element => {
+export const NewClubContent = (): JSX.Element => {
   const newClubsQuery = UseGetClubsQuery({
     size: 5,
     page: 0,
     orderBy: "createdAt",
   });
-  const Loading = newClubsQuery.isLoading || !newClubsQuery.data;
+  const isQueryLoading = newClubsQuery.isLoading || !newClubsQuery.data;
   const errorMessage = "Something went wrong";
   const emptyListMessage = "No Clubs found";
 
   if (newClubsQuery.isError) {
     return <AlertError description={errorMessage} />;
   }
-  if (Loading) {
-    return <Skeleton className="h-[400px] w-full rounded-xl" />;
+  if (isQueryLoading) {
+    return <DashboardSkeleton />;
   }
   if (newClubsQuery.data.content.length === 0) {
     return <AlertInfo description={emptyListMessage} />;
   }
   return <NewClubs newClubs={newClubsQuery.data.content} />;
+};
+
+export const NewClubContainer = (): JSX.Element => {
+  return (
+    <div>
+      <h2 className="mb-3 text-3xl font-semibold md:mb-4 md:text-4xl lg:mb-10">
+        New clubs
+      </h2>
+      <NewClubContent />
+    </div>
+  );
 };
