@@ -6,6 +6,8 @@ import { UseGetMyEventsQuery } from "@/hooks/event/use-get-my-events";
 import { ArrowRight } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import LoadingSpinner from "../core/loading-spinner";
+import { AlertInfo } from "../core/alert-info";
 
 type EventCardProps = {
   event: EventResponse;
@@ -49,12 +51,22 @@ export function EventCard({ event }: EventCardProps) {
 export function AllEventsListContainer() {
   const allEventsQuery = UseGetEventsQuery();
   const isLoading = allEventsQuery.isLoading;
+  const isError = allEventsQuery.isError;
   const events = allEventsQuery.data?.content || [];
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
+  }
+  if (isError) {
+    return (
+      <AlertInfo
+        variant="destructive"
+        title="Error loading events"
+        description="There was an error loading the events. Please try again later."
+      />
+    );
   }
   if (events.length === 0) {
-    return <div>No events found</div>;
+    return <AlertInfo title="No events found" />;
   }
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -70,12 +82,22 @@ export function MyEventsListContainer() {
   const organizerEmail = session.data?.user?.email || "";
   const myEventsQuery = UseGetMyEventsQuery(organizerEmail, !!organizerEmail);
   const isLoading = myEventsQuery.isLoading;
+  const isError = myEventsQuery.isError;
   const events = myEventsQuery.data?.content || [];
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
+  }
+  if (isError) {
+    return (
+      <AlertInfo
+        variant="destructive"
+        title="Error loading your events"
+        description="There was an error loading your events. Please try again later."
+      />
+    );
   }
   if (events.length === 0) {
-    return <div>No events found</div>;
+    return <AlertInfo title="No events found" />;
   }
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">

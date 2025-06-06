@@ -20,7 +20,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { MapPin, Users, CalendarDays, Plus } from "lucide-react";
+import {
+  MapPin,
+  Users,
+  CalendarDays,
+  Plus,
+  AlertCircleIcon,
+} from "lucide-react";
 import { UseGetMyClubsQuery } from "@/hooks/club/use-get-my-clubs-query";
 import { ClubResponse } from "@/domains/club";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -28,6 +34,10 @@ import { EventRequest, NewEventInputs } from "@/domains/event";
 import { useNewEventMutation } from "@/hooks/event/use-new-event-mutation";
 import { EventDateTimePicker } from "./event-date-time-picker";
 import { useSession } from "next-auth/react";
+import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
+import Link from "next/link";
+import { path } from "@/config/path";
+import { useRouter } from "next/navigation";
 
 export type CreateEventFormProps = {
   clubs: ClubResponse[];
@@ -194,6 +204,7 @@ export default function CreateEventForm({ clubs }: CreateEventFormProps) {
 
 export function CreateEventContainer() {
   const session = useSession();
+  const router = useRouter();
   const ownerEmail = session.data?.user?.email || "";
 
   const myClubsQuery = UseGetMyClubsQuery(ownerEmail, !!ownerEmail);
@@ -209,7 +220,26 @@ export function CreateEventContainer() {
   }
 
   if (!myClubsQuery.data || myClubsQuery.data.length === 0) {
-    return <div>No clubs found. Please create a club first.</div>;
+    return (
+      <Alert>
+        <AlertCircleIcon />
+        <AlertTitle>You don't own any club.</AlertTitle>
+        <AlertDescription>
+          <p>
+            You need to{" "}
+            <span>
+              <Link
+                className="text-primary hover:underline"
+                href={path.dashboard.clubs.new}
+              >
+                create club
+              </Link>
+            </span>{" "}
+            to publish an event.
+          </p>
+        </AlertDescription>
+      </Alert>
+    );
   }
   return <CreateEventForm clubs={myClubsQuery.data} />;
 }

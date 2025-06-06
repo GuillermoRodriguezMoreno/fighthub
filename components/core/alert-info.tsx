@@ -3,14 +3,20 @@ import { Alert, AlertTitle, AlertDescription } from "../ui/alert";
 import { JSX } from "react";
 
 export interface AlertInfoProps {
-  description: string;
+  variant?: "default" | "destructive";
+  description?: string;
+  title: string;
 }
 
-export function AlertInfo({ description }: AlertInfoProps): JSX.Element {
+export function AlertInfo({
+  variant = "default",
+  description,
+  title,
+}: AlertInfoProps): JSX.Element {
   return (
-    <Alert variant="default">
+    <Alert variant={variant}>
       <AlertCircle className="h-4 w-4" />
-      <AlertTitle>Info</AlertTitle>
+      <AlertTitle>{title}</AlertTitle>
       <AlertDescription>{description}</AlertDescription>
     </Alert>
   );

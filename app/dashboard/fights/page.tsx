@@ -1,3 +1,6 @@
+import { path } from "@/config/path";
+import { redirect } from "next/navigation";
+
 export default function Page() {
-  return <div>helo</div>;
+  redirect(path.dashboard.fights.popular);
 }
