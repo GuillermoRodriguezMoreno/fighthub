@@ -1,3 +1,4 @@
+import { ActivateAccountInputs } from "@/components/activate-account/activate-account-page";
 import { apiEndpoint } from "@/config/api-endpoint";
 import { SignupInputs } from "@/domains/singup/singup-inputs";
 
@@ -13,4 +14,19 @@ export async function register(signupPayload: SignupInputs) {
   } else {
     throw new Error(`Error: ${res.statusText}`);
   }
+}
+
+export async function activateAccount({ token }: ActivateAccountInputs) {
+  if (!token) {
+    throw new Error("Activation token is required");
+  }
+
+  const url = `${apiEndpoint.auth.activateAccount}?token=${encodeURIComponent(token)}`;
+  const res = await fetch(url);
+
+  if (!res.ok) {
+    throw new Error("Failed to activate account");
+  }
+
+  return await res.text();
 }

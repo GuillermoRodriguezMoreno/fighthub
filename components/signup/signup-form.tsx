@@ -9,6 +9,7 @@ import { SignupInputs } from "@/domains/singup/singup-inputs";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useRegisterMutation } from "@/hooks/auth/use-register-mutation";
 import React from "react";
+import { path } from "@/config/path";
 
 export function SignupForm({
   className,
@@ -130,12 +131,19 @@ export function SignupForm({
               </Button>
               {mutation.isError && (
                 <div className="text-red-500 text-sm">
-                  "An unexpected error occurred. Please try again."
+                  An unexpected error occurred. Please try again.
                 </div>
               )}
               {mutation.isSuccess && (
-                <div className="text-green-500 text-sm">
-                  "Account created successfully. Please check your email."
+                <div className="text-sm">
+                  Account created successfully. Please check your email and{" "}
+                  <Link
+                    className="text-primary hover:underline"
+                    href={path.activateAccount}
+                  >
+                    activate
+                  </Link>{" "}
+                  your account.
                 </div>
               )}
               {/* <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">

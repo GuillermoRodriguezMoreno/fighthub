@@ -3,6 +3,8 @@ const baseUrl = process.env.BASE_URL || "http://localhost:3000";
 export const path = {
   home: `${baseUrl}/`,
   signin: `${baseUrl}/signin`,
+  signup: `${baseUrl}/signup`,
+  activateAccount: `${baseUrl}/activate-account`,
   dashboard: {
     base: `${baseUrl}/dashboard`,
     admin: `${baseUrl}/dashboard/admin`,
