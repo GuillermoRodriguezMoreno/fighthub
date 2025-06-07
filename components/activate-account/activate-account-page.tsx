@@ -49,7 +49,7 @@ export function ActivateAccountPage(): JSX.Element {
                   placeholder="Enter your token here..."
                   {...register("token", {
                     required: true,
-                    // pattern: /^\S+@\S+$/i,
+                    pattern: /^[A-Za-z0-9]{6}$/,
                   })}
                 />
                 {errors.token?.type === "required" && (
