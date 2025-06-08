@@ -60,7 +60,7 @@ export function EventDateTimePicker({
         };
 
         return (
-          <Popover open={isOpen} onOpenChange={setIsOpen}>
+          <Popover open={isOpen} onOpenChange={setIsOpen} modal>
             <PopoverTrigger asChild>
               <Button
                 variant="outline"

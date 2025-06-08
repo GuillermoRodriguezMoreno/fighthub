@@ -38,3 +38,20 @@ export async function getMyEvents(
   const res = await fetchWithAuth(url);
   return await res.json();
 }
+
+export async function editEvent(
+  eventId: number,
+  eventRequest: EventRequest,
+): Promise<EventResponse> {
+  const res = await fetchWithAuth(`${apiEndpoint.events}/${eventId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(eventRequest),
+  });
+  if (!res.ok) {
+    throw new Error("Failed to edit event");
+  }
+  return await res.json();
+}

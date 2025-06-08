@@ -45,7 +45,7 @@ const EventFigths = ({ heading = "Fights", eventFights }: EventFigthsProps) => {
       <div className="container">
         <div className="mb-8 flex flex-col justify-between md:mb-14 md:flex-row md:items-end lg:mb-16">
           <div className="flex gap-10 mb-3 md:mb-4 md:text-4xl lg:mb-6">
-            <h2 className="text-3xl font-semibold ">{heading}</h2>
+            <h2 className="text-2xl font-bold">{heading}</h2>
             <Button>
               <Plus />
             </Button>

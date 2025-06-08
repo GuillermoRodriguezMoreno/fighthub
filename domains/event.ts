@@ -32,3 +32,5 @@ export type NewEventInputs = {
   endDate: Date;
   organizer: string;
 };
+
+export type EditEventInputs = NewEventInputs;

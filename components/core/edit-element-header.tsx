@@ -7,12 +7,14 @@ import { Pen, Plus } from "lucide-react";
 export type EditElementHeaderProps = {
   title: string;
   link?: string;
+  onClick?: () => void;
   buttonContent?: string;
 };
 
 export function EditElementHeader({
   title,
   link,
+  onClick: onClick,
   buttonContent,
 }: EditElementHeaderProps): JSX.Element {
   const path = usePathname();
@@ -22,10 +24,19 @@ export function EditElementHeader({
       <h2 className="mb-3 text-3xl font-semibold md:mb-4 md:text-4xl lg:mb-10">
         {title}
       </h2>
-      {buttonContent && link && !isActive ? (
-        <Button>
-          <Pen />
-          <Link href={link}>Edit {buttonContent}</Link>
+      {buttonContent && !isActive ? (
+        <Button onClick={onClick}>
+          {link ? (
+            <>
+              <Pen />
+              <Link href={link}>Edit {buttonContent}</Link>
+            </>
+          ) : (
+            <>
+              <Pen />
+              Edit {buttonContent}
+            </>
+          )}
         </Button>
       ) : null}
     </div>
