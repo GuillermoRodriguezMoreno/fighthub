@@ -43,7 +43,7 @@ export function EventDateTimePicker({
               updatedDate.setHours(field.value.getHours());
               updatedDate.setMinutes(field.value.getMinutes());
             }
-            field.onChange(updatedDate); // Actualiza el valor en react-hook-form
+            field.onChange(updatedDate);
           }
         };
 
@@ -55,7 +55,7 @@ export function EventDateTimePicker({
             } else if (type === "minute") {
               updatedDate.setMinutes(parseInt(value));
             }
-            field.onChange(updatedDate); // Actualiza el valor en react-hook-form
+            field.onChange(updatedDate);
           }
         };
 

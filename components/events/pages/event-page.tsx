@@ -7,26 +7,26 @@ import { EventFightsContainer } from "../event-fights";
 import { EditElementHeader } from "@/components/core/edit-element-header";
 import { useState } from "react";
 import { EditEventDialog } from "../edit-event-dialog";
+import LoadingSpinner from "@/components/core/loading-spinner";
+import { AlertInfo } from "@/components/core/alert-info";
 
 type EventPageProps = {
   event: EventResponse;
 };
 function EventPage({ event }: EventPageProps) {
   const [editEventDialogIsOpen, setEditEventDialogIsOpen] = useState(false);
-  console.log("EventPage rendered with event:", editEventDialogIsOpen);
   return (
     <>
-      <EditElementHeader
-        title={"Event"}
-        buttonContent={"Event"}
-        onClick={() => setEditEventDialogIsOpen(true)}
-      />
+      <EditElementHeader title={event.name} />
       <div className="grid grid-cols-1 gap-y-10 lg:grid-cols-3 lg:gap-10 mb-10">
         <div className="col-span-1">
           <EventPictures />
         </div>
         <div className="col-span-2">
-          <EventInfo event={event} />
+          <EventInfo
+            event={event}
+            clickEdit={() => setEditEventDialogIsOpen(true)}
+          />
         </div>
       </div>
       <EditEventDialog
@@ -46,13 +46,13 @@ type EventPageContainerProps = {
 export function EventPageContainer({ eventId }: EventPageContainerProps) {
   const eventQuery = UseGetEventQuery(eventId);
   if (eventQuery.isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
   if (eventQuery.isError) {
-    return <div>Error loading event</div>;
+    return <AlertInfo title="An Error has ocurred" variant="destructive" />;
   }
   if (!eventQuery.data) {
-    return <div>No event found</div>;
+    return <AlertInfo title="No event found" />;
   }
   return <EventPage event={eventQuery.data} />;
 }

@@ -15,8 +15,8 @@ export function useEditEventMutation(eventId: number) {
     }) => {
       return editEvent(eventId, editEventRequest);
     },
-    onSuccess: (eventId) => {
-      queryClient.invalidateQueries({ queryKey: ["event", eventId] });
+    onSuccess: (event) => {
+      queryClient.invalidateQueries({ queryKey: ["event", String(event.id)] });
     },
   });
 }

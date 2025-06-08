@@ -66,17 +66,18 @@ export function EditEventDialog({
   const { mutate: EditEventMutate } = useEditEventMutation(eventId);
 
   const onSubmit: SubmitHandler<EditEventInputs> = async (data) => {
-    console.log("Submitting edit event with data:", data);
-    // const editEventRequest: EventRequest = {
-    //   ...data,
-    //   startDate: data.startDate.toISOString(),
-    //   endDate: data.endDate.toISOString(),
-    //   organizer: {
-    //     id: parseInt(data.organizer),
-    //   },
-    // };
-    // EditEventMutate({ eventId, editEventRequest });
-    reset();
+    const organizerId =
+      data.organizer === null ? parseInt(data.organizer) : event.organizerId;
+    const editEventRequest: EventRequest = {
+      ...data,
+      startDate: data.startDate.toISOString(),
+      endDate: data.endDate.toISOString(),
+      organizer: {
+        id: organizerId,
+      },
+    };
+    EditEventMutate({ eventId, editEventRequest });
+    handleOncancel();
   };
 
   const session = useSession();
@@ -140,7 +141,7 @@ export function EditEventDialog({
 
   return (
     <Dialog open={editEventDialogIsOpen}>
-      <DialogContent className="sm:max-w-[425px] pointer-events-auto">
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit event {event.name}</DialogTitle>
           <DialogDescription>

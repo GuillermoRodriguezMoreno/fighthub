@@ -8,6 +8,11 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { Dialog, DialogClose, DialogContent } from "../ui/dialog";
+import { DialogTrigger } from "@radix-ui/react-dialog";
+import Image from "next/image";
+import { Button } from "../ui/button";
+import { CircleX } from "lucide-react";
 
 export function EventPictures() {
   return (
@@ -17,13 +22,42 @@ export function EventPictures() {
         <CarouselContent>
           {Array.from({ length: 5 }).map((_, index) => (
             <CarouselItem key={index}>
-              <div className="p-1">
-                <Card>
-                  <CardContent className="flex aspect-square items-center justify-center p-6">
-                    <span className="text-4xl font-semibold">{index + 1}</span>
-                  </CardContent>
-                </Card>
-              </div>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <div className="p-1 ">
+                    <Card className="flex rounded-md overflow-hidden p-0 ">
+                      <CardContent className="relative w-full aspect-square p-0">
+                        <Image
+                          src="/profile-photo.jpeg"
+                          alt={`Imagen ${index + 1}`}
+                          fill
+                          className="object-cover rounded-md hover:scale-105 transition-transform duration-300 ease-in-out"
+                        />
+                      </CardContent>
+                    </Card>
+                  </div>
+                </DialogTrigger>
+                <DialogContent className="max-w-3xl p-0 bg-transparent shadow-none">
+                  <div className="relative w-full h-full flex items-center justify-center">
+                    <Image
+                      // Add real url
+                      src={"/profile-photo.jpeg"}
+                      alt={`Imagen ${index + 1}`}
+                      width={800}
+                      height={480}
+                      className="rounded-md object-contain"
+                    />
+                    <DialogClose asChild>
+                      <Button
+                        className="absolute top-4 right-4"
+                        aria-label="close"
+                      >
+                        <CircleX />
+                      </Button>
+                    </DialogClose>
+                  </div>
+                </DialogContent>
+              </Dialog>
             </CarouselItem>
           ))}
         </CarouselContent>

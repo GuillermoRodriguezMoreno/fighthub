@@ -1,4 +1,4 @@
-import { Calendar, MapPin, User, Mail, Phone, Clock } from "lucide-react";
+import { Calendar, MapPin, User, Mail, Phone, Clock, Pen } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -12,8 +12,15 @@ import { EventResponse } from "@/domains/event";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { path } from "@/config/path";
 import Link from "next/link";
+import { Button } from "../ui/button";
 
-export default function EventCard({ event }: { event: EventResponse }) {
+export default function EventCard({
+  event,
+  clickEdit,
+}: {
+  event: EventResponse;
+  clickEdit?: () => void;
+}) {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("es-ES", {
@@ -34,7 +41,12 @@ export default function EventCard({ event }: { event: EventResponse }) {
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-2xl font-bold">Info</h2>
+      <div className="flex flex-row items-center gap-5">
+        <h2 className="text-2xl font-bold">Info</h2>
+        <Button onClick={clickEdit}>
+          <Pen />
+        </Button>
+      </div>
       <Card>
         <CardHeader>
           <div className="flex items-start justify-between">
