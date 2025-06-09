@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export function UseGetFightsByEventQuery(eventId: string) {
   return useQuery({
-    queryKey: [`fights-${eventId}`],
+    queryKey: ["fights", eventId],
     queryFn: async () => getFightsByEvent(eventId),
   });
 }

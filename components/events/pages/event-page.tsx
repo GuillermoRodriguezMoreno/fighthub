@@ -9,12 +9,15 @@ import { useState } from "react";
 import { EditEventDialog } from "../edit-event-dialog";
 import LoadingSpinner from "@/components/core/loading-spinner";
 import { AlertInfo } from "@/components/core/alert-info";
+import { CreateFightDialog } from "@/components/fights/create-fight-dialog";
 
 type EventPageProps = {
   event: EventResponse;
 };
 function EventPage({ event }: EventPageProps) {
   const [editEventDialogIsOpen, setEditEventDialogIsOpen] = useState(false);
+  const [createFightDialogIsOpen, setcreateFightDialogIsOpen] = useState(false);
+
   return (
     <>
       <EditElementHeader title={event.name} />
@@ -34,7 +37,7 @@ function EventPage({ event }: EventPageProps) {
         editEventDialogIsOpen={editEventDialogIsOpen}
         onCancel={() => setEditEventDialogIsOpen(false)}
       />
-      <EventFightsContainer eventId={event.id} />
+      <EventFightsContainer event={event} />
     </>
   );
 }

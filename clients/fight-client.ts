@@ -1,5 +1,5 @@
 import { apiEndpoint } from "@/config/api-endpoint";
-import { FightResponse } from "@/domains/fight";
+import { FightRequest, FightResponse } from "@/domains/fight";
 import { PageResponse } from "@/domains/page-response";
 import { fetchWithAuth } from "./utils";
 
@@ -18,5 +18,16 @@ export async function getFightsByEvent(
 ): Promise<PageResponse<FightResponse>> {
   const url = `${apiEndpoint.fights}/event/${eventId}`;
   const res = await fetchWithAuth(url);
+  return await res.json();
+}
+
+export async function newFight(fight: FightRequest): Promise<FightResponse> {
+  const res = await fetchWithAuth(apiEndpoint.fights, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(fight),
+  });
   return await res.json();
 }

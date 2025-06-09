@@ -15,13 +15,21 @@ import Link from "next/link";
 import { FightResponse } from "@/domains/fight";
 import { UseGetFightsByEventQuery } from "@/hooks/fight/use-get-fights-by-event-query";
 import { path } from "@/config/path";
+import { EventResponse } from "@/domains/event";
+import { CreateFightDialog } from "../fights/create-fight-dialog";
 
 interface EventFigthsProps {
   heading?: string;
   eventFights: FightResponse[];
+  event: EventResponse;
 }
 
-const EventFigths = ({ heading = "Fights", eventFights }: EventFigthsProps) => {
+const EventFigths = ({
+  heading = "Fights",
+  eventFights,
+  event,
+}: EventFigthsProps) => {
+  const [createFightDialogIsOpen, setCreateFightDialogIsOpen] = useState(false);
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
@@ -46,7 +54,7 @@ const EventFigths = ({ heading = "Fights", eventFights }: EventFigthsProps) => {
         <div className="mb-8 flex flex-col justify-between md:mb-14 md:flex-row md:items-end lg:mb-16">
           <div className="flex flex-row items-center gap-5">
             <h2 className="text-2xl font-bold">Fights</h2>
-            <Button>
+            <Button onClick={() => setCreateFightDialogIsOpen(true)}>
               <Plus />
             </Button>
           </div>
@@ -123,12 +131,17 @@ const EventFigths = ({ heading = "Fights", eventFights }: EventFigthsProps) => {
           </CarouselContent>
         </Carousel>
       </div>
+      <CreateFightDialog
+        event={event}
+        createFightDialogIsOpen={createFightDialogIsOpen}
+        onCancel={() => setCreateFightDialogIsOpen(false)}
+      />
     </section>
   );
 };
 
-export function EventFightsContainer({ eventId }: { eventId: number }) {
-  const eventFightsQuery = UseGetFightsByEventQuery(String(eventId));
+export function EventFightsContainer({ event }: { event: EventResponse }) {
+  const eventFightsQuery = UseGetFightsByEventQuery(String(event.id));
   if (eventFightsQuery.isLoading) {
     return <div>Loading...</div>;
   }
@@ -139,5 +152,7 @@ export function EventFightsContainer({ eventId }: { eventId: number }) {
     return <div>No fights found for this event</div>;
   }
 
-  return <EventFigths eventFights={eventFightsQuery.data.content} />;
+  return (
+    <EventFigths event={event} eventFights={eventFightsQuery.data.content} />
+  );
 }
