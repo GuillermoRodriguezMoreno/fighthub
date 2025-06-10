@@ -19,34 +19,39 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import LoadingSpinner from "../core/loading-spinner";
 import { AlertError } from "../core/alert-error";
-import { CreateFightInputs, FightRequest } from "@/domains/fight";
+import { EditFightInputs, FightRequest, FightResponse } from "@/domains/fight";
 import { UseGetCategoriesQuery } from "@/hooks/category/use-get-categories-query";
 import { UseGetStylesQuery } from "@/hooks/style/use-get-styles-query";
 import { EventResponse } from "@/domains/event";
-import { useCreateFightMutation } from "@/hooks/fight/use-new-fight-mutation";
 import {
   BookmarkX,
+  Equal,
   Flame,
   Gauge,
   Gem,
   ListOrdered,
+  Medal,
   Skull,
+  Swords,
   Timer,
   Trophy,
   Weight,
 } from "lucide-react";
+import { useEditFightMutation } from "@/hooks/fight/use-edit-fight-mutation";
 
-export type CreateFightDialogProps = {
+export type EditFightDialogProps = {
   event: EventResponse;
-  createFightDialogIsOpen: boolean;
+  editFightDialogIsOpen: boolean;
+  fight: FightResponse | null;
   onCancel?: () => void;
 };
 
-export function CreateFightDialog({
-  createFightDialogIsOpen,
+export function EditFightDialog({
+  editFightDialogIsOpen,
   event,
+  fight,
   onCancel,
-}: CreateFightDialogProps) {
+}: EditFightDialogProps) {
   const handleOncancel = () => {
     onCancel?.();
     reset();
@@ -58,12 +63,13 @@ export function CreateFightDialog({
     control,
     reset,
     formState: { errors },
-  } = useForm<CreateFightInputs>();
+  } = useForm<EditFightInputs>();
 
-  const { mutate: CreateFightMutate } = useCreateFightMutation();
+  const fightId = fight?.id || -1;
+  const { mutate: EditFightMutate } = useEditFightMutation(fightId);
 
-  const onSubmit: SubmitHandler<CreateFightInputs> = async (data) => {
-    const createFightRequest: FightRequest = {
+  const onSubmit: SubmitHandler<EditFightInputs> = async (data) => {
+    const editFightRequest: FightRequest = {
       ...data,
       winner: data.winner ? { id: data.winner } : undefined,
       redCornerFighter: data.redCornerFighterId
@@ -82,7 +88,7 @@ export function CreateFightDialog({
         id: data.styleId,
       },
     };
-    CreateFightMutate(createFightRequest);
+    EditFightMutate({ fightId, editFightRequest });
     handleOncancel();
   };
 
@@ -100,13 +106,11 @@ export function CreateFightDialog({
 
   if (isLoading) {
     return (
-      <Dialog open={createFightDialogIsOpen}>
+      <Dialog open={editFightDialogIsOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Loading Clubs</DialogTitle>
-            <DialogDescription>
-              Please wait while we load your clubs...
-            </DialogDescription>
+            <DialogDescription>Please wait while we load...</DialogDescription>
           </DialogHeader>
           <LoadingSpinner />
         </DialogContent>
@@ -116,7 +120,7 @@ export function CreateFightDialog({
 
   if (isError) {
     return (
-      <Dialog open={createFightDialogIsOpen}>
+      <Dialog open={editFightDialogIsOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <AlertError description="An error has ocurred" />
           <DialogFooter>
@@ -133,16 +137,16 @@ export function CreateFightDialog({
   const styles = stylesQuery.data.content;
 
   return (
-    <Dialog open={createFightDialogIsOpen}>
+    <Dialog open={editFightDialogIsOpen}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Create a fight for {event.name}</DialogTitle>
+          <DialogTitle>Edit fight</DialogTitle>
         </DialogHeader>
         <form
           onSubmit={handleSubmit(onSubmit)}
           noValidate
           className="space-y-6"
-          id="create-fight-form"
+          id="edit-fight-form"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
@@ -186,6 +190,7 @@ export function CreateFightDialog({
               <Controller
                 name="isTitleFight"
                 control={control}
+                rules={{ required: "This field is required" }}
                 render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger className="w-full">
@@ -211,6 +216,7 @@ export function CreateFightDialog({
               <Controller
                 name="isClosed"
                 control={control}
+                rules={{ required: "This field is required" }}
                 render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger className="w-full">
@@ -228,6 +234,48 @@ export function CreateFightDialog({
                   This field is required
                 </span>
               )}
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label className="flex items-center gap-2">
+                <Swords size={16} /> Is KO?
+              </Label>
+              <Controller
+                name="isKo"
+                control={control}
+                render={({ field }) => (
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder={field.value} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="true">Yes</SelectItem>
+                      <SelectItem value="false">No</SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label className="flex items-center gap-2">
+                <Equal size={16} /> Is draw?
+              </Label>
+              <Controller
+                name="isDraw"
+                control={control}
+                render={({ field }) => (
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder={field.value} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="true">Yes</SelectItem>
+                      <SelectItem value="false">No</SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
+              />
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -285,6 +333,36 @@ export function CreateFightDialog({
               />
             </div>
           </div>
+          <div className="space-y-2">
+            <Label className="flex items-center gap-2">
+              <Medal size={16} className="text-primary" /> Winner
+            </Label>
+            <Controller
+              name="winner"
+              control={control}
+              render={({ field }) => (
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder={field.value} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem
+                      key={"blue"}
+                      value={String(fight?.blueCornerFighterId)}
+                    >
+                      {fight?.blueCornerFighterName ?? "unknow"}
+                    </SelectItem>
+                    <SelectItem
+                      key={"red"}
+                      value={String(fight?.redCornerFighterId)}
+                    >
+                      {fight?.redCornerFighterClub ?? "unknow"}
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
+            />
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="categoryId" className="text-right">
@@ -302,9 +380,9 @@ export function CreateFightDialog({
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        {categories.map((category) => (
+                        {categories.map((category, index) => (
                           <SelectItem
-                            key={category.id}
+                            key={category.id || index}
                             value={String(category.id)}
                           >
                             {category.name}
@@ -336,8 +414,11 @@ export function CreateFightDialog({
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        {styles.map((style) => (
-                          <SelectItem key={style.id} value={String(style.id)}>
+                        {styles.map((style, index) => (
+                          <SelectItem
+                            key={style.id || index}
+                            value={String(style.id)}
+                          >
                             {style.name}
                           </SelectItem>
                         ))}
@@ -358,8 +439,8 @@ export function CreateFightDialog({
           <Button variant="outline" onClick={handleOncancel}>
             Cancel
           </Button>
-          <Button type="submit" form="create-fight-form">
-            Create fight
+          <Button type="submit" form="edit-fight-form">
+            Save changes
           </Button>
         </DialogFooter>
       </DialogContent>

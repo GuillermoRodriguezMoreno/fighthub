@@ -1,6 +1,16 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, ArrowUpRight, Plus } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  ArrowUpRight,
+  Delete,
+  Edit,
+  MoreHorizontal,
+  Pencil,
+  Plus,
+  Trash,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -17,6 +27,16 @@ import { UseGetFightsByEventQuery } from "@/hooks/fight/use-get-fights-by-event-
 import { path } from "@/config/path";
 import { EventResponse } from "@/domains/event";
 import { CreateFightDialog } from "../fights/create-fight-dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { EditFightDialog } from "../fights/edit-fight-dialog";
+import { DeleteFightDialog } from "../fights/delete-fight-dialog";
 
 interface EventFigthsProps {
   heading?: string;
@@ -30,9 +50,35 @@ const EventFigths = ({
   event,
 }: EventFigthsProps) => {
   const [createFightDialogIsOpen, setCreateFightDialogIsOpen] = useState(false);
+  const [editFightDialogIsOpen, setEditFightDialogIsOpen] = useState(false);
+  const [deleteFightDialogIsOpen, setDeleteFightDialogIsOpen] = useState(false);
+  const [selectedFight, setSelectedFight] = useState<FightResponse | null>(
+    null,
+  );
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
+
+  const handleEditClick = (fight: FightResponse) => {
+    setSelectedFight(fight);
+    setEditFightDialogIsOpen(true);
+  };
+
+  const handleCancelEdit = () => {
+    setEditFightDialogIsOpen(false);
+    setSelectedFight(null);
+  };
+
+  const handleDeleteClick = (fight: FightResponse) => {
+    setSelectedFight(fight);
+    setDeleteFightDialogIsOpen(true);
+  };
+
+  const handleCancelDelete = () => {
+    setDeleteFightDialogIsOpen(false);
+    setSelectedFight(null);
+  };
+
   useEffect(() => {
     if (!carouselApi) {
       return;
@@ -47,7 +93,7 @@ const EventFigths = ({
       carouselApi.off("select", updateSelection);
     };
   }, [carouselApi]);
-
+  console.log("eventFights", selectedFight);
   return (
     <section>
       <div className="container">
@@ -98,6 +144,30 @@ const EventFigths = ({
           <CarouselContent>
             {eventFights.map((fight) => (
               <CarouselItem key={fight.id} className="pl-4 md:max-w-[452px]">
+                <div className="flex">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" className="h-8 w-8 p-0">
+                        <span className="sr-only">Open menu</span>
+                        <MoreHorizontal />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={() => handleEditClick(fight)}>
+                        <Pencil />
+                        Edit
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => handleDeleteClick(fight)}
+                      >
+                        <Trash />
+                        Delete
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
                 <Link
                   href={`${path.dashboard.fights.base}/${fight.id}`}
                   className="group flex flex-col justify-between"
@@ -135,6 +205,18 @@ const EventFigths = ({
         event={event}
         createFightDialogIsOpen={createFightDialogIsOpen}
         onCancel={() => setCreateFightDialogIsOpen(false)}
+      />
+      <EditFightDialog
+        editFightDialogIsOpen={editFightDialogIsOpen}
+        fight={selectedFight}
+        event={event}
+        onCancel={handleCancelEdit}
+      />
+      <DeleteFightDialog
+        fight={selectedFight}
+        event={event}
+        deleteFightDialogIsOpen={deleteFightDialogIsOpen}
+        onCancel={handleCancelDelete}
       />
     </section>
   );

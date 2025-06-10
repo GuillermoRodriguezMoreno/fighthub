@@ -1,0 +1,69 @@
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
+import { FightResponse } from "@/domains/fight";
+import { useDeleteFightMutation } from "@/hooks/fight/use-delete-fight-mutation";
+import { EventResponse } from "@/domains/event";
+
+export type DeleteFightDialogProps = {
+  fight: FightResponse | null;
+  deleteFightDialogIsOpen: boolean;
+  onCancel: () => void;
+  event?: EventResponse;
+};
+
+export function DeleteFightDialog({
+  fight,
+  deleteFightDialogIsOpen,
+  onCancel,
+  event,
+}: DeleteFightDialogProps) {
+  const eventId = event?.id || -1;
+  const fightId = fight?.id || -1;
+
+  const {
+    mutate: deleteFightMutate,
+    isSuccess,
+    isError,
+  } = useDeleteFightMutation(eventId, fightId);
+
+  const handleDeleteFight = async () => {
+    if (fight) {
+      deleteFightMutate(fightId);
+      onCancel();
+    }
+  };
+
+  const handleOncancel = () => {
+    onCancel();
+  };
+
+  return (
+    <Dialog open={deleteFightDialogIsOpen}>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Delete fight</DialogTitle>
+          <DialogDescription>
+            Are you sure you want to delete fight{" "}
+            <span className="font-bold">
+              {fight?.blueCornerFighterName} vs {fight?.redCornerFighterName}
+            </span>
+            .
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button type="button" variant="outline" onClick={handleOncancel}>
+            Cancel
+          </Button>
+          <Button onClick={handleDeleteFight}>Delete</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}

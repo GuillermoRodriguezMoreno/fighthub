@@ -35,6 +35,8 @@ export type CreateFightInputs = {
   styleId: string;
 };
 
+export type EditFightInputs = CreateFightInputs;
+
 export type FightRequest = {
   id?: number;
   fightOrder: number;

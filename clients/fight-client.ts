@@ -31,3 +31,28 @@ export async function newFight(fight: FightRequest): Promise<FightResponse> {
   });
   return await res.json();
 }
+
+export async function editFight(
+  fightId: number,
+  fight: FightRequest,
+): Promise<FightResponse> {
+  const res = await fetchWithAuth(`${apiEndpoint.fights}/${fightId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(fight),
+  });
+  return await res.json();
+}
+
+export async function deleteFight(id: number): Promise<string> {
+  const res = await fetchWithAuth(`${apiEndpoint.fights}/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  return await res.text();
+}
