@@ -6,19 +6,19 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "../ui/dialog";
+} from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "@/components/ui/select";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
-import LoadingSpinner from "../core/loading-spinner";
-import { AlertError } from "../core/alert-error";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import LoadingSpinner from "@/components/core/loading-spinner";
+import { AlertError } from "@/components/core/alert-error";
 import { EditFightInputs, FightRequest, FightResponse } from "@/domains/fight";
 import { UseGetCategoriesQuery } from "@/hooks/category/use-get-categories-query";
 import { UseGetStylesQuery } from "@/hooks/style/use-get-styles-query";
@@ -109,7 +109,7 @@ export function EditFightDialog({
       <Dialog open={editFightDialogIsOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Loading Clubs</DialogTitle>
+            <DialogTitle>Loading...</DialogTitle>
             <DialogDescription>Please wait while we load...</DialogDescription>
           </DialogHeader>
           <LoadingSpinner />
@@ -122,6 +122,7 @@ export function EditFightDialog({
     return (
       <Dialog open={editFightDialogIsOpen}>
         <DialogContent className="sm:max-w-[425px]">
+        <DialogTitle>Error</DialogTitle>
           <AlertError description="An error has ocurred" />
           <DialogFooter>
             <Button variant="outline" onClick={handleOncancel}>

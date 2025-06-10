@@ -170,7 +170,11 @@ export function CreateFightDialog({
               <Input
                 id="weight"
                 type="number"
-                {...register("weight", { required: "Weight is required" })}
+                {...register("weight", {
+                  required: "Weight is required",
+                  min: { value: 30, message: "Weight must be at least 30" },
+                  max: { value: 150, message: "Weight must not exceed 150" },
+                })}
               />
               {errors.weight && (
                 <span className="text-destructive">
