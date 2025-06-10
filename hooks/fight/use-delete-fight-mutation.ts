@@ -8,9 +8,9 @@ export function useDeleteFightMutation(eventId: number, fightId: number) {
     mutationFn: async (deletedFightId: number) => {
       return deleteFight(deletedFightId);
     },
-    onSuccess: (eventId) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["fights", eventId],
+        queryKey: ["fights", String(eventId)],
       });
     },
   });

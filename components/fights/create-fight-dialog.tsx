@@ -60,7 +60,8 @@ export function CreateFightDialog({
     formState: { errors },
   } = useForm<CreateFightInputs>();
 
-  const { mutate: CreateFightMutate } = useCreateFightMutation();
+  const eventId = String(event.id || -1);
+  const { mutate: CreateFightMutate } = useCreateFightMutation(eventId);
 
   const onSubmit: SubmitHandler<CreateFightInputs> = async (data) => {
     const createFightRequest: FightRequest = {
