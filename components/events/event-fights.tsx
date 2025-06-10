@@ -30,6 +30,10 @@ import { CreateFightDialog } from "../fights/create-fight-dialog";
 import { EditFightDialog } from "../fights/edit-fight-dialog";
 import { DeleteFightDialog } from "../fights/delete-fight-dialog";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { Skeleton } from "../ui/skeleton";
+import { EventFightsSkeleton } from "./event-fights-skeleton";
+import LoadingSpinner from "../core/loading-spinner";
+import { AlertError } from "../core/alert-error";
 
 interface EventFigthsProps {
   heading?: string;
@@ -86,7 +90,8 @@ const EventFigths = ({
       carouselApi.off("select", updateSelection);
     };
   }, [carouselApi]);
-  console.log("eventFights", selectedFight);
+
+  const thereAreFights = eventFights.length !== 0;
   return (
     <section>
       <div className="container">
@@ -104,106 +109,112 @@ const EventFigths = ({
               </TooltipContent>
             </Tooltip>
           </div>
-          <div className="mt-8 flex shrink-0 items-center justify-start gap-2">
-            <Button
-              size="icon"
-              variant="outline"
-              onClick={() => {
-                carouselApi?.scrollPrev();
-              }}
-              disabled={!canScrollPrev}
-              className="disabled:pointer-events-auto"
-            >
-              <ArrowLeft className="size-5" />
-            </Button>
-            <Button
-              size="icon"
-              variant="outline"
-              onClick={() => {
-                carouselApi?.scrollNext();
-              }}
-              disabled={!canScrollNext}
-              className="disabled:pointer-events-auto"
-            >
-              <ArrowRight className="size-5" />
-            </Button>
-          </div>
+          {thereAreFights ? (
+            <div className="mt-8 flex shrink-0 items-center justify-start gap-2">
+              <Button
+                size="icon"
+                variant="outline"
+                onClick={() => {
+                  carouselApi?.scrollPrev();
+                }}
+                disabled={!canScrollPrev}
+                className="disabled:pointer-events-auto"
+              >
+                <ArrowLeft className="size-5" />
+              </Button>
+              <Button
+                size="icon"
+                variant="outline"
+                onClick={() => {
+                  carouselApi?.scrollNext();
+                }}
+                disabled={!canScrollNext}
+                className="disabled:pointer-events-auto"
+              >
+                <ArrowRight className="size-5" />
+              </Button>
+            </div>
+          ) : null}
         </div>
       </div>
       <div className="w-full">
-        <Carousel
-          setApi={setCarouselApi}
-          opts={{
-            breakpoints: {
-              "(max-width: 768px)": {
-                dragFree: true,
+        {thereAreFights ? (
+          <Carousel
+            setApi={setCarouselApi}
+            opts={{
+              breakpoints: {
+                "(max-width: 768px)": {
+                  dragFree: true,
+                },
               },
-            },
-          }}
-        >
-          <CarouselContent>
-            {eventFights.map((fight) => (
-              <CarouselItem key={fight.id} className="pl-4 md:max-w-[452px]">
-                <Link
-                  href={`${path.dashboard.fights.base}/${fight.id}`}
-                  className="group flex flex-col justify-between"
-                >
-                  <div>
-                    <div className="flex aspect-[3/2] overflow-clip rounded-xl">
-                      <div className="flex-1">
-                        <div className="relative h-full w-full origin-bottom transition duration-300 group-hover:scale-105">
-                          <img
-                            src="" //{fight.image}
-                            alt={fight.eventName}
-                            className="h-full w-full object-cover object-center"
-                          />
+            }}
+          >
+            <CarouselContent>
+              {eventFights.map((fight) => (
+                <CarouselItem key={fight.id} className="pl-4 md:max-w-[452px]">
+                  <Link
+                    href={`${path.dashboard.fights.base}/${fight.id}`}
+                    className="group flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex aspect-[3/2] overflow-clip rounded-xl">
+                        <div className="flex-1">
+                          <div className="relative h-full w-full origin-bottom transition duration-300 group-hover:scale-105">
+                            <img
+                              src="" //{fight.image}
+                              alt={fight.eventName}
+                              className="h-full w-full object-cover object-center"
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
+                    <div className="mb-2 line-clamp-3 break-words pt-4 text-lg font-medium md:mb-3 md:pt-4 md:text-xl lg:pt-4 lg:text-2xl">
+                      {/* {fight.title} */}
+                    </div>
+                    <div className="mb-8 line-clamp-2 text-sm text-muted-foreground md:mb-12 md:text-base lg:mb-9">
+                      {/* {fight.summary} */}
+                    </div>
+                    <div className="flex items-center text-sm">
+                      Read more{" "}
+                      <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
+                    </div>
+                  </Link>
+                  <div className="flex justify-end gap-5">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          size="icon"
+                          onClick={() => handleEditClick(fight)}
+                        >
+                          <Edit className="size-5" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Edit fight</p>
+                      </TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          size="icon"
+                          onClick={() => handleDeleteClick(fight)}
+                        >
+                          <Delete className="size-5" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Delete fight</p>
+                      </TooltipContent>
+                    </Tooltip>
                   </div>
-                  <div className="mb-2 line-clamp-3 break-words pt-4 text-lg font-medium md:mb-3 md:pt-4 md:text-xl lg:pt-4 lg:text-2xl">
-                    {/* {fight.title} */}
-                  </div>
-                  <div className="mb-8 line-clamp-2 text-sm text-muted-foreground md:mb-12 md:text-base lg:mb-9">
-                    {/* {fight.summary} */}
-                  </div>
-                  <div className="flex items-center text-sm">
-                    Read more{" "}
-                    <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
-                  </div>
-                </Link>
-                <div className="flex justify-end gap-5">
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        size="icon"
-                        onClick={() => handleEditClick(fight)}
-                      >
-                        <Edit className="size-5" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Edit fight</p>
-                    </TooltipContent>
-                  </Tooltip>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        size="icon"
-                        onClick={() => handleDeleteClick(fight)}
-                      >
-                        <Delete className="size-5" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Delete fight</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+        ) : (
+          <EventFightsSkeleton />
+        )}
       </div>
       <CreateFightDialog
         event={event}
@@ -229,15 +240,11 @@ const EventFigths = ({
 export function EventFightsContainer({ event }: { event: EventResponse }) {
   const eventFightsQuery = UseGetFightsByEventQuery(String(event.id));
   if (eventFightsQuery.isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
-  if (eventFightsQuery.isError) {
-    return <div>Error loading event fights</div>;
+  if (eventFightsQuery.isError || !eventFightsQuery.data) {
+    return <AlertError description="An error has ocurred getting fights" />;
   }
-  if (!eventFightsQuery.data) {
-    return <div>No fights found for this event</div>;
-  }
-
   return (
     <EventFigths event={event} eventFights={eventFightsQuery.data.content} />
   );
