@@ -50,11 +50,12 @@ export function DeleteFightDialog({
         <DialogHeader>
           <DialogTitle>Delete fight</DialogTitle>
           <DialogDescription>
-            Are you sure you want to delete fight{" "}
-            <span className="font-bold">
-              {fight?.blueCornerFighterName} vs {fight?.redCornerFighterName}
-            </span>
-            .
+            <p>Are you sure you want to delete this fight</p>
+
+            <p className="font-bold">
+              {fight?.blueCornerFighterName || "not set"} vs{" "}
+              {fight?.redCornerFighterName || "not set"}
+            </p>
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>

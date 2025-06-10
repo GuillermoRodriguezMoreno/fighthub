@@ -13,6 +13,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { path } from "@/config/path";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 export default function EventCard({
   event,
@@ -43,9 +44,17 @@ export default function EventCard({
     <div className="flex flex-col gap-4">
       <div className="flex flex-row items-center gap-5">
         <h2 className="text-2xl font-bold">Info</h2>
-        <Button onClick={clickEdit}>
-          <Pen />
-        </Button>
+
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button onClick={clickEdit}>
+              <Pen />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Edit event</p>
+          </TooltipContent>
+        </Tooltip>
       </div>
       <Card>
         <CardHeader>

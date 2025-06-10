@@ -27,16 +27,9 @@ import { UseGetFightsByEventQuery } from "@/hooks/fight/use-get-fights-by-event-
 import { path } from "@/config/path";
 import { EventResponse } from "@/domains/event";
 import { CreateFightDialog } from "../fights/create-fight-dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
 import { EditFightDialog } from "../fights/edit-fight-dialog";
 import { DeleteFightDialog } from "../fights/delete-fight-dialog";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 interface EventFigthsProps {
   heading?: string;
@@ -100,9 +93,16 @@ const EventFigths = ({
         <div className="mb-8 flex flex-col justify-between md:mb-14 md:flex-row md:items-end lg:mb-16">
           <div className="flex flex-row items-center gap-5">
             <h2 className="text-2xl font-bold">Fights</h2>
-            <Button onClick={() => setCreateFightDialogIsOpen(true)}>
-              <Plus />
-            </Button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button onClick={() => setCreateFightDialogIsOpen(true)}>
+                  <Plus />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Add fight</p>
+              </TooltipContent>
+            </Tooltip>
           </div>
           <div className="mt-8 flex shrink-0 items-center justify-start gap-2">
             <Button
@@ -144,30 +144,6 @@ const EventFigths = ({
           <CarouselContent>
             {eventFights.map((fight) => (
               <CarouselItem key={fight.id} className="pl-4 md:max-w-[452px]">
-                <div className="flex">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="h-8 w-8 p-0">
-                        <span className="sr-only">Open menu</span>
-                        <MoreHorizontal />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={() => handleEditClick(fight)}>
-                        <Pencil />
-                        Edit
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => handleDeleteClick(fight)}
-                      >
-                        <Trash />
-                        Delete
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
                 <Link
                   href={`${path.dashboard.fights.base}/${fight.id}`}
                   className="group flex flex-col justify-between"
@@ -196,6 +172,34 @@ const EventFigths = ({
                     <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
                   </div>
                 </Link>
+                <div className="flex justify-end gap-5">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        size="icon"
+                        onClick={() => handleEditClick(fight)}
+                      >
+                        <Edit className="size-5" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Edit fight</p>
+                    </TooltipContent>
+                  </Tooltip>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        size="icon"
+                        onClick={() => handleDeleteClick(fight)}
+                      >
+                        <Delete className="size-5" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Delete fight</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </div>
               </CarouselItem>
             ))}
           </CarouselContent>

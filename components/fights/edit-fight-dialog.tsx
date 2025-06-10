@@ -122,7 +122,7 @@ export function EditFightDialog({
     return (
       <Dialog open={editFightDialogIsOpen}>
         <DialogContent className="sm:max-w-[425px]">
-        <DialogTitle>Error</DialogTitle>
+          <DialogTitle>Error</DialogTitle>
           <AlertError description="An error has ocurred" />
           <DialogFooter>
             <Button variant="outline" onClick={handleOncancel}>
@@ -136,6 +136,8 @@ export function EditFightDialog({
 
   const categories = categoriesQuery.data.content;
   const styles = stylesQuery.data.content;
+  const fighIsClosed =
+    fight?.isClosed && fight.blueCornerFighterId && fight.redCornerFighterId;
 
   return (
     <Dialog open={editFightDialogIsOpen}>
@@ -198,8 +200,12 @@ export function EditFightDialog({
                       <SelectValue placeholder={field.value} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="true">Yes</SelectItem>
-                      <SelectItem value="false">No</SelectItem>
+                      <SelectItem key={"isTitleFight-true"} value="true">
+                        Yes
+                      </SelectItem>
+                      <SelectItem key={"isTitleFight-false"} value="false">
+                        No
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 )}
@@ -224,8 +230,12 @@ export function EditFightDialog({
                       <SelectValue placeholder={field.value} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="true">Yes</SelectItem>
-                      <SelectItem value="false">No</SelectItem>
+                      <SelectItem key={"isClosed-true"} value="true">
+                        Yes
+                      </SelectItem>
+                      <SelectItem key={"isClosed-false"} value="false">
+                        No
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 )}
@@ -237,48 +247,59 @@ export function EditFightDialog({
               )}
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label className="flex items-center gap-2">
-                <Swords size={16} /> Is KO?
-              </Label>
-              <Controller
-                name="isKo"
-                control={control}
-                render={({ field }) => (
-                  <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder={field.value} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="true">Yes</SelectItem>
-                      <SelectItem value="false">No</SelectItem>
-                    </SelectContent>
-                  </Select>
-                )}
-              />
+          {fighIsClosed ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="flex items-center gap-2">
+                  <Swords size={16} /> Is KO?
+                </Label>
+                <Controller
+                  name="isKo"
+                  control={control}
+                  render={({ field }) => (
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder={field.value} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem key={"isKo-true"} value="true">
+                          Yes
+                        </SelectItem>
+                        <SelectItem key={"isKo-false"} value="false">
+                          No
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="flex items-center gap-2">
+                  <Equal size={16} /> Is draw?
+                </Label>
+                <Controller
+                  name="isDraw"
+                  control={control}
+                  render={({ field }) => (
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder={field.value} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem key={"isDraw-true"} value="true">
+                          Yes
+                        </SelectItem>
+                        <SelectItem key={"isDraw-false"} value="false">
+                          No
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+              </div>
             </div>
-            <div className="space-y-2">
-              <Label className="flex items-center gap-2">
-                <Equal size={16} /> Is draw?
-              </Label>
-              <Controller
-                name="isDraw"
-                control={control}
-                render={({ field }) => (
-                  <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder={field.value} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="true">Yes</SelectItem>
-                      <SelectItem value="false">No</SelectItem>
-                    </SelectContent>
-                  </Select>
-                )}
-              />
-            </div>
-          </div>
+          ) : null}
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="rounds">
@@ -334,36 +355,38 @@ export function EditFightDialog({
               />
             </div>
           </div>
-          <div className="space-y-2">
-            <Label className="flex items-center gap-2">
-              <Medal size={16} className="text-primary" /> Winner
-            </Label>
-            <Controller
-              name="winner"
-              control={control}
-              render={({ field }) => (
-                <Select value={field.value} onValueChange={field.onChange}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder={field.value} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem
-                      key={"blue"}
-                      value={String(fight?.blueCornerFighterId)}
-                    >
-                      {fight?.blueCornerFighterName ?? "unknow"}
-                    </SelectItem>
-                    <SelectItem
-                      key={"red"}
-                      value={String(fight?.redCornerFighterId)}
-                    >
-                      {fight?.redCornerFighterClub ?? "unknow"}
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              )}
-            />
-          </div>
+          {fighIsClosed ? (
+            <div className="space-y-2">
+              <Label className="flex items-center gap-2">
+                <Medal size={16} className="text-primary" /> Winner
+              </Label>
+              <Controller
+                name="winner"
+                control={control}
+                render={({ field }) => (
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder={field.value} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem
+                        key={"blue"}
+                        value={String(fight?.blueCornerFighterId)}
+                      >
+                        {fight?.blueCornerFighterName ?? "unknow"}
+                      </SelectItem>
+                      <SelectItem
+                        key={"red"}
+                        value={String(fight?.redCornerFighterId)}
+                      >
+                        {fight?.redCornerFighterClub ?? "unknow"}
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+            </div>
+          ) : null}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="categoryId" className="text-right">
@@ -383,7 +406,7 @@ export function EditFightDialog({
                       <SelectContent>
                         {categories.map((category, index) => (
                           <SelectItem
-                            key={category.id || index}
+                            key={category?.id ?? `${index}-category`}
                             value={String(category.id)}
                           >
                             {category.name}
@@ -417,7 +440,7 @@ export function EditFightDialog({
                       <SelectContent>
                         {styles.map((style, index) => (
                           <SelectItem
-                            key={style.id || index}
+                            key={style?.id ?? `${index}-style`}
                             value={String(style.id)}
                           >
                             {style.name}
