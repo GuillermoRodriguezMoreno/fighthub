@@ -38,6 +38,7 @@ import {
   Weight,
 } from "lucide-react";
 import { useEditFightMutation } from "@/hooks/fight/use-edit-fight-mutation";
+import { useEffect, useState } from "react";
 
 export type EditFightDialogProps = {
   event: EventResponse;
@@ -52,8 +53,17 @@ export function EditFightDialog({
   fight,
   onCancel,
 }: EditFightDialogProps) {
+  const [formData, setFormData] = useState<FightResponse | null>(null);
+
+  useEffect(() => {
+    if (fight) {
+      setFormData(fight);
+    }
+  }, [fight]);
+
   const handleOncancel = () => {
     onCancel?.();
+    setFormData(null);
     reset();
   };
 
@@ -63,10 +73,20 @@ export function EditFightDialog({
     control,
     reset,
     formState: { errors },
-  } = useForm<EditFightInputs>();
+  } = useForm<EditFightInputs>({
+    defaultValues: {
+      isTitleFight: formData?.isTitleFight ? "true" : "false",
+      isClosed: formData?.isClosed ? "true" : "false",
+      isKo: formData?.isKo ? "true" : "false",
+      isDraw: formData?.isDraw ? "true" : "false",
+      categoryId: String(formData?.categoryId || ""),
+      styleId: String(formData?.styleId || ""),
+    },
+  });
 
-  const fightId = fight?.id || -1;
-  const { mutate: EditFightMutate } = useEditFightMutation(fightId);
+  const fightId = formData?.id || -1;
+  const eventId = event?.id || -1;
+  const { mutate: EditFightMutate } = useEditFightMutation(eventId, fightId);
 
   const onSubmit: SubmitHandler<EditFightInputs> = async (data) => {
     const editFightRequest: FightRequest = {
@@ -95,7 +115,8 @@ export function EditFightDialog({
   const categoriesQuery = UseGetCategoriesQuery();
   const stylesQuery = UseGetStylesQuery();
 
-  const isLoading = categoriesQuery.isLoading || stylesQuery.isLoading;
+  const isLoading =
+    categoriesQuery.isLoading || stylesQuery.isLoading || !formData;
   const isError =
     categoriesQuery.isError ||
     stylesQuery.isError ||
@@ -137,7 +158,9 @@ export function EditFightDialog({
   const categories = categoriesQuery.data.content;
   const styles = stylesQuery.data.content;
   const fighIsClosed =
-    fight?.isClosed && fight.blueCornerFighterId && fight.redCornerFighterId;
+    formData?.isClosed &&
+    formData.blueCornerFighterId &&
+    formData.redCornerFighterId;
 
   return (
     <Dialog open={editFightDialogIsOpen}>
@@ -157,10 +180,15 @@ export function EditFightDialog({
                 <ListOrdered size={16} /> Fight order
               </Label>
               <Input
+                defaultValue={formData?.fightOrder || ""}
                 id="fightOrder"
                 type="number"
                 {...register("fightOrder", {
                   required: "Fight order is required",
+                  min: {
+                    value: 1,
+                    message: "Fight order must be at least 1",
+                  },
                 })}
               />
               {errors.fightOrder && (
@@ -174,6 +202,7 @@ export function EditFightDialog({
                 <Weight size={16} /> Weight
               </Label>
               <Input
+                defaultValue={formData?.weight || ""}
                 id="weight"
                 type="number"
                 {...register("weight", { required: "Weight is required" })}
@@ -306,6 +335,7 @@ export function EditFightDialog({
                 <Gauge size={16} /> Rounds
               </Label>
               <Input
+                defaultValue={formData?.rounds || ""}
                 id="rounds"
                 type="number"
                 {...register("rounds", { required: "Rounds are required" })}
@@ -321,6 +351,7 @@ export function EditFightDialog({
                 <Timer size={16} /> Minutes per round
               </Label>
               <Input
+                defaultValue={formData?.minutesPerRound || ""}
                 id="minutesPerRound"
                 type="number"
                 {...register("minutesPerRound", {
@@ -341,6 +372,7 @@ export function EditFightDialog({
                 Fighter
               </Label>
               <Input
+                defaultValue={formData?.blueCornerFighterName || ""}
                 id="blueCornerFighterId"
                 {...register("blueCornerFighterId")}
               />
@@ -350,6 +382,7 @@ export function EditFightDialog({
                 <Skull size={16} className="text-red-500" /> Red Corner Fighter
               </Label>
               <Input
+                defaultValue={formData?.redCornerFighterName || ""}
                 id="redCornerFighterId"
                 {...register("redCornerFighterId")}
               />
@@ -364,22 +397,26 @@ export function EditFightDialog({
                 name="winner"
                 control={control}
                 render={({ field }) => (
-                  <Select value={field.value} onValueChange={field.onChange}>
+                  <Select
+                    defaultValue={String(formData?.winnerId || "")}
+                    value={field.value}
+                    onValueChange={field.onChange}
+                  >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder={field.value} />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem
                         key={"blue"}
-                        value={String(fight?.blueCornerFighterId)}
+                        value={String(formData?.blueCornerFighterId)}
                       >
-                        {fight?.blueCornerFighterName ?? "unknow"}
+                        {formData?.blueCornerFighterName ?? "unknow"}
                       </SelectItem>
                       <SelectItem
                         key={"red"}
-                        value={String(fight?.redCornerFighterId)}
+                        value={String(formData?.redCornerFighterId)}
                       >
-                        {fight?.redCornerFighterClub ?? "unknow"}
+                        {formData?.redCornerFighterClub ?? "unknow"}
                       </SelectItem>
                     </SelectContent>
                   </Select>
@@ -399,7 +436,10 @@ export function EditFightDialog({
                   control={control}
                   rules={{ required: "Category is required" }}
                   render={({ field }) => (
-                    <Select onValueChange={(value) => field.onChange(value)}>
+                    <Select
+                      defaultValue={String(formData?.categoryId || "")}
+                      onValueChange={(value) => field.onChange(value)}
+                    >
                       <SelectTrigger className="w-full">
                         <SelectValue />
                       </SelectTrigger>
@@ -433,7 +473,10 @@ export function EditFightDialog({
                   control={control}
                   rules={{ required: "Style is required" }}
                   render={({ field }) => (
-                    <Select onValueChange={(value) => field.onChange(value)}>
+                    <Select
+                      defaultValue={String(formData?.styleId || "")}
+                      onValueChange={(value) => field.onChange(value)}
+                    >
                       <SelectTrigger className="w-full">
                         <SelectValue />
                       </SelectTrigger>

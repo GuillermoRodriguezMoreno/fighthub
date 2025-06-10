@@ -1,21 +1,28 @@
 export type FightResponse = {
   id?: number;
   fightOrder: number;
-  isTitleFight: boolean;
+  isTitleFight?: boolean;
   isClosed?: boolean;
+  isKo?: boolean;
+  isDraw?: boolean;
   weight: number;
   rounds: number;
   minutesPerRound: number;
-  blueCornerFighterId: number;
-  blueCornerFighterName: string;
+  likes?: number;
+  winnerId?: number;
+  winnerName?: string;
+  blueCornerFighterId?: number;
+  blueCornerFighterName?: string;
   blueCornerFighterClub?: string;
-  redCornerFighterId: number;
-  redCornerFighterName: string;
+  redCornerFighterId?: number;
+  redCornerFighterName?: string;
   redCornerFighterClub?: string;
   eventId: number;
   eventName: string;
-  category: string;
-  style: string;
+  category?: string;
+  categoryId?: number;
+  style?: string;
+  styleId?: number;
 };
 
 export type CreateFightInputs = {

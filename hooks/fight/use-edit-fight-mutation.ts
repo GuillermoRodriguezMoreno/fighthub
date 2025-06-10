@@ -2,7 +2,7 @@ import { editFight, newFight } from "@/clients/fight-client";
 import { FightRequest } from "@/domains/fight";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export function useEditFightMutation(fightId: number) {
+export function useEditFightMutation(eventId: number, fightId: number) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: [`edit-fight`, fightId],
@@ -15,9 +15,9 @@ export function useEditFightMutation(fightId: number) {
     }) => {
       return editFight(fightId, editFightRequest);
     },
-    onSuccess: (fightResponse) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["fights", fightResponse.eventId],
+        queryKey: ["fights", String(eventId)],
       });
     },
   });
