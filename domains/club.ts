@@ -10,3 +10,23 @@ export type ClubResponse = {
   ownerUsername: string;
   ownerEmail: string;
 };
+
+export type NewClubInputs = {
+  name: string;
+  address: string;
+  email: string;
+  description: string;
+  phone: string;
+};
+
+export type ClubRequest = {
+  id?: number;
+  name: string;
+  address: string;
+  email: string;
+  description: string;
+  phone: string;
+  owner: {
+    id: number;
+  };
+};

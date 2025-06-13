@@ -38,12 +38,18 @@ const authOptions: NextAuthOptions = {
       if (user) {
         token.accessToken = user.token;
         token.roles = user.roles || [];
+        token.isAccountEnabled = user.isAccountEnabled || false;
+        token.isAccountLocked = user.isAccountLocked || false;
+        token.userId = user.userId || null;
       }
       return token;
     },
     async session({ session, token }) {
       session.accessToken = token.accessToken as string;
       session.roles = (token.roles as string[]) || [];
+      session.isAccountEnabled = token.isAccountEnabled as boolean;
+      session.isAccountLocked = token.isAccountLocked as boolean;
+      session.userId = token.userId as number | null;
       return session;
     },
   },

@@ -1,6 +1,5 @@
-import { path } from "@/config/path";
-import { redirect } from "next/navigation";
+import { CreateClubPage } from "@/components/clubs/pages/create-club-page";
 
 export default function Page() {
-  redirect(path.dashboard.clubs.all);
+  return <CreateClubPage />;
 }

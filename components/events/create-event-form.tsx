@@ -37,7 +37,6 @@ import { useSession } from "next-auth/react";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import Link from "next/link";
 import { path } from "@/config/path";
-import { useRouter } from "next/navigation";
 
 export type CreateEventFormProps = {
   clubs: ClubResponse[];
@@ -189,8 +188,8 @@ export default function CreateEventForm({ clubs }: CreateEventFormProps) {
                 </span>
               )}
             </div>
-            <div className="grid grid-cols-4 gap-4 justify-end">
-              <Button type="submit" className="col-start-4 col-span-1">
+            <div className="flex justify-end">
+              <Button type="submit">
                 <Plus />
                 {"Create Event"}
               </Button>
@@ -204,7 +203,6 @@ export default function CreateEventForm({ clubs }: CreateEventFormProps) {
 
 export function CreateEventContainer() {
   const session = useSession();
-  const router = useRouter();
   const ownerEmail = session.data?.user?.email || "";
 
   const myClubsQuery = UseGetMyClubsQuery(ownerEmail, !!ownerEmail);
