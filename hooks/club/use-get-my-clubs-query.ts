@@ -6,7 +6,7 @@ export function UseGetMyClubsQuery(
   enabled: boolean = true,
 ) {
   return useQuery({
-    queryKey: [`my-clubs-${ownerEmail}`],
+    queryKey: ["my-clubs", ownerEmail],
     queryFn: async () => getMyClubs(ownerEmail),
     enabled,
   });

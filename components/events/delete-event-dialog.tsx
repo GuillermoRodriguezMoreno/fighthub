@@ -47,9 +47,7 @@ export function DeleteEventDialog({
         <DialogHeader>
           <DialogTitle>Delete {event?.name}</DialogTitle>
           <DialogDescription>
-            <p>
-              Are you sure you want to delete this event and all his fights?
-            </p>
+            <p>Are you sure you want to delete this event?</p>
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>

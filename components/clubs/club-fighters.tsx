@@ -1,6 +1,16 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  ArrowUpRight,
+  Delete,
+  Edit,
+  MoreHorizontal,
+  Pencil,
+  Plus,
+  Trash,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -12,70 +22,45 @@ import {
 } from "@/components/ui/carousel";
 import React from "react";
 import Link from "next/link";
+import { path } from "@/config/path";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { EventFightsSkeleton } from "@/components/events/event-fights-skeleton";
+import LoadingSpinner from "@/components/core/loading-spinner";
+import { AlertError } from "@/components/core/alert-error";
+import { FighterProfileResponse } from "@/domains/fighter-profile";
+import { ClubResponse } from "@/domains/club";
+import { UnsubscribeFighterDialog } from "@/components/clubs/unsubscribe-fighter-dialog";
 
-interface GalleryItem {
-  id: string;
-  title: string;
-  summary: string;
-  url: string;
-  image: string;
+interface ClubFigthsProps {
+  clubFighters: FighterProfileResponse[];
+  club: ClubResponse;
+  isOwner?: boolean;
 }
 
-interface ClubFigthersProps {
-  heading?: string;
-  seeAllUrl?: string;
-  items?: GalleryItem[];
-}
-
-const ClubFigthers = ({
-  heading = "Fighters",
-  seeAllUrl = "/dashboard/events/all",
-  items = [
-    {
-      id: "item-1",
-      title: "Build Modern UIs",
-      summary:
-        "Create stunning user interfaces with our comprehensive design system.",
-      url: "#",
-      image: "https://shadcnblocks.com/images/block/placeholder-dark-1.svg",
-    },
-    {
-      id: "item-2",
-      title: "Computer Vision Technology",
-      summary:
-        "Powerful image recognition and processing capabilities that allow AI systems to analyze, understand, and interpret visual information from the world.",
-      url: "#",
-      image: "https://shadcnblocks.com/images/block/placeholder-dark-1.svg",
-    },
-    {
-      id: "item-3",
-      title: "Machine Learning Automation",
-      summary:
-        "Self-improving algorithms that learn from data patterns to automate complex tasks and make intelligent decisions with minimal human intervention.",
-      url: "#",
-      image: "https://shadcnblocks.com/images/block/placeholder-dark-1.svg",
-    },
-    {
-      id: "item-4",
-      title: "Predictive Analytics",
-      summary:
-        "Advanced forecasting capabilities that analyze historical data to predict future trends and outcomes, helping businesses make data-driven decisions.",
-      url: "#",
-      image: "https://shadcnblocks.com/images/block/placeholder-dark-1.svg",
-    },
-    {
-      id: "item-5",
-      title: "Neural Network Architecture",
-      summary:
-        "Sophisticated AI models inspired by human brain structure, capable of solving complex problems through deep learning and pattern recognition.",
-      url: "#",
-      image: "https://shadcnblocks.com/images/block/placeholder-dark-1.svg",
-    },
-  ],
-}: ClubFigthersProps) => {
+const ClubFighters = ({
+  clubFighters,
+  club,
+  isOwner = false,
+}: ClubFigthsProps) => {
+  const [unsubscribeFighterDialogIsOpen, setUnsubscribeFighterDialogIsOpen] =
+    useState(false);
+  const [selectedFighter, setSelectedFighter] =
+    useState<FighterProfileResponse | null>(null);
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
+
+  const handleUnsubscribeClick = (fighter: FighterProfileResponse) => {
+    setUnsubscribeFighterDialogIsOpen(true);
+    if (fighter) {
+      setSelectedFighter(selectedFighter);
+    }
+  };
+
+  const handleCancelUnsubscribe = () => {
+    setUnsubscribeFighterDialogIsOpen(false);
+  };
+
   useEffect(() => {
     if (!carouselApi) {
       return;
@@ -91,97 +76,144 @@ const ClubFigthers = ({
     };
   }, [carouselApi]);
 
+  const thereAreFighters = clubFighters.length !== 0;
   return (
     <section>
       <div className="container">
         <div className="mb-8 flex flex-col justify-between md:mb-14 md:flex-row md:items-end lg:mb-16">
-          <div>
-            <h2 className="mb-3 text-3xl font-semibold md:mb-4 md:text-4xl lg:mb-6">
-              {heading}
-            </h2>
-            <Link
-              href={seeAllUrl}
-              className="group flex items-center gap-1 text-sm font-medium md:text-base lg:text-lg"
-            >
-              See all
-              <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-1" />
-            </Link>
+          <div className="flex flex-row items-center gap-5">
+            <h2 className="text-2xl font-bold">Fights</h2>
           </div>
-          <div className="mt-8 flex shrink-0 items-center justify-start gap-2">
-            <Button
-              size="icon"
-              variant="outline"
-              onClick={() => {
-                carouselApi?.scrollPrev();
-              }}
-              disabled={!canScrollPrev}
-              className="disabled:pointer-events-auto"
-            >
-              <ArrowLeft className="size-5" />
-            </Button>
-            <Button
-              size="icon"
-              variant="outline"
-              onClick={() => {
-                carouselApi?.scrollNext();
-              }}
-              disabled={!canScrollNext}
-              className="disabled:pointer-events-auto"
-            >
-              <ArrowRight className="size-5" />
-            </Button>
-          </div>
+          {thereAreFighters ? (
+            <div className="mt-8 flex shrink-0 items-center justify-start gap-2">
+              <Button
+                size="icon"
+                variant="outline"
+                onClick={() => {
+                  carouselApi?.scrollPrev();
+                }}
+                disabled={!canScrollPrev}
+                className="disabled:pointer-events-auto"
+              >
+                <ArrowLeft className="size-5" />
+              </Button>
+              <Button
+                size="icon"
+                variant="outline"
+                onClick={() => {
+                  carouselApi?.scrollNext();
+                }}
+                disabled={!canScrollNext}
+                className="disabled:pointer-events-auto"
+              >
+                <ArrowRight className="size-5" />
+              </Button>
+            </div>
+          ) : null}
         </div>
       </div>
       <div className="w-full">
-        <Carousel
-          setApi={setCarouselApi}
-          opts={{
-            breakpoints: {
-              "(max-width: 768px)": {
-                dragFree: true,
+        {thereAreFighters ? (
+          <Carousel
+            setApi={setCarouselApi}
+            opts={{
+              breakpoints: {
+                "(max-width: 768px)": {
+                  dragFree: true,
+                },
               },
-            },
-          }}
-        >
-          <CarouselContent>
-            {items.map((item) => (
-              <CarouselItem key={item.id} className="pl-4 md:max-w-[452px]">
-                <a
-                  href={item.url}
-                  className="group flex flex-col justify-between"
+            }}
+          >
+            <CarouselContent>
+              {clubFighters.map((fighter) => (
+                <CarouselItem
+                  key={fighter.id}
+                  className="pl-4 md:max-w-[452px]"
                 >
-                  <div>
-                    <div className="flex aspect-[3/2] overflow-clip rounded-xl">
-                      <div className="flex-1">
-                        <div className="relative h-full w-full origin-bottom transition duration-300 group-hover:scale-105">
-                          <img
-                            src={item.image}
-                            alt={item.title}
-                            className="h-full w-full object-cover object-center"
-                          />
+                  <Link
+                    href={`${path.dashboard.fighters.base}/${fighter.id}`}
+                    className="group flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex aspect-[3/2] overflow-clip rounded-xl">
+                        <div className="flex-1">
+                          <div className="relative h-full w-full origin-bottom transition duration-300 group-hover:scale-105">
+                            <img
+                              src="" //{fight.image}
+                              alt={fighter.name}
+                              className="h-full w-full object-cover object-center"
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
+                    <div className="mb-2 line-clamp-3 break-words pt-4 text-lg font-medium md:mb-3 md:pt-4 md:text-xl lg:pt-4 lg:text-2xl">
+                      {/* {fight.title} */}
+                    </div>
+                    <div className="mb-8 line-clamp-2 text-sm text-muted-foreground md:mb-12 md:text-base lg:mb-9">
+                      {/* {fight.summary} */}
+                    </div>
+                    <div className="flex items-center text-sm">
+                      Read more{" "}
+                      <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
+                    </div>
+                  </Link>
+                  <div className="flex justify-end gap-5">
+                    {isOwner ? (
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            size="icon"
+                            onClick={() => handleUnsubscribeClick(fighter)}
+                          >
+                            <Delete className="size-5" />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Unsubscribe fighter</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    ) : null}
                   </div>
-                  <div className="mb-2 line-clamp-3 break-words pt-4 text-lg font-medium md:mb-3 md:pt-4 md:text-xl lg:pt-4 lg:text-2xl">
-                    {item.title}
-                  </div>
-                  <div className="mb-8 line-clamp-2 text-sm text-muted-foreground md:mb-12 md:text-base lg:mb-9">
-                    {item.summary}
-                  </div>
-                  <div className="flex items-center text-sm">
-                    Read more{" "}
-                    <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
-                  </div>
-                </a>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+        ) : (
+          <EventFightsSkeleton />
+        )}
       </div>
+      {isOwner ? (
+        <UnsubscribeFighterDialog
+          fighter={selectedFighter}
+          club={club}
+          unsubscribeFighterDialogIsOpen={unsubscribeFighterDialogIsOpen}
+          onCancel={handleCancelUnsubscribe}
+        />
+      ) : null}
     </section>
   );
 };
 
-export { ClubFigthers };
+export function ClubFightersContainer({
+  club,
+  isOwner = false,
+}: {
+  club: ClubResponse;
+  isOwner?: boolean;
+}) {
+  const clubFightersQuery = UseGetFightersByClubQuery(String(club.id));
+  if (clubFightersQuery.isLoading) {
+    return <LoadingSpinner />;
+  }
+  if (clubFightersQuery.isError || !clubFightersQuery.data) {
+    return <AlertError description="An error has ocurred getting fighters" />;
+  }
+  return (
+    <ClubFighters
+      club={club}
+      clubFighters={clubFightersQuery.data.content}
+      isOwner={isOwner}
+    />
+  );
+}

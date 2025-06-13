@@ -12,7 +12,7 @@ export async function getClubs(
   return await res.json();
 }
 
-export async function getClub(id: number): Promise<ClubResponse> {
+export async function getClub(id: string): Promise<ClubResponse> {
   const res = await fetchWithAuth(`${apiEndpoint.clubs}/${id}`);
   return await res.json();
 }
@@ -37,4 +37,28 @@ export async function newClub(club: ClubRequest): Promise<ClubResponse> {
     body: JSON.stringify(club),
   });
   return await res.json();
+}
+
+export async function editClub(
+  clubId: number,
+  club: ClubRequest,
+): Promise<ClubResponse> {
+  const res = await fetchWithAuth(`${apiEndpoint.clubs}/${clubId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(club),
+  });
+  return await res.json();
+}
+
+export async function deleteClub(clubId: number): Promise<string> {
+  const res = await fetchWithAuth(`${apiEndpoint.clubs}/${clubId}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to delete club");
+  }
+  return res.text();
 }

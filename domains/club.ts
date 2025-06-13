@@ -19,6 +19,8 @@ export type NewClubInputs = {
   phone: string;
 };
 
+export type EditClubInputs = NewClubInputs;
+
 export type ClubRequest = {
   id?: number;
   name: string;
@@ -26,7 +28,7 @@ export type ClubRequest = {
   email: string;
   description: string;
   phone: string;
-  owner: {
+  owner?: {
     id: number;
   };
 };

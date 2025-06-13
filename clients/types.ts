@@ -14,4 +14,4 @@ export const defaultClubsQueryParams: defaultQueryParams = {
   page: 0,
   size: 50,
   orderBy: "name",
-}
+};

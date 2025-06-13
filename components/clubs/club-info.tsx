@@ -1,63 +1,139 @@
-import { Button } from "@/components/ui/button";
+import { Calendar, MapPin, User, Mail, Phone, Clock, Pen } from "lucide-react";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+import { EventResponse } from "@/domains/event";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { path } from "@/config/path";
+import Link from "next/link";
+import { Button } from "../ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { ClubResponse } from "@/domains/club";
 
-export default function ClubInfo() {
+export default function ClubCard({
+  club,
+  clickEdit,
+  isOwner = false,
+}: {
+  club: ClubResponse;
+  clickEdit?: () => void;
+  isOwner?: boolean;
+}) {
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("es-ES", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  const formatTime = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString("es-ES", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-2xl font-bold">Info</h2>
+      <div className="flex flex-row items-center gap-5">
+        <h2 className="text-2xl font-bold">Info</h2>
+        {isOwner ? (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button onClick={clickEdit}>
+                <Pen />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Edit club</p>
+            </TooltipContent>
+          </Tooltip>
+        ) : null}
+      </div>
       <Card>
-        <CardHeader className="flex flex-row items-center gap-4">
-          <Avatar className="h-14 w-14">
-            <AvatarImage
-              src="/placeholder.svg?height=56&width=56"
-              alt="Profile picture"
-            />
-            <AvatarFallback>JD</AvatarFallback>
-          </Avatar>
-          <div>
-            <CardTitle>John Doe</CardTitle>
-            <CardDescription>Software Developer</CardDescription>
+        <CardHeader>
+          <div className="flex items-start justify-between">
+            <div className="space-y-2">
+              <CardTitle className="text-2xl font-bold">{club.name}</CardTitle>
+              <CardDescription className="text-base leading-relaxed">
+                {club.description}
+              </CardDescription>
+            </div>
           </div>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 text-sm">
-              <Mail className="h-4 w-4 text-muted-foreground" />
-              <span>john.doe@example.com</span>
+        <CardContent className="space-y-6">
+          <div className="space-y-4">
+            <div className="flex items-start gap-3">
+              <MapPin className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
+              <div>
+                <p className="font-medium">Address</p>
+                <p className="text-sm text-muted-foreground">{club.address}</p>
+              </div>
             </div>
-            <div className="flex items-center gap-2 text-sm">
-              <Phone className="h-4 w-4 text-muted-foreground" />
-              <span>(123) 456-7890</span>
+            <div className="flex items-start gap-3">
+              <Mail className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
+              <div>
+                <p className="font-medium">Email</p>
+                <p className="text-sm text-muted-foreground">{club.email}</p>
+              </div>
             </div>
-            <div className="flex items-center gap-2 text-sm">
-              <MapPin className="h-4 w-4 text-muted-foreground" />
-              <span>San Francisco, CA</span>
+            <div className="flex items-start gap-3">
+              <Phone className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
+              <div>
+                <p className="font-medium">Phone</p>
+                <p className="text-sm text-muted-foreground">{club.phone}</p>
+              </div>
             </div>
           </div>
-
-          <div className="pt-2">
-            <h3 className="text-sm font-medium mb-2">Skills</h3>
-            <div className="flex flex-wrap gap-2">
-              <Badge variant="secondary">React</Badge>
-              <Badge variant="secondary">TypeScript</Badge>
-              <Badge variant="secondary">Node.js</Badge>
-              <Badge variant="secondary">UI/UX</Badge>
+          <Separator />
+          <div className="space-y-4">
+            <h3 className="font-semibold text-lg flex items-center gap-2">
+              <User className="h-5 w-5" />
+              Owner
+            </h3>
+            <div className="flex flex-col gap-5">
+              <div className="flex items-center gap-5">
+                <Avatar className="h-14 w-14">
+                  <AvatarImage
+                    src="/placeholder.svg?height=56&width=56"
+                    alt="Profile picture"
+                  />
+                  <AvatarFallback>N/A</AvatarFallback>
+                </Avatar>
+                <div>
+                  <p className="font-medium hover:text-primary">
+                    <Link
+                      href={`${path.dashboard.fighters.base}/${club.ownerId}`}
+                    >
+                      {club.ownerName}
+                    </Link>
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex items-center gap-2">
+                  <Mail className="h-4 w-4 text-muted-foreground" />
+                  <a
+                    href={`mailto:${club.ownerEmail}`}
+                    className="text-sm hover:underline"
+                  >
+                    {club.ownerEmail}
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </CardContent>
-        <CardFooter className="flex justify-between">
-          <Button>View Profile</Button>
-        </CardFooter>
       </Card>
     </div>
   );

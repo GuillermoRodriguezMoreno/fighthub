@@ -8,7 +8,6 @@ import {
   DialogTitle,
 } from "../ui/dialog";
 import { EditEventInputs, EventRequest, EventResponse } from "@/domains/event";
-import { ClubResponse } from "@/domains/club";
 import { MapPin, Users } from "lucide-react";
 import {
   Select,

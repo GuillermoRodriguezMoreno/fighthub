@@ -1,16 +1,6 @@
 "use client";
 
-import {
-  ArrowLeft,
-  ArrowRight,
-  ArrowUpRight,
-  Delete,
-  Edit,
-  MoreHorizontal,
-  Pencil,
-  Plus,
-  Trash,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, Delete, Edit, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -30,7 +20,6 @@ import { CreateFightDialog } from "../fights/create-fight-dialog";
 import { EditFightDialog } from "../fights/edit-fight-dialog";
 import { DeleteFightDialog } from "../fights/delete-fight-dialog";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { Skeleton } from "../ui/skeleton";
 import { EventFightsSkeleton } from "./event-fights-skeleton";
 import LoadingSpinner from "../core/loading-spinner";
 import { AlertError } from "../core/alert-error";
@@ -41,7 +30,7 @@ interface EventFigthsProps {
   isOrganizer?: boolean;
 }
 
-const EventFigths = ({
+const EventFights = ({
   eventFights,
   event,
   isOrganizer = false,
@@ -262,7 +251,7 @@ export function EventFightsContainer({
     return <AlertError description="An error has ocurred getting fights" />;
   }
   return (
-    <EventFigths
+    <EventFights
       event={event}
       eventFights={eventFightsQuery.data.content}
       isOrganizer={isOrganizer}
