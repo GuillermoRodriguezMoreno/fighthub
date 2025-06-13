@@ -4,8 +4,14 @@ export interface defaultQueryParams {
   orderBy?: string;
 }
 
-export const defaultQueryParams: defaultQueryParams = {
+export const defaultEventsQueryParams: defaultQueryParams = {
   page: 0,
   size: 50,
   orderBy: "startDate",
 };
+
+export const defaultClubsQueryParams: defaultQueryParams = {
+  page: 0,
+  size: 50,
+  orderBy: "name",
+}

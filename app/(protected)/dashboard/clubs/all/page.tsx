@@ -1,7 +1,7 @@
+import { AllClubsListContainer } from "@/components/clubs/club-card-list";
+
 export default function Page() {
   return (
-    <>
-      <div>hello</div>
-    </>
+    <AllClubsListContainer />
   );
 }
