@@ -36,15 +36,15 @@ import LoadingSpinner from "../core/loading-spinner";
 import { AlertError } from "../core/alert-error";
 
 interface EventFigthsProps {
-  heading?: string;
   eventFights: FightResponse[];
   event: EventResponse;
+  isOrganizer?: boolean;
 }
 
 const EventFigths = ({
-  heading = "Fights",
   eventFights,
   event,
+  isOrganizer = false,
 }: EventFigthsProps) => {
   const [createFightDialogIsOpen, setCreateFightDialogIsOpen] = useState(false);
   const [editFightDialogIsOpen, setEditFightDialogIsOpen] = useState(false);
@@ -98,16 +98,18 @@ const EventFigths = ({
         <div className="mb-8 flex flex-col justify-between md:mb-14 md:flex-row md:items-end lg:mb-16">
           <div className="flex flex-row items-center gap-5">
             <h2 className="text-2xl font-bold">Fights</h2>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button onClick={() => setCreateFightDialogIsOpen(true)}>
-                  <Plus />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Add fight</p>
-              </TooltipContent>
-            </Tooltip>
+            {isOrganizer ? (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button onClick={() => setCreateFightDialogIsOpen(true)}>
+                    <Plus />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Add fight</p>
+                </TooltipContent>
+              </Tooltip>
+            ) : null}
           </div>
           {thereAreFights ? (
             <div className="mt-8 flex shrink-0 items-center justify-start gap-2">
@@ -181,32 +183,36 @@ const EventFigths = ({
                     </div>
                   </Link>
                   <div className="flex justify-end gap-5">
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button
-                          size="icon"
-                          onClick={() => handleEditClick(fight)}
-                        >
-                          <Edit className="size-5" />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Edit fight</p>
-                      </TooltipContent>
-                    </Tooltip>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button
-                          size="icon"
-                          onClick={() => handleDeleteClick(fight)}
-                        >
-                          <Delete className="size-5" />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Delete fight</p>
-                      </TooltipContent>
-                    </Tooltip>
+                    {isOrganizer ? (
+                      <>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              size="icon"
+                              onClick={() => handleEditClick(fight)}
+                            >
+                              <Edit className="size-5" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Edit fight</p>
+                          </TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              size="icon"
+                              onClick={() => handleDeleteClick(fight)}
+                            >
+                              <Delete className="size-5" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Delete fight</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </>
+                    ) : null}
                   </div>
                 </CarouselItem>
               ))}
@@ -216,28 +222,38 @@ const EventFigths = ({
           <EventFightsSkeleton />
         )}
       </div>
-      <CreateFightDialog
-        event={event}
-        createFightDialogIsOpen={createFightDialogIsOpen}
-        onCancel={() => setCreateFightDialogIsOpen(false)}
-      />
-      <EditFightDialog
-        editFightDialogIsOpen={editFightDialogIsOpen}
-        fight={selectedFight}
-        event={event}
-        onCancel={handleCancelEdit}
-      />
-      <DeleteFightDialog
-        fight={selectedFight}
-        event={event}
-        deleteFightDialogIsOpen={deleteFightDialogIsOpen}
-        onCancel={handleCancelDelete}
-      />
+      {isOrganizer ? (
+        <>
+          <CreateFightDialog
+            event={event}
+            createFightDialogIsOpen={createFightDialogIsOpen}
+            onCancel={() => setCreateFightDialogIsOpen(false)}
+          />
+          <EditFightDialog
+            editFightDialogIsOpen={editFightDialogIsOpen}
+            fight={selectedFight}
+            event={event}
+            onCancel={handleCancelEdit}
+          />
+          <DeleteFightDialog
+            fight={selectedFight}
+            event={event}
+            deleteFightDialogIsOpen={deleteFightDialogIsOpen}
+            onCancel={handleCancelDelete}
+          />
+        </>
+      ) : null}
     </section>
   );
 };
 
-export function EventFightsContainer({ event }: { event: EventResponse }) {
+export function EventFightsContainer({
+  event,
+  isOrganizer = false,
+}: {
+  event: EventResponse;
+  isOrganizer?: boolean;
+}) {
   const eventFightsQuery = UseGetFightsByEventQuery(String(event.id));
   if (eventFightsQuery.isLoading) {
     return <LoadingSpinner />;
@@ -246,6 +262,10 @@ export function EventFightsContainer({ event }: { event: EventResponse }) {
     return <AlertError description="An error has ocurred getting fights" />;
   }
   return (
-    <EventFigths event={event} eventFights={eventFightsQuery.data.content} />
+    <EventFigths
+      event={event}
+      eventFights={eventFightsQuery.data.content}
+      isOrganizer={isOrganizer}
+    />
   );
 }

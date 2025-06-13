@@ -53,8 +53,8 @@ export function DeleteFightDialog({
             <p>Are you sure you want to delete this fight</p>
 
             <p className="font-bold">
-              {fight?.blueCornerFighterName || "not set"} vs{" "}
-              {fight?.redCornerFighterName || "not set"}
+              {fight?.blueCornerFighterName || "Unknow"} vs{" "}
+              {fight?.redCornerFighterName || "Unknow"}
             </p>
           </DialogDescription>
         </DialogHeader>

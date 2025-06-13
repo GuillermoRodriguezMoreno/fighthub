@@ -10,6 +10,7 @@ export type EventResponse = {
   organizerAddress: string;
   organizerEmail: string;
   organizerPhone: string;
+  createdBy?: string;
 };
 
 export type EventRequest = {

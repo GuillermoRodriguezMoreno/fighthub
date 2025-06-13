@@ -81,7 +81,7 @@ export function MyEventsListContainer() {
   const session = useSession();
   const organizerEmail = session.data?.user?.email || "";
   const myEventsQuery = UseGetMyEventsQuery(organizerEmail, !!organizerEmail);
-  const isLoading = myEventsQuery.isLoading;
+  const isLoading = myEventsQuery.isLoading || !myEventsQuery.data;
   const isError = myEventsQuery.isError;
   const events = myEventsQuery.data?.content || [];
   if (isLoading) {

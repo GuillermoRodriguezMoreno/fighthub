@@ -6,7 +6,7 @@ export function UseGetMyEventsQuery(
   enabled: boolean = true,
 ) {
   return useQuery({
-    queryKey: [`my-events-${organizerEmail}`],
+    queryKey: ["my-events", organizerEmail],
     queryFn: async () => getMyEvents(organizerEmail),
     enabled,
   });

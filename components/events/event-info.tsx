@@ -18,9 +18,11 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 export default function EventCard({
   event,
   clickEdit,
+  isOrganizer = false,
 }: {
   event: EventResponse;
   clickEdit?: () => void;
+  isOrganizer?: boolean;
 }) {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -44,17 +46,18 @@ export default function EventCard({
     <div className="flex flex-col gap-4">
       <div className="flex flex-row items-center gap-5">
         <h2 className="text-2xl font-bold">Info</h2>
-
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button onClick={clickEdit}>
-              <Pen />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Edit event</p>
-          </TooltipContent>
-        </Tooltip>
+        {isOrganizer ? (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button onClick={clickEdit}>
+                <Pen />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Edit event</p>
+            </TooltipContent>
+          </Tooltip>
+        ) : null}
       </div>
       <Card>
         <CardHeader>

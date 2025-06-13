@@ -4,23 +4,53 @@ import EventInfo from "../event-info";
 import { EventPictures } from "../event-pictures";
 import { EventResponse } from "@/domains/event";
 import { EventFightsContainer } from "../event-fights";
-import { EditElementHeader } from "@/components/core/edit-element-header";
 import { useState } from "react";
 import { EditEventDialog } from "../edit-event-dialog";
 import LoadingSpinner from "@/components/core/loading-spinner";
 import { AlertInfo } from "@/components/core/alert-info";
-import { CreateFightDialog } from "@/components/fights/create-fight-dialog";
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Delete } from "lucide-react";
+import { DeleteEventDialog } from "../delete-event-dialog";
+import { useSession } from "next-auth/react";
 
 type EventPageProps = {
   event: EventResponse;
 };
 function EventPage({ event }: EventPageProps) {
+  const organizerEmail = useSession().data?.user?.email || "";
+  const isOrganizer = organizerEmail === event.createdBy;
   const [editEventDialogIsOpen, setEditEventDialogIsOpen] = useState(false);
-  const [createFightDialogIsOpen, setcreateFightDialogIsOpen] = useState(false);
+  const [deleteEventDiallogIsOpen, setDeleteEventDialogIsOpen] =
+    useState(false);
+  const handleDeleteClick = () => {
+    setDeleteEventDialogIsOpen(true);
+  };
+  const handleCancelDelete = () => {
+    setDeleteEventDialogIsOpen(false);
+  };
 
   return (
     <>
-      <EditElementHeader title={event.name} />
+      <div className="flex items-center gap-5 mb-3 md:mb-4 lg:mb-10">
+        <h2 className="text-3xl font-semibold md:text-4xl">{event.name}</h2>
+        {isOrganizer ? (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button size="icon" onClick={handleDeleteClick}>
+                <Delete className="size-5" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Delete event</p>
+            </TooltipContent>
+          </Tooltip>
+        ) : null}
+      </div>
       <div className="grid grid-cols-1 gap-y-10 lg:grid-cols-3 lg:gap-10 mb-10">
         <div className="col-span-1">
           <EventPictures />
@@ -29,15 +59,27 @@ function EventPage({ event }: EventPageProps) {
           <EventInfo
             event={event}
             clickEdit={() => setEditEventDialogIsOpen(true)}
+            isOrganizer={isOrganizer}
           />
         </div>
       </div>
-      <EditEventDialog
-        event={event}
-        editEventDialogIsOpen={editEventDialogIsOpen}
-        onCancel={() => setEditEventDialogIsOpen(false)}
-      />
-      <EventFightsContainer event={event} />
+
+      {isOrganizer ? (
+        <>
+          <EditEventDialog
+            event={event}
+            editEventDialogIsOpen={editEventDialogIsOpen}
+            onCancel={() => setEditEventDialogIsOpen(false)}
+          />
+          <DeleteEventDialog
+            event={event}
+            onCancel={handleCancelDelete}
+            deleteEventDialogIsOpen={deleteEventDiallogIsOpen}
+            organizerEmail={organizerEmail}
+          />
+        </>
+      ) : null}
+      <EventFightsContainer event={event} isOrganizer={isOrganizer} />
     </>
   );
 }
@@ -48,6 +90,7 @@ type EventPageContainerProps = {
 
 export function EventPageContainer({ eventId }: EventPageContainerProps) {
   const eventQuery = UseGetEventQuery(eventId);
+
   if (eventQuery.isLoading) {
     return <LoadingSpinner />;
   }
@@ -57,5 +100,6 @@ export function EventPageContainer({ eventId }: EventPageContainerProps) {
   if (!eventQuery.data) {
     return <AlertInfo title="No event found" />;
   }
+
   return <EventPage event={eventQuery.data} />;
 }

@@ -55,3 +55,13 @@ export async function editEvent(
   }
   return await res.json();
 }
+
+export async function deleteEvent(eventId: number): Promise<string> {
+  const res = await fetchWithAuth(`${apiEndpoint.events}/${eventId}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to delete event");
+  }
+  return res.text();
+}
