@@ -12,7 +12,6 @@ export const path = {
       base: `${baseUrl}/dashboard/clubs`,
       all: `${baseUrl}/dashboard/clubs/all`,
       my_clubs: `${baseUrl}/dashboard/clubs/my-clubs`,
-      popular: `${baseUrl}/dashboard/clubs/popular`,
       new: `${baseUrl}/dashboard/clubs/new`,
     },
     events: {
@@ -24,13 +23,11 @@ export const path = {
     fighters: {
       base: `${baseUrl}/dashboard/fighters`,
       all: `${baseUrl}/dashboard/fighters/all`,
-      nearest: `${baseUrl}/dashboard/fighters/nearest`,
-      popular: `${baseUrl}/dashboard/fighters/popular`,
     },
     fights: {
       base: `${baseUrl}/dashboard/fights`,
       my_fights: `${baseUrl}/dashboard/fights/my-fights`,
-      popular: `${baseUrl}/dashboard/fights/popular`,
+      all: `${baseUrl}/dashboard/fights/all`,
       new: `${baseUrl}/dashboard/fights/new`,
     },
     profile: {

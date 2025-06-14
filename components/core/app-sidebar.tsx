@@ -56,8 +56,8 @@ const routes = [
     icon: Trophy,
     items: [
       {
-        title: "Popular",
-        url: "/dashboard/fights/popular",
+        title: "All",
+        url: "/dashboard/fights/all",
       },
       {
         title: "My Fights",
@@ -71,17 +71,14 @@ const routes = [
     icon: BicepsFlexed,
     items: [
       {
-        title: "Popular",
-        url: "/dashboard/fighters/popular",
-      },
-      {
-        title: "Nearest Fighters",
-        url: "/dashboard/fighters/nearest",
-      },
-      {
         title: "All",
         url: "/dashboard/fighters/all",
       },
+      {
+        title: "My Fighters",
+        url: "/dashboard/fighters/my-fighters",
+      },
+    
     ],
   },
   {
@@ -89,10 +86,6 @@ const routes = [
     url: "/dashboard/clubs",
     icon: Dumbbell,
     items: [
-      {
-        title: "Popular",
-        url: "/dashboard/clubs/popular",
-      },
       {
         title: "All",
         url: "/dashboard/clubs/all",
