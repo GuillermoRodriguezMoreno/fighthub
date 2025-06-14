@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 export function useDeleteEventMutation(
   eventId: number,
   organizerEmail: string,
+  fromClub: boolean = false,
 ) {
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -18,7 +19,9 @@ export function useDeleteEventMutation(
       queryClient.invalidateQueries({
         queryKey: ["my-events", organizerEmail],
       });
-      router.push(path.dashboard.events.my_events);
+      if (!fromClub) {
+        router.push(path.dashboard.events.my_events);
+      }
     },
   });
 }

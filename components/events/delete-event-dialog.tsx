@@ -15,6 +15,7 @@ export type DeleteEventDialogProps = {
   onCancel: () => void;
   event?: EventResponse;
   organizerEmail: string;
+  fromClub?: boolean;
 };
 
 export function DeleteEventDialog({
@@ -22,12 +23,14 @@ export function DeleteEventDialog({
   onCancel,
   event,
   organizerEmail,
+  fromClub = false,
 }: DeleteEventDialogProps) {
   const eventId = event?.id || -1;
 
   const { mutate: deleteEventMutate } = useDeleteEventMutation(
     eventId,
     organizerEmail,
+    fromClub,
   );
 
   const handleDeleteEvent = async () => {

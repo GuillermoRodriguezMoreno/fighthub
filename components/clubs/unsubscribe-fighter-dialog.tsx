@@ -9,6 +9,7 @@ import {
 } from "../ui/dialog";
 import { FighterProfileResponse } from "@/domains/fighter-profile";
 import { ClubResponse } from "@/domains/club";
+import { useUnsubscribeFighterFromClubMutation } from "@/hooks/fighter_profile/use-unsubscribe-fighter-mutation";
 
 export type UnsubscribeFighterDialogProps = {
   fighter: FighterProfileResponse | null;
@@ -25,16 +26,19 @@ export function UnsubscribeFighterDialog({
 }: UnsubscribeFighterDialogProps) {
   const clubId = club?.id || -1;
   const fighterId = fighter?.id || -1;
-
+  console.log("UnsubscribeFighterDialog", fighter);
   const {
     mutate: unsubscribeFighterMutate,
     isSuccess,
     isError,
-  } = useUnsubscribeFighterMutation(clubId, fighterId);
+  } = useUnsubscribeFighterFromClubMutation(fighterId, clubId);
 
   const handleUnsubscribeFighter = async () => {
     if (fighter) {
-      unsubscribeFighterMutate(fighterId);
+      unsubscribeFighterMutate({
+        unsubscribeFighterId: fighterId,
+        fromClubId: clubId,
+      });
       onCancel();
     }
   };
@@ -47,13 +51,15 @@ export function UnsubscribeFighterDialog({
     <Dialog open={unsubscribeFighterDialogIsOpen}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Delete fight</DialogTitle>
+          <DialogTitle>
+            Unsubscibe {fighter?.name} from {club?.name}
+          </DialogTitle>
           <DialogDescription>
             <p>
               Are you sure you want to unsubscribe this fighter from your club?
             </p>
 
-            <p className="font-bold">{fighter?.name || "Unknown"}</p>
+            <span className="font-bold">{fighter?.name || "Unknown"}</span>
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>

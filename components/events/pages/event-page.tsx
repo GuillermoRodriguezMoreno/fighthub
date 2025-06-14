@@ -1,6 +1,6 @@
 "use client";
 import { UseGetEventQuery } from "@/hooks/event/use-get-event-query";
-import EventInfo from "../event-info";
+import EventInfo from "../event-details-card";
 import { EventPictures } from "../event-pictures";
 import { EventResponse } from "@/domains/event";
 import { EventFightsContainer } from "../event-fights";

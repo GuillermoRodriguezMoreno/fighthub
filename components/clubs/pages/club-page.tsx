@@ -18,6 +18,7 @@ import ClubInfo from "@/components/clubs/club-info";
 import { EditClubDialog } from "@/components/clubs/edit-club-dialog";
 import { DeleteClubDialog } from "@/components/clubs/delete-club-dialog";
 import { ClubFightersContainer } from "@/components/clubs/club-fighters";
+import { ClubEventsContainer } from "../club-events";
 
 type ClubPageProps = {
   club: ClubResponse;
@@ -70,6 +71,7 @@ function ClubPage({ club }: ClubPageProps) {
         <>
           <EditClubDialog
             club={club}
+            ownerId={ownerId}
             editClubDialogIsOpen={editClubDialogIsOpen}
             onCancel={() => setEditClubDialogIsOpen(false)}
           />
@@ -81,7 +83,10 @@ function ClubPage({ club }: ClubPageProps) {
           />
         </>
       ) : null}
-      <ClubFightersContainer club={club} isOwner={isOwner} />
+      <div className="flex flex-col gap-10">
+        <ClubFightersContainer club={club} isOwner={isOwner} />
+        <ClubEventsContainer club={club} isOrganizer={isOwner} />
+      </div>
     </>
   );
 }

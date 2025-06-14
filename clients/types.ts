@@ -15,3 +15,9 @@ export const defaultClubsQueryParams: defaultQueryParams = {
   size: 50,
   orderBy: "name",
 };
+
+export const defaultFightersQueryParams: defaultQueryParams = {
+  page: 0,
+  size: 50,
+  orderBy: "firstname",
+};

@@ -1,5 +1,10 @@
-import { EventPageContainer } from "@/components/events/pages/event-page";
+import { ClubPageContainer } from "@/components/clubs/pages/club-page";
 
-export default function Page({ params }: { params: { event_id: string } }) {
-  return <EventPageContainer eventId={params.event_id} />;
+export default async function Page({
+  params,
+}: {
+  params: { club_id: string };
+}) {
+  const { club_id } = await params;
+  return <ClubPageContainer clubId={club_id} />;
 }

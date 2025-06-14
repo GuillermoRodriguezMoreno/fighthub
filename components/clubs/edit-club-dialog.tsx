@@ -17,12 +17,14 @@ import { useEditClubMutation } from "@/hooks/club/use-edit-club-mutation";
 
 export type EditClubDialogProps = {
   club: ClubResponse;
+  ownerId: number;
   editClubDialogIsOpen: boolean;
   onCancel: () => void;
 };
 
 export function EditClubDialog({
   club,
+  ownerId,
   editClubDialogIsOpen,
   onCancel,
 }: EditClubDialogProps) {
@@ -54,6 +56,9 @@ export function EditClubDialog({
   const onSubmit: SubmitHandler<EditClubInputs> = async (data) => {
     const editClubRequest: ClubRequest = {
       ...data,
+      owner: {
+        id: ownerId,
+      },
     };
     EditClubMutate({ clubId, editClubRequest });
     handleOncancel();
@@ -72,7 +77,7 @@ export function EditClubDialog({
           onSubmit={handleSubmit(onSubmit)}
           noValidate
           className="space-y-6"
-          id="edit-event-form"
+          id="edit-club-form"
         >
           <div className="space-y-2">
             <Label htmlFor="name" className="flex items-center gap-2">
@@ -158,18 +163,12 @@ export function EditClubDialog({
               </span>
             )}
           </div>
-          <div className="flex justify-end space-x-2">
-            <Button type="button" variant="outline" onClick={handleOncancel}>
-              Cancel
-            </Button>
-            <Button type="submit">Save</Button>
-          </div>
         </form>
         <DialogFooter>
           <Button variant="outline" onClick={handleOncancel}>
             Cancel
           </Button>
-          <Button type="submit" form="edit-event-form">
+          <Button type="submit" form="edit-club-form">
             Save Changes
           </Button>
         </DialogFooter>

@@ -31,34 +31,37 @@ import { ClubResponse } from "@/domains/club";
 import { UnsubscribeFighterDialog } from "@/components/clubs/unsubscribe-fighter-dialog";
 import { UseGetFightersByClubQuery } from "@/hooks/fighter_profile/use-get-fighters-by-club-query";
 import { ListElementSkeleton } from "@/components/core/list-element-skeleton";
+import { EventResponse } from "@/domains/event";
+import { DeleteEventDialog } from "../events/delete-event-dialog";
+import { UseGetMyEventsQuery } from "@/hooks/event/use-get-my-events";
 
-interface ClubFigthsProps {
-  clubFighters: FighterProfileResponse[];
+interface ClubEventsProps {
+  clubEvents: EventResponse[];
   club: ClubResponse;
-  isOwner?: boolean;
+  isOrganizer?: boolean;
 }
 
-const ClubFighters = ({
-  clubFighters,
+const ClubEvents = ({
+  clubEvents,
   club,
-  isOwner = false,
-}: ClubFigthsProps) => {
-  const [unsubscribeFighterDialogIsOpen, setUnsubscribeFighterDialogIsOpen] =
-    useState(false);
-  const [selectedFighter, setSelectedFighter] =
-    useState<FighterProfileResponse | null>(null);
+  isOrganizer = false,
+}: ClubEventsProps) => {
+  const [deleteEventDialogIsOpen, setDeleteEventDialogIsOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<EventResponse | null>(
+    null,
+  );
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
 
-  const handleUnsubscribeClick = (fighter: FighterProfileResponse) => {
-    setSelectedFighter(fighter);
-    setUnsubscribeFighterDialogIsOpen(true);
+  const handleDeleteClick = (event: EventResponse) => {
+    setSelectedEvent(event);
+    setDeleteEventDialogIsOpen(true);
   };
 
-  const handleCancelUnsubscribe = () => {
-    setSelectedFighter(null);
-    setUnsubscribeFighterDialogIsOpen(false);
+  const handleCancelDelete = () => {
+    setSelectedEvent(null);
+    setDeleteEventDialogIsOpen(false);
   };
 
   useEffect(() => {
@@ -76,15 +79,15 @@ const ClubFighters = ({
     };
   }, [carouselApi]);
 
-  const thereAreFighters = clubFighters.length !== 0;
+  const thereAreEvents = clubEvents.length !== 0;
   return (
     <section>
       <div className="container">
         <div className="mb-8 flex flex-col justify-between md:mb-14 md:flex-row md:items-end lg:mb-16">
           <div className="flex flex-row items-center gap-5">
-            <h2 className="text-2xl font-bold">Fighters</h2>
+            <h2 className="text-2xl font-bold">Events</h2>
           </div>
-          {thereAreFighters ? (
+          {thereAreEvents ? (
             <div className="mt-8 flex shrink-0 items-center justify-start gap-2">
               <Button
                 size="icon"
@@ -113,7 +116,7 @@ const ClubFighters = ({
         </div>
       </div>
       <div className="w-full">
-        {thereAreFighters ? (
+        {thereAreEvents ? (
           <Carousel
             setApi={setCarouselApi}
             opts={{
@@ -125,13 +128,10 @@ const ClubFighters = ({
             }}
           >
             <CarouselContent>
-              {clubFighters.map((fighter) => (
-                <CarouselItem
-                  key={fighter.id}
-                  className="pl-4 md:max-w-[452px]"
-                >
+              {clubEvents.map((event) => (
+                <CarouselItem key={event.id} className="pl-4 md:max-w-[452px]">
                   <Link
-                    href={`${path.dashboard.fighters.base}/${fighter.id}`}
+                    href={`${path.dashboard.events.base}/${event.id}`}
                     className="group flex flex-col justify-between"
                   >
                     <div>
@@ -140,7 +140,7 @@ const ClubFighters = ({
                           <div className="relative h-full w-full origin-bottom transition duration-300 group-hover:scale-105">
                             <img
                               src="" //{fight.image}
-                              alt={fighter.name}
+                              alt={event.name}
                               className="h-full w-full object-cover object-center"
                             />
                           </div>
@@ -159,18 +159,18 @@ const ClubFighters = ({
                     </div>
                   </Link>
                   <div className="flex justify-end gap-5">
-                    {isOwner ? (
+                    {isOrganizer ? (
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <Button
                             size="icon"
-                            onClick={() => handleUnsubscribeClick(fighter)}
+                            onClick={() => handleDeleteClick(event)}
                           >
                             <Delete className="size-5" />
                           </Button>
                         </TooltipTrigger>
                         <TooltipContent>
-                          <p>Unsubscribe fighter</p>
+                          <p>Delete Event</p>
                         </TooltipContent>
                       </Tooltip>
                     ) : null}
@@ -180,41 +180,43 @@ const ClubFighters = ({
             </CarouselContent>
           </Carousel>
         ) : (
-          <ListElementSkeleton entity={"club"} elements={"fighters"} />
+          <ListElementSkeleton entity={"club"} elements={"events"} />
         )}
       </div>
-      {isOwner ? (
-        <UnsubscribeFighterDialog
-          fighter={selectedFighter}
-          club={club}
-          unsubscribeFighterDialogIsOpen={unsubscribeFighterDialogIsOpen}
-          onCancel={handleCancelUnsubscribe}
+      {isOrganizer ? (
+        <DeleteEventDialog
+          event={selectedEvent || undefined}
+          organizerEmail={club.ownerEmail}
+          deleteEventDialogIsOpen={deleteEventDialogIsOpen}
+          onCancel={handleCancelDelete}
+          fromClub={true}
         />
       ) : null}
     </section>
   );
 };
 
-export function ClubFightersContainer({
+export function ClubEventsContainer({
   club,
-  isOwner = false,
+  isOrganizer = false,
 }: {
   club: ClubResponse;
-  isOwner?: boolean;
+  isOrganizer?: boolean;
 }) {
   const clubId = club.id || -1;
-  const clubFightersQuery = UseGetFightersByClubQuery(clubId);
-  if (clubFightersQuery.isLoading) {
+  const organizerEmail = club.ownerEmail || "";
+  const eventsByOrganizerQuery = UseGetMyEventsQuery(organizerEmail);
+  if (eventsByOrganizerQuery.isLoading) {
     return <LoadingSpinner />;
   }
-  if (clubFightersQuery.isError || !clubFightersQuery.data) {
-    return <AlertError description="An error has ocurred getting fighters" />;
+  if (eventsByOrganizerQuery.isError || !eventsByOrganizerQuery.data) {
+    return <AlertError description="An error has ocurred getting events" />;
   }
   return (
-    <ClubFighters
+    <ClubEvents
       club={club}
-      clubFighters={clubFightersQuery.data.content}
-      isOwner={isOwner}
+      clubEvents={eventsByOrganizerQuery.data.content}
+      isOrganizer={isOrganizer}
     />
   );
 }

@@ -20,9 +20,9 @@ import { CreateFightDialog } from "../fights/create-fight-dialog";
 import { EditFightDialog } from "../fights/edit-fight-dialog";
 import { DeleteFightDialog } from "../fights/delete-fight-dialog";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { EventFightsSkeleton } from "./event-fights-skeleton";
 import LoadingSpinner from "../core/loading-spinner";
 import { AlertError } from "../core/alert-error";
+import { ListElementSkeleton } from "../core/list-element-skeleton";
 
 interface EventFigthsProps {
   eventFights: FightResponse[];
@@ -208,7 +208,7 @@ const EventFights = ({
             </CarouselContent>
           </Carousel>
         ) : (
-          <EventFightsSkeleton />
+          <ListElementSkeleton entity="event" elements="fights" />
         )}
       </div>
       {isOrganizer ? (

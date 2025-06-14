@@ -1,5 +1,10 @@
 import { EventPageContainer } from "@/components/events/pages/event-page";
 
-export default function Page({ params }: { params: { event_id: string } }) {
-  return <EventPageContainer eventId={params.event_id} />;
+export default async function Page({
+  params,
+}: {
+  params: { event_id: string };
+}) {
+  const { event_id } = await params;
+  return <EventPageContainer eventId={event_id} />;
 }

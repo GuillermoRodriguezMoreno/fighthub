@@ -15,7 +15,7 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
-export default function EventCard({
+export default function EventDetailsCard({
   event,
   clickEdit,
   isOrganizer = false,
