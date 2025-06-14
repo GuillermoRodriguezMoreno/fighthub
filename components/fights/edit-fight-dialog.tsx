@@ -56,9 +56,7 @@ export function EditFightDialog({
   const [formData, setFormData] = useState<FightResponse | null>(null);
 
   useEffect(() => {
-    if (fight) {
       setFormData(fight);
-    }
   }, []);
 
   const handleOncancel = () => {
@@ -86,10 +84,7 @@ export function EditFightDialog({
 
   const fightId = formData?.id || -1;
   const eventId = event?.id || -1;
-  const { mutate: EditFightMutate, error } = useEditFightMutation(
-    eventId,
-    fightId,
-  );
+  const { mutate: EditFightMutate } = useEditFightMutation(eventId, fightId);
 
   const onSubmit: SubmitHandler<EditFightInputs> = async (data) => {
     const editFightRequest: FightRequest = {
@@ -118,7 +113,8 @@ export function EditFightDialog({
   const categoriesQuery = UseGetCategoriesQuery();
   const stylesQuery = UseGetStylesQuery();
 
-  const isLoading = categoriesQuery.isLoading || stylesQuery.isLoading;
+  const isLoading =
+    categoriesQuery.isLoading || stylesQuery.isLoading;
   const isError =
     categoriesQuery.isError ||
     stylesQuery.isError ||
