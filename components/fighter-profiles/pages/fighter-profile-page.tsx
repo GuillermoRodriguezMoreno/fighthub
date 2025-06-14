@@ -54,16 +54,10 @@ export function FighterProfilePageContainer({
   const fighterProfileQuery = UseGetFighterProfileQuery(fighterProfileId);
   const fightsQuery = UseGetMyFightsQuery(fighterProfileId);
 
-  if (
-    fighterProfileQuery.isLoading ||
-    fightsQuery.isLoading
-  ) {
+  if (fighterProfileQuery.isLoading || fightsQuery.isLoading) {
     return <LoadingSpinner />;
   }
-  if (
-    fighterProfileQuery.isError ||
-    fightsQuery.isError
-  ) {
+  if (fighterProfileQuery.isError || fightsQuery.isError) {
     return <AlertInfo title="An Error has ocurred" variant="destructive" />;
   }
   if (!fighterProfileQuery.data) {
