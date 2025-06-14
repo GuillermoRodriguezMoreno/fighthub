@@ -31,6 +31,15 @@ export async function getFighterProfilesByClub(
   return await res.json();
 }
 
+export async function getMyFighters(
+  userId: number,
+  queryParams: defaultQueryParams = defaultFightersQueryParams,
+): Promise<FighterProfileResponse[]> {
+  const url = `${apiEndpoint.fighters}/my-fighters/${userId}`;
+  const res = await fetchWithAuth(url);
+  return await res.json();
+}
+
 export async function unsubscribeFighterFromClub(
   fighterId: number,
   clubId: number,
