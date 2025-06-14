@@ -53,7 +53,7 @@ export const PopularFighters = ({
         <div className="mb-8 flex flex-col justify-between md:mb-14 md:flex-row lg:mb-16">
           <div>
             <Link
-              href={path.dashboard.fighters.popular}
+              href={path.dashboard.fighters.all}
               className="group flex items-center gap-1 text-sm font-medium md:text-base lg:text-lg"
             >
               See all
@@ -163,7 +163,7 @@ export const PopularFightersContent = (): JSX.Element => {
     return <DashboardSkeleton />;
   }
   if (popularFightersQuery.data.content.length === 0) {
-    return <AlertInfo description={emptyListMessage} />;
+    return <AlertInfo title="Not found" description={emptyListMessage} />;
   }
   return (
     <PopularFighters popularFighters={popularFightersQuery.data.content} />

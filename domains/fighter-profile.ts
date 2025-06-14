@@ -4,15 +4,24 @@ import { StyleResponse } from "./style";
 
 export type FighterProfileResponse = {
   id: number;
+  name: string;
+  dateOfBirth: string;
   weight: number;
   height: number;
   gender: string;
   biography: string;
-  userId?: number;
-  name: string;
+  wins: number;
+  losses: number;
+  draws: number;
+  kos: number;
+  winsInARow: number;
+  location: {
+    country: string;
+    city: string;
+  };
+  userId: number;
   username: string;
   email: string;
-  dateOfBirth: string;
   styles: StyleResponse[];
   category: CategoryResponse;
   club: ClubResponse;

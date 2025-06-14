@@ -12,67 +12,16 @@ import {
 } from "@/components/ui/carousel";
 import React from "react";
 import Link from "next/link";
+import { FightResponse } from "@/domains/fight";
+import { path } from "@/config/path";
+import { ListElementSkeleton } from "../core/list-element-skeleton";
 
-interface GalleryItem {
-  id: string;
-  title: string;
-  summary: string;
-  url: string;
-  image: string;
-}
 
 interface UpcomingFigtherFightsProps {
-  heading?: string;
-  seeAllUrl?: string;
-  items?: GalleryItem[];
+  fights: FightResponse[];
 }
 
-const UpcomingFigtherFights = ({
-  heading = "Upcoming Fights",
-  seeAllUrl = "/dashboard/events/all",
-  items = [
-    {
-      id: "item-1",
-      title: "One Championship",
-      summary:
-        "Wadii vs. Khabib: The Ultimate Showdown. Who will emerge victorious in this epic battle of the titans?",
-      url: "#",
-      image: "/fight1.webp",
-    },
-    {
-      id: "item-2",
-      title: "UFC Fight Night",
-      summary:
-        "Wadii vs. McGregor: The Rematch. Will Wadii avenge his previous loss and emerge victorious this time?",
-      url: "#",
-      image: "/fight2.jpeg",
-    },
-    {
-      id: "item-3",
-      title: "Glory",
-      summary:
-        "Wadii vs. Silva: The Battle of the Century. Who will emerge victorious in this epic battle of the titans?",
-      url: "#",
-      image: "/fight3.jpeg",
-    },
-    {
-      id: "item-4",
-      title: "Gran Slam",
-      summary:
-        "Wadii vs. Jones: The Ultimate Showdown. Who will emerge victorious in this epic battle of the titans?",
-      url: "#",
-      image: "/fight4.jpeg",
-    },
-    {
-      id: "item-5",
-      title: "Nextgen Fight Night",
-      summary:
-        "Wadii vs Adesanya: The Rematch. Will Wadii avenge his previous loss and emerge victorious this time?",
-      url: "#",
-      image: "/fight5.jpeg",
-    },
-  ],
-}: UpcomingFigtherFightsProps) => {
+const UpcomingFigtherFights = ({ fights }: UpcomingFigtherFightsProps) => {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
@@ -97,17 +46,10 @@ const UpcomingFigtherFights = ({
         <div className="mb-8 flex flex-col justify-between md:mb-14 md:flex-row md:items-end lg:mb-16">
           <div>
             <h2 className="mb-3 text-3xl font-semibold md:mb-4 md:text-4xl lg:mb-6">
-              {heading}
+              Fights
             </h2>
-            <Link
-              href={seeAllUrl}
-              className="group flex items-center gap-1 text-sm font-medium md:text-base lg:text-lg"
-            >
-              See all
-              <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-1" />
-            </Link>
           </div>
-          <div className="mt-8 flex shrink-0 items-center justify-start gap-2">
+          {fights.length > 0 ? (<div className="mt-8 flex shrink-0 items-center justify-start gap-2">
             <Button
               size="icon"
               variant="outline"
@@ -130,11 +72,11 @@ const UpcomingFigtherFights = ({
             >
               <ArrowRight className="size-5" />
             </Button>
-          </div>
+          </div>) : null}
         </div>
       </div>
       <div className="w-full">
-        <Carousel
+        {fights.length > 0 ? (<Carousel
           setApi={setCarouselApi}
           opts={{
             breakpoints: {
@@ -145,10 +87,10 @@ const UpcomingFigtherFights = ({
           }}
         >
           <CarouselContent>
-            {items.map((item) => (
-              <CarouselItem key={item.id} className="pl-4 md:max-w-[452px]">
-                <a
-                  href={item.url}
+            {fights.map((fight) => (
+              <CarouselItem key={fight.id} className="pl-4 md:max-w-[452px]">
+                <Link
+                  href={`${path.dashboard.fights.base}/${fight.id}`}
                   className="group flex flex-col justify-between"
                 >
                   <div>
@@ -156,8 +98,8 @@ const UpcomingFigtherFights = ({
                       <div className="flex-1">
                         <div className="relative h-full w-full origin-bottom transition duration-300 group-hover:scale-105">
                           <img
-                            src={item.image}
-                            alt={item.title}
+                            src=""
+                            alt={fight.eventName}
                             className="h-full w-full object-cover object-center"
                           />
                         </div>
@@ -165,20 +107,22 @@ const UpcomingFigtherFights = ({
                     </div>
                   </div>
                   <div className="mb-2 line-clamp-3 break-words pt-4 text-lg font-medium md:mb-3 md:pt-4 md:text-xl lg:pt-4 lg:text-2xl">
-                    {item.title}
+                    {fight.blueCornerFighterName} vs {fight.redCornerFighterName}
                   </div>
                   <div className="mb-8 line-clamp-2 text-sm text-muted-foreground md:mb-12 md:text-base lg:mb-9">
-                    {item.summary}
+                    {fight.weight}
                   </div>
                   <div className="flex items-center text-sm">
                     View more{" "}
                     <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
                   </div>
-                </a>
+                </Link>
               </CarouselItem>
             ))}
           </CarouselContent>
-        </Carousel>
+        </Carousel>) :
+          <ListElementSkeleton entity="Fighter" elements="Fights" />
+        }
       </div>
     </section>
   );

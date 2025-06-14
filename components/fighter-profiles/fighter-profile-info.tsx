@@ -4,9 +4,13 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import ProfileMasonry from "./profile-masonry";
+import FighterProfileMasonry from "./fighter-profile-masonry";
+import { FighterProfileResponse } from "@/domains/fighter-profile";
 
-export default function ProfileInfo() {
+type FighterProfileInfoProps = {
+  fighterProfile: FighterProfileResponse;
+}
+export default function FighterProfileInfo({ fighterProfile }: FighterProfileInfoProps) {
   return (
     <div className="grid gap-4 lg:grid-cols-2 lg:gap-6 xl:gap-10">
       <div className="space-y-4 lg:col-span-2">
@@ -22,12 +26,12 @@ export default function ProfileInfo() {
             />
           </Avatar>
           <div className="space-y-1">
-            <h1 className="text-2xl font-bold">Wadii Kadiri</h1>
-            <p className="text-gray-500 dark:text-gray-400">Pro fighter</p>
+            <h1 className="text-2xl font-bold">{fighterProfile.name}</h1>
+            <p className="text-gray-500 dark:text-gray-400">{fighterProfile.category.name}</p>
           </div>
         </div>
         <p className="text-gray-500 dark:text-gray-400">
-          Passionate about fighting.
+          {fighterProfile.biography || "No bio available."}
         </p>
       </div>
       <div className="space-y-4">
@@ -35,24 +39,18 @@ export default function ProfileInfo() {
         <Card>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="name">Name</Label>
-              <Input id="name" value="Wadii Kadiri" />
+              <Label>Name</Label>
+              <p>{fighterProfile.name}</p>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="bio">Bio</Label>
-              <Textarea
-                id="bio"
-                placeholder="Enter your bio"
-                className="min-h-[100px]"
-              />
+              <Label>Bio</Label>
+              <p className="min-h-[100px]"
+              >{fighterProfile.biography}</p>
             </div>
           </CardContent>
-          <CardFooter>
-            <Button>Save</Button>
-          </CardFooter>
         </Card>
       </div>
-      <ProfileMasonry />
+      <FighterProfileMasonry fighterProfile={fighterProfile} />
     </div>
   );
 }

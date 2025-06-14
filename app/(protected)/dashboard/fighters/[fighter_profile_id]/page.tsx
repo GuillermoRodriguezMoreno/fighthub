@@ -1,10 +1,10 @@
-import { EventPageContainer } from "@/components/events/pages/event-page";
+import { FighterProfilePageContainer } from "@/components/fighter-profiles/pages/fighter-profile-page";
 
 export default async function Page({
   params,
 }: {
-  params: { event_id: string };
+  params: { fighter_profile_id: number };
 }) {
-  const { event_id } = await params;
-  return <EventPageContainer eventId={event_id} />;
+  const { fighter_profile_id } = await params;
+  return <FighterProfilePageContainer fighterProfileId={fighter_profile_id} />
 }

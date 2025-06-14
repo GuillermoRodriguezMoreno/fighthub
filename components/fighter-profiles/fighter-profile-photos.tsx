@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 
-export default function ProfilePhotos() {
+export default function FighterProfilePhotos() {
   return (
     <div className="flex flex-col gap-4">
       <h2 className="text-2xl font-bold">Photos</h2>
