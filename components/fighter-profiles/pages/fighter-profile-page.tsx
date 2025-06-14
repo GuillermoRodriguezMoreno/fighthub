@@ -52,19 +52,16 @@ export function FighterProfilePageContainer({
   const session = useSession();
   const userId = session.data?.userId || -1;
   const fighterProfileQuery = UseGetFighterProfileQuery(fighterProfileId);
-  const clubQuery = UseGetClubQuery(String(fighterProfileId));
   const fightsQuery = UseGetMyFightsQuery(fighterProfileId);
 
   if (
     fighterProfileQuery.isLoading ||
-    fightsQuery.isLoading ||
-    clubQuery.isLoading
+    fightsQuery.isLoading
   ) {
     return <LoadingSpinner />;
   }
   if (
     fighterProfileQuery.isError ||
-    fightsQuery.isError ||
     fightsQuery.isError
   ) {
     return <AlertInfo title="An Error has ocurred" variant="destructive" />;
@@ -73,7 +70,7 @@ export function FighterProfilePageContainer({
     return <AlertInfo title="No fighter found" />;
   }
 
-  const club = clubQuery.data;
+  const club = fighterProfileQuery.data.club;
   const fights = fightsQuery.data?.content || [];
   const isAuthorized = fighterProfileQuery.data.userId === userId;
 

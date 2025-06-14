@@ -68,13 +68,15 @@ export default function FighterProfileMasonry({
         <h2 className="text-2xl font-bold">Styles</h2>
         <Card>
           <CardContent className="space-x-4">
-            <div className="flex gap-2">
+            {fighterProfile.styles.length > 0 ? (
+              <div className="flex gap-2">
               {fighterProfile.styles.map((style, index) => (
                 <Badge key={index} variant="secondary" className="text-sm">
                   {style.name}
                 </Badge>
               ))}
             </div>
+            ) : "No styles set"}
           </CardContent>
         </Card>
       </div>
