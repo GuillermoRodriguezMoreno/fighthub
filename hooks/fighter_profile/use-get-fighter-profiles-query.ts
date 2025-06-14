@@ -1,5 +1,8 @@
 import { getFighterProfiles } from "@/clients/fighter-profile-client";
-import { defaultFightersQueryParams, defaultQueryParams } from "@/clients/types";
+import {
+  defaultFightersQueryParams,
+  defaultQueryParams,
+} from "@/clients/types";
 import { useQuery } from "@tanstack/react-query";
 
 export function UseGetFighterProfilesQuery(

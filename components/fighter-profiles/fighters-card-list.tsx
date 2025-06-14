@@ -18,7 +18,9 @@ export function FighterCard({ fighter }: FightersCardProps) {
 
   return (
     <div
-      onClick={() => router.push(`${path.dashboard.fighters.base}/${fighter.id}`)}
+      onClick={() =>
+        router.push(`${path.dashboard.fighters.base}/${fighter.id}`)
+      }
       className="group flex flex-col justify-between cursor-pointer"
     >
       <div>

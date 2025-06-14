@@ -78,7 +78,6 @@ const routes = [
         title: "My Fighters",
         url: "/dashboard/fighters/my-fighters",
       },
-    
     ],
   },
   {

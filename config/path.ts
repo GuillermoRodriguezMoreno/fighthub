@@ -28,10 +28,9 @@ export const path = {
       base: `${baseUrl}/dashboard/fights`,
       my_fights: `${baseUrl}/dashboard/fights/my-fights`,
       all: `${baseUrl}/dashboard/fights/all`,
-      new: `${baseUrl}/dashboard/fights/new`,
     },
-    profile: {
-      base: `${baseUrl}/dashboard/profile`,
+    account: {
+      base: `${baseUrl}/dashboard/account`,
     },
   },
 };

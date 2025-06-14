@@ -1,6 +1,5 @@
 "use client";
 import { UseGetEventQuery } from "@/hooks/event/use-get-event-query";
-import EventInfo from "../event-details-card";
 import { EventPictures } from "../event-pictures";
 import { EventResponse } from "@/domains/event";
 import { EventFightsContainer } from "../event-fights";
@@ -18,14 +17,18 @@ import { Delete } from "lucide-react";
 import { DeleteEventDialog } from "../delete-event-dialog";
 import { useSession } from "next-auth/react";
 import { UseGetMyClubsQuery } from "@/hooks/club/use-get-my-clubs-query";
+import { EventDetailsCard } from "../event-details-card";
 
 type EventPageProps = {
   event: EventResponse;
   isOrganizer?: boolean;
   organizerEmail: string;
 };
-function EventPage({ event, isOrganizer=false, organizerEmail }: EventPageProps) {
-
+function EventPage({
+  event,
+  isOrganizer = false,
+  organizerEmail,
+}: EventPageProps) {
   const [editEventDialogIsOpen, setEditEventDialogIsOpen] = useState(false);
   const [deleteEventDiallogIsOpen, setDeleteEventDialogIsOpen] =
     useState(false);
@@ -58,7 +61,7 @@ function EventPage({ event, isOrganizer=false, organizerEmail }: EventPageProps)
           <EventPictures />
         </div>
         <div className="col-span-2">
-          <EventInfo
+          <EventDetailsCard
             event={event}
             clickEdit={() => setEditEventDialogIsOpen(true)}
             isOrganizer={isOrganizer}
@@ -109,5 +112,11 @@ export function EventPageContainer({ eventId }: EventPageContainerProps) {
   const clubsId = myClubsQuery.data.map((club) => club.id);
   const isOrganizer = clubsId.includes(eventQuery.data.organizerId);
 
-  return <EventPage event={eventQuery.data} isOrganizer={isOrganizer} organizerEmail={organizerEmail} />;
+  return (
+    <EventPage
+      event={eventQuery.data}
+      isOrganizer={isOrganizer}
+      organizerEmail={organizerEmail}
+    />
+  );
 }

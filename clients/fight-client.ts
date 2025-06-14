@@ -13,7 +13,9 @@ export async function getFight(id: number): Promise<FightResponse> {
   return await res.json();
 }
 
-export async function getMyFights(fighterId: number): Promise<PageResponse<FightResponse>> {
+export async function getMyFights(
+  fighterId: number,
+): Promise<PageResponse<FightResponse>> {
   const url = `${apiEndpoint.fights}/fighter/${fighterId}`;
   const res = await fetchWithAuth(url);
   return await res.json();

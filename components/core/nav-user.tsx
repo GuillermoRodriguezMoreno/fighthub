@@ -4,9 +4,7 @@ import {
   BadgeCheck,
   Bell,
   ChevronsUpDown,
-  CreditCard,
   LogOut,
-  Sparkles,
   SquareUser,
 } from "lucide-react";
 
@@ -27,24 +25,13 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { useRouter } from "next/navigation";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import { path } from "@/config/path";
 
-const mockUser = {
-  name: "John Doe",
-  email: "example@mail.com",
-  avatar: "https://randomuser.me/api/port",
-};
-
-export function NavUser({
-  user,
-}: {
-  user?: {
-    name: string;
-    email: string;
-    avatar: string;
-  };
-}) {
+export function NavUser({}: {}) {
   const { isMobile } = useSidebar();
+  const session = useSession();
+  const userId = session.data?.userId;
   const router = useRouter();
   return (
     <SidebarMenu>
@@ -56,12 +43,12 @@ export function NavUser({
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={mockUser.avatar} alt={mockUser.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarImage src="" alt="user name" />
+                <AvatarFallback className="rounded-lg">N/A</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">{mockUser.name}</span>
-                <span className="truncate text-xs">{mockUser.email}</span>
+                <span className="truncate font-semibold">user name</span>
+                <span className="truncate text-xs">user email</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -75,27 +62,27 @@ export function NavUser({
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={mockUser.avatar} alt={mockUser.name} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  <AvatarImage src="" alt="user picture" />
+                  <AvatarFallback className="rounded-lg">N/A</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">
-                    {mockUser.name}
-                  </span>
-                  <span className="truncate text-xs">{mockUser.email}</span>
+                  <span className="truncate font-semibold">USER NAME</span>
+                  <span className="truncate text-xs">USER EMAIL</span>
                 </div>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem
-                onClick={() => router.push("/dashboard/account")}
+                onClick={() => router.push(path.dashboard.account.base)}
               >
                 <BadgeCheck />
                 Account
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => router.push("/dashboard/profile")}
+                onClick={() =>
+                  router.push(`${path.dashboard.fighters.base}/${userId}`)
+                }
               >
                 <SquareUser />
                 Profile

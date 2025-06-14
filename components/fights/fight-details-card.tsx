@@ -6,21 +6,20 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { EventResponse } from "@/domains/event";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { path } from "@/config/path";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { FightResponse } from "@/domains/fight";
 
-export function EventDetailsCard({
-  event,
+export default function FightDetailsCard({
+  fight,
   clickEdit,
   isOrganizer = false,
 }: {
-  event: EventResponse;
+  fight: FightResponse;
   clickEdit?: () => void;
   isOrganizer?: boolean;
 }) {
@@ -54,7 +53,7 @@ export function EventDetailsCard({
               </Button>
             </TooltipTrigger>
             <TooltipContent>
-              <p>Edit event</p>
+              <p>Edit fight</p>
             </TooltipContent>
           </Tooltip>
         ) : null}
@@ -63,9 +62,11 @@ export function EventDetailsCard({
         <CardHeader>
           <div className="flex items-start justify-between">
             <div className="space-y-2">
-              <CardTitle className="text-2xl font-bold">{event.name}</CardTitle>
+              <CardTitle className="text-2xl font-bold">
+                {fight.blueCornerFighterName} VS {fight.redCornerFighterName}
+              </CardTitle>
               <CardDescription className="text-base leading-relaxed">
-                {event.description}
+                incredible fight description
               </CardDescription>
             </div>
           </div>
@@ -76,7 +77,9 @@ export function EventDetailsCard({
               <MapPin className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
               <div>
                 <p className="font-medium">Location</p>
-                <p className="text-sm text-muted-foreground">{event.address}</p>
+                <p className="text-sm text-muted-foreground">
+                  {fight.eventName}
+                </p>
               </div>
             </div>
             <div className="flex items-start gap-3">
@@ -84,7 +87,7 @@ export function EventDetailsCard({
               <div>
                 <p className="font-medium">Date</p>
                 <p className="text-sm text-muted-foreground">
-                  {formatDate(event.startDate)}
+                  {fight.fightOrder}
                 </p>
               </div>
             </div>
@@ -93,61 +96,12 @@ export function EventDetailsCard({
               <div>
                 <p className="font-medium">Time</p>
                 <p className="text-sm text-muted-foreground">
-                  {formatTime(event.startDate)} - {formatTime(event.endDate)}
+                  incredible fight time
                 </p>
               </div>
             </div>
           </div>
           <Separator />
-          <div className="space-y-4">
-            <h3 className="font-semibold text-lg flex items-center gap-2">
-              <User className="h-5 w-5" />
-              Organizer
-            </h3>
-            <div className="flex flex-col gap-5">
-              <div className="flex items-center gap-5">
-                <Avatar className="h-14 w-14">
-                  <AvatarImage
-                    src="/placeholder.svg?height=56&width=56"
-                    alt="Profile picture"
-                  />
-                  <AvatarFallback>N/A</AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="font-medium hover:text-primary">
-                    <Link
-                      href={`${path.dashboard.clubs.base}/${event.organizerId}`}
-                    >
-                      {event.organizerName}
-                    </Link>
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    {event.organizerAddress}
-                  </p>
-                </div>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <div className="flex items-center gap-2">
-                  <Mail className="h-4 w-4 text-muted-foreground" />
-                  <a
-                    href={`mailto:${event.organizerEmail}`}
-                    className="text-sm hover:underline"
-                  >
-                    {event.organizerEmail}
-                  </a>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Phone className="h-4 w-4 text-muted-foreground" />
-                  <a
-                    href={`tel:${event.organizerPhone}`}
-                    className="text-sm hover:underline"
-                  >
-                    {event.organizerPhone}
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
         </CardContent>
       </Card>
     </div>
