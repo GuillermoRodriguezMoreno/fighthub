@@ -31,6 +31,7 @@ import { ClubResponse } from "@/domains/club";
 import { UnsubscribeFighterDialog } from "@/components/clubs/unsubscribe-fighter-dialog";
 import { UseGetFightersByClubQuery } from "@/hooks/fighter_profile/use-get-fighters-by-club-query";
 import { ListElementSkeleton } from "@/components/core/list-element-skeleton";
+import { AddFighterToClubDialog } from "./add-fighter-to-club-dialog";
 
 interface ClubFigthsProps {
   clubFighters: FighterProfileResponse[];
@@ -45,11 +46,20 @@ const ClubFighters = ({
 }: ClubFigthsProps) => {
   const [unsubscribeFighterDialogIsOpen, setUnsubscribeFighterDialogIsOpen] =
     useState(false);
+  const [addFighterDialogIsOpen, setAddFighterDialogIsOpen] = useState(false);
   const [selectedFighter, setSelectedFighter] =
     useState<FighterProfileResponse | null>(null);
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
+
+  const handleAddFighterClick = () => {
+    setAddFighterDialogIsOpen(true);
+  };
+
+  const handleCancelAddFighter = () => {
+    setAddFighterDialogIsOpen(false);
+  };
 
   const handleUnsubscribeClick = (fighter: FighterProfileResponse) => {
     setSelectedFighter(fighter);
@@ -83,6 +93,18 @@ const ClubFighters = ({
         <div className="mb-8 flex flex-col justify-between md:mb-14 md:flex-row md:items-end lg:mb-16">
           <div className="flex flex-row items-center gap-5">
             <h2 className="text-2xl font-bold">Fighters</h2>
+            {isOwner ? (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button onClick={handleAddFighterClick}>
+                    <Plus className="size-5" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Add fighter</p>
+                </TooltipContent>
+              </Tooltip>
+            ) : null}
           </div>
           {thereAreFighters ? (
             <div className="mt-8 flex shrink-0 items-center justify-start gap-2">
@@ -184,12 +206,19 @@ const ClubFighters = ({
         )}
       </div>
       {isOwner ? (
-        <UnsubscribeFighterDialog
-          fighter={selectedFighter}
-          club={club}
-          unsubscribeFighterDialogIsOpen={unsubscribeFighterDialogIsOpen}
-          onCancel={handleCancelUnsubscribe}
-        />
+        <>
+          <UnsubscribeFighterDialog
+            fighter={selectedFighter}
+            club={club}
+            unsubscribeFighterDialogIsOpen={unsubscribeFighterDialogIsOpen}
+            onCancel={handleCancelUnsubscribe}
+          />
+          <AddFighterToClubDialog
+            addFighterToClubDialogIsOpen={addFighterDialogIsOpen}
+            onCancel={handleCancelAddFighter}
+            club={club}
+          />
+        </>
       ) : null}
     </section>
   );

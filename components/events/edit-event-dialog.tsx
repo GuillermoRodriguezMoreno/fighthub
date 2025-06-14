@@ -31,12 +31,14 @@ export type EditEventDialogProps = {
   event: EventResponse;
   editEventDialogIsOpen: boolean;
   onCancel: () => void;
+  fromClub?: boolean;
 };
 
 export function EditEventDialog({
   event,
   editEventDialogIsOpen,
   onCancel,
+  fromClub = false,
 }: EditEventDialogProps) {
   const handleOncancel = () => {
     onCancel();
@@ -61,12 +63,21 @@ export function EditEventDialog({
   });
 
   const eventId = event.id;
+  const session = useSession();
+  const ownerEmail = session.data?.user?.email || "";
 
-  const { mutate: EditEventMutate } = useEditEventMutation(eventId);
+  const { mutate: EditEventMutate } = useEditEventMutation(
+    eventId,
+    fromClub,
+    ownerEmail,
+  );
 
   const onSubmit: SubmitHandler<EditEventInputs> = async (data) => {
-    const organizerId =
-      data.organizer === null ? parseInt(data.organizer) : event.organizerId;
+    const organizerId = fromClub
+      ? event.organizerId
+      : data.organizer === null
+        ? parseInt(data.organizer)
+        : event.organizerId;
     const editEventRequest: EventRequest = {
       ...data,
       startDate: data.startDate.toISOString(),
@@ -78,9 +89,6 @@ export function EditEventDialog({
     EditEventMutate({ eventId, editEventRequest });
     handleOncancel();
   };
-
-  const session = useSession();
-  const ownerEmail = session.data?.user?.email || "";
 
   const myClubsQuery = UseGetMyClubsQuery(ownerEmail, !!ownerEmail);
 
@@ -216,39 +224,44 @@ export function EditEventDialog({
               )}
             </div>
           </div>
-          <div className="space-y-2">
-            <Label className="flex items-center gap-2">
-              <Users className="h-4 w-4" />
-              Organizer Club
-            </Label>
-            <Controller
-              name="organizer"
-              control={control}
-              rules={{ required: "Organizer club is required" }}
-              render={({ field }) => (
-                <Select
-                  value={field.value}
-                  onValueChange={(value) => field.onChange(value)}
-                >
-                  <SelectTrigger className="w-full">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {clubs.map((club) => (
-                      <SelectItem key={club.id} value={String(club.id) || "-1"}>
-                        {club.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+          {fromClub ? null : (
+            <div className="space-y-2">
+              <Label className="flex items-center gap-2">
+                <Users className="h-4 w-4" />
+                Organizer Club
+              </Label>
+              <Controller
+                name="organizer"
+                control={control}
+                rules={{ required: "Organizer club is required" }}
+                render={({ field }) => (
+                  <Select
+                    value={field.value}
+                    onValueChange={(value) => field.onChange(value)}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {clubs.map((club) => (
+                        <SelectItem
+                          key={club.id}
+                          value={String(club.id) || "-1"}
+                        >
+                          {club.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              {errors.organizer && (
+                <span className="text-destructive col-span-4">
+                  This field is required
+                </span>
               )}
-            />
-            {errors.organizer && (
-              <span className="text-destructive col-span-4">
-                This field is required
-              </span>
-            )}
-          </div>
+            </div>
+          )}
         </form>
         <DialogFooter>
           <Button variant="outline" onClick={handleOncancel}>

@@ -48,3 +48,14 @@ export async function unsubscribeFighterFromClub(
   }
   return await res.json();
 }
+
+export async function searchFighterByName(
+  name: string,
+): Promise<FighterProfileResponse[]> {
+  const sanitizedName = name.trim().replace(/\s+/g, "");
+
+  const res = await fetchWithAuth(
+    `${apiEndpoint.fighters}/search?name=${encodeURIComponent(sanitizedName)}`,
+  );
+  return await res.json();
+}

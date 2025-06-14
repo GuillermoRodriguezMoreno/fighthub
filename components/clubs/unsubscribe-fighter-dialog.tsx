@@ -26,7 +26,6 @@ export function UnsubscribeFighterDialog({
 }: UnsubscribeFighterDialogProps) {
   const clubId = club?.id || -1;
   const fighterId = fighter?.id || -1;
-  console.log("UnsubscribeFighterDialog", fighter);
   const {
     mutate: unsubscribeFighterMutate,
     isSuccess,

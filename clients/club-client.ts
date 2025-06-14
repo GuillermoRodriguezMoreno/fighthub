@@ -3,6 +3,7 @@ import { defaultQueryParams } from "./types";
 import { buildUrlWithQueryParams, fetchWithAuth } from "./utils";
 import { apiEndpoint } from "@/config/api-endpoint";
 import { ClubRequest, ClubResponse } from "@/domains/club";
+import { AddFighterToClubRequest } from "@/domains/fighter-profile";
 
 export async function getClubs(
   defaultQueryParams: defaultQueryParams,
@@ -61,4 +62,21 @@ export async function deleteClub(clubId: number): Promise<string> {
     throw new Error("Failed to delete club");
   }
   return res.text();
+}
+
+export async function joinClub(
+  clubId: number,
+  fighterId: number,
+): Promise<String> {
+  const res = await fetchWithAuth(`${apiEndpoint.clubs}/${clubId}/join`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(fighterId),
+  });
+  if (!res.ok) {
+    throw new Error(`Failed to join club: ${res.statusText}`);
+  }
+  return await res.text();
 }

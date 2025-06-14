@@ -2,7 +2,11 @@ import { editEvent } from "@/clients/event-client";
 import { EventRequest } from "@/domains/event";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export function useEditEventMutation(eventId: number) {
+export function useEditEventMutation(
+  eventId: number,
+  fromClub = false,
+  organizerEmail: string = "",
+) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: [`edit-event`, eventId],
@@ -16,7 +20,15 @@ export function useEditEventMutation(eventId: number) {
       return editEvent(eventId, editEventRequest);
     },
     onSuccess: (event) => {
-      queryClient.invalidateQueries({ queryKey: ["event", String(event.id)] });
+      if (fromClub) {
+        queryClient.invalidateQueries({
+          queryKey: ["my-events", organizerEmail],
+        });
+      } else {
+        queryClient.invalidateQueries({
+          queryKey: ["event", String(event.id)],
+        });
+      }
     },
   });
 }

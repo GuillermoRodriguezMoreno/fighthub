@@ -85,7 +85,7 @@ function ClubPage({ club }: ClubPageProps) {
       ) : null}
       <div className="flex flex-col gap-10">
         <ClubFightersContainer club={club} isOwner={isOwner} />
-        <ClubEventsContainer club={club} isOrganizer={isOwner} />
+        <ClubEventsContainer club={club} isOwner={isOwner} />
       </div>
     </>
   );

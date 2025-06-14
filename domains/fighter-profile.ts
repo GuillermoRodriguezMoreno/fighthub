@@ -17,3 +17,9 @@ export type FighterProfileResponse = {
   category: CategoryResponse;
   club: ClubResponse;
 };
+
+export type AddFighterToClubInputs = {
+  fighterId: number;
+};
+
+export type AddFighterToClubRequest = AddFighterToClubInputs;
