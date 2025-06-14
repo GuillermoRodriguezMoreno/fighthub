@@ -17,13 +17,15 @@ import {
 import { Delete } from "lucide-react";
 import { DeleteEventDialog } from "../delete-event-dialog";
 import { useSession } from "next-auth/react";
+import { UseGetMyClubsQuery } from "@/hooks/club/use-get-my-clubs-query";
 
 type EventPageProps = {
   event: EventResponse;
+  isOrganizer?: boolean;
+  organizerEmail: string;
 };
-function EventPage({ event }: EventPageProps) {
-  const organizerEmail = useSession().data?.user?.email || "";
-  const isOrganizer = organizerEmail === event.createdBy;
+function EventPage({ event, isOrganizer=false, organizerEmail }: EventPageProps) {
+
   const [editEventDialogIsOpen, setEditEventDialogIsOpen] = useState(false);
   const [deleteEventDiallogIsOpen, setDeleteEventDialogIsOpen] =
     useState(false);
@@ -89,17 +91,23 @@ type EventPageContainerProps = {
 };
 
 export function EventPageContainer({ eventId }: EventPageContainerProps) {
+  const session = useSession();
+  const organizerEmail = session.data?.user?.email || "";
   const eventQuery = UseGetEventQuery(eventId);
+  const myClubsQuery = UseGetMyClubsQuery(organizerEmail, !!organizerEmail);
 
-  if (eventQuery.isLoading) {
+  if (eventQuery.isLoading || myClubsQuery.isLoading) {
     return <LoadingSpinner />;
   }
-  if (eventQuery.isError) {
+  if (eventQuery.isError || !eventQuery.data) {
     return <AlertInfo title="An Error has ocurred" variant="destructive" />;
   }
-  if (!eventQuery.data) {
+  if (!eventQuery.data || !myClubsQuery.data) {
     return <AlertInfo title="No event found" />;
   }
 
-  return <EventPage event={eventQuery.data} />;
+  const clubsId = myClubsQuery.data.map((club) => club.id);
+  const isOrganizer = clubsId.includes(eventQuery.data.organizerId);
+
+  return <EventPage event={eventQuery.data} isOrganizer={isOrganizer} organizerEmail={organizerEmail} />;
 }
