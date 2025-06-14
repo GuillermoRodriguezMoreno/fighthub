@@ -1,9 +1,7 @@
 export function ClubInfoSkeleton() {
-    return (
-        <div className="flex items-center justify-center h-full bg-accent rounded-md">
-            <p className="text-muted-foreground text-xl">
-                Not member of a club yet
-            </p>
-        </div>
-    )
+  return (
+    <div className="flex items-center justify-center h-full bg-accent rounded-md">
+      <p className="text-muted-foreground text-xl">Not member of a club yet</p>
+    </div>
+  );
 }

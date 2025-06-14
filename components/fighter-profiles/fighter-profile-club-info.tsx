@@ -16,9 +16,11 @@ import { ClubInfoSkeleton } from "./club-info-skeleton";
 
 type FighterProfileClubInfoProps = {
   club: ClubResponse | undefined;
-}
+};
 
-export default function FighterProfileClubInfo({ club }: FighterProfileClubInfoProps) {
+export default function FighterProfileClubInfo({
+  club,
+}: FighterProfileClubInfoProps) {
   return (
     <div className="flex flex-col gap-4 h-full">
       <h2 className="text-2xl font-bold">Club</h2>
@@ -64,7 +66,9 @@ export default function FighterProfileClubInfo({ club }: FighterProfileClubInfoP
             <Button>View Profile</Button>
           </CardFooter>
         </Card>
-      ) : <ClubInfoSkeleton />}
+      ) : (
+        <ClubInfoSkeleton />
+      )}
     </div>
   );
 }

@@ -44,7 +44,9 @@ export default function FightDetailsCard({
         <CardHeader>
           <div className="flex items-start justify-between">
             <div className="space-y-2">
-              <CardTitle className="text-2xl font-bold">{fight.blueCornerFighterName} VS {fight.redCornerFighterName}</CardTitle>
+              <CardTitle className="text-2xl font-bold">
+                {fight.blueCornerFighterName} VS {fight.redCornerFighterName}
+              </CardTitle>
               <CardDescription className="text-base leading-relaxed">
                 incredible fight description
               </CardDescription>
@@ -57,7 +59,9 @@ export default function FightDetailsCard({
               <MapPin className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
               <div>
                 <p className="font-medium">Location</p>
-                <p className="text-sm text-muted-foreground">{fight.eventName}</p>
+                <p className="text-sm text-muted-foreground">
+                  {fight.eventName}
+                </p>
               </div>
             </div>
             <div className="flex items-start gap-3">

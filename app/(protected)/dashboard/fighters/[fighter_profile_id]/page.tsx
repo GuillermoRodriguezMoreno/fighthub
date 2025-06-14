@@ -6,5 +6,5 @@ export default async function Page({
   params: { fighter_profile_id: number };
 }) {
   const { fighter_profile_id } = await params;
-  return <FighterProfilePageContainer fighterProfileId={fighter_profile_id} />
+  return <FighterProfilePageContainer fighterProfileId={fighter_profile_id} />;
 }

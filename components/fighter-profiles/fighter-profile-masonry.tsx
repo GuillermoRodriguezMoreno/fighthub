@@ -5,9 +5,11 @@ import { Card, CardContent } from "../ui/card";
 import { FighterProfileResponse } from "@/domains/fighter-profile";
 
 type FighterProfileMasonryProps = {
-  fighterProfile: FighterProfileResponse
-}
-export default function FighterProfileMasonry({ fighterProfile }: FighterProfileMasonryProps) {
+  fighterProfile: FighterProfileResponse;
+};
+export default function FighterProfileMasonry({
+  fighterProfile,
+}: FighterProfileMasonryProps) {
   return (
     <div className="grid gap-4 lg:gap-6 xl:gap-10">
       <div className="grid grid-cols-1 gap-y-4 sm:gap-4  sm:grid-cols-3 lg:gap-6 xl:gap-10">
@@ -19,21 +21,27 @@ export default function FighterProfileMasonry({ fighterProfile }: FighterProfile
                 <Trophy className="w-10 h-10" />
                 <div className="grid items-center grid-rows-2">
                   <Label className="text-xl">Wins</Label>
-                  <p className="text-3xl font-extrabold text-center">{fighterProfile.wins}</p>
+                  <p className="text-3xl font-extrabold text-center">
+                    {fighterProfile.wins}
+                  </p>
                 </div>
               </div>
               <div className="flex flex-col items-center gap-2">
                 <Skull className="w-10 h-10" />
                 <div className="grid items-center grid-rows-2">
                   <Label className="text-xl">Losses</Label>
-                  <p className="text-3xl font-extrabold text-center">{fighterProfile.losses}</p>
+                  <p className="text-3xl font-extrabold text-center">
+                    {fighterProfile.losses}
+                  </p>
                 </div>
               </div>
               <div className="flex flex-col items-center gap-2">
                 <Swords className="w-10 h-10" />
                 <div className="grid items-center grid-rows-2">
                   <Label className="text-xl">Draws</Label>
-                  <p className="text-3xl font-extrabold text-center">{fighterProfile.draws}</p>
+                  <p className="text-3xl font-extrabold text-center">
+                    {fighterProfile.draws}
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -47,7 +55,9 @@ export default function FighterProfileMasonry({ fighterProfile }: FighterProfile
                 <BicepsFlexed className="w-10 h-10" />
                 <div className="grid items-center grid-rows-2">
                   <Label className="text-xl">Ko's</Label>
-                  <p className="text-3xl font-extrabold text-center">{fighterProfile.kos}</p>
+                  <p className="text-3xl font-extrabold text-center">
+                    {fighterProfile.kos}
+                  </p>
                 </div>
               </div>
             </CardContent>

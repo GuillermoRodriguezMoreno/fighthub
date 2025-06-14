@@ -56,7 +56,7 @@ export function EditFightDialog({
   const [formData, setFormData] = useState<FightResponse | null>(null);
 
   useEffect(() => {
-      setFormData(fight);
+    setFormData(fight);
   }, []);
 
   const handleOncancel = () => {
@@ -113,8 +113,7 @@ export function EditFightDialog({
   const categoriesQuery = UseGetCategoriesQuery();
   const stylesQuery = UseGetStylesQuery();
 
-  const isLoading =
-    categoriesQuery.isLoading || stylesQuery.isLoading;
+  const isLoading = categoriesQuery.isLoading || stylesQuery.isLoading;
   const isError =
     categoriesQuery.isError ||
     stylesQuery.isError ||
