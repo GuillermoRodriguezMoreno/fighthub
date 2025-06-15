@@ -11,12 +11,22 @@ import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 
-export default function PictureUpload() {
+type PictureUploadProps = {
+  isOpen: boolean;
+  onCancel?: () => void;
+  onUpload?: (file: File) => void;
+};
+
+export default function PictureUpload({
+  isOpen,
+  onUpload: mutation,
+  onCancel,
+}: PictureUploadProps) {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
@@ -69,14 +79,23 @@ export default function PictureUpload() {
   };
 
   const handleUploadClick = () => {
-    fileInputRef.current?.click();
+    if (!selectedImage) {
+      fileInputRef.current?.click();
+    }
+    if (selectedImage && mutation) {
+      mutation(selectedImage);
+    }
+  };
+
+  const handleClose = () => {
+    if (onCancel) {
+      onCancel();
+    }
+    handleRemoveImage();
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button>Upload Image</Button>
-      </DialogTrigger>
+    <Dialog open={isOpen}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Upload Image</DialogTitle>
@@ -117,7 +136,6 @@ export default function PictureUpload() {
                         className="w-full h-48 object-cover rounded-lg"
                       />
                       <Button
-                        variant="destructive"
                         size="icon"
                         className="absolute top-2 right-2 h-8 w-8"
                         onClick={handleRemoveImage}
@@ -155,10 +173,17 @@ export default function PictureUpload() {
               >
                 Change Image
               </Button>
-              <Button className="flex-1">Upload Image</Button>
             </div>
           )}
         </div>
+        <DialogFooter>
+          <Button variant="secondary" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button onClick={handleUploadClick} disabled={!selectedImage}>
+            Upload
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

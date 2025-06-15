@@ -15,6 +15,7 @@ export type FighterProfileResponse = {
   draws: number;
   kos: number;
   winsInARow: number;
+  profilePicture?: string;
   location: {
     country: string;
     city: string;

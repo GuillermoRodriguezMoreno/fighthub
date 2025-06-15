@@ -95,7 +95,7 @@ export async function uploadClubProfilePicture(
   const res = await fetchWithAuth(
     `${apiEndpoint.clubs}/${clubId}/upload-picture`,
     {
-      method: "PATCH",
+      method: "POST",
       body: formData,
     },
   );

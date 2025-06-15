@@ -5,10 +5,12 @@ export type ClubResponse = {
   email: string;
   description: string;
   phone: string;
+  profilePicture?: string;
   ownerId?: number;
   ownerName: string;
   ownerUsername: string;
   ownerEmail: string;
+  ownerProfilePicture?: string;
 };
 
 export type NewClubInputs = {

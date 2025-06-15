@@ -58,7 +58,7 @@ function EventPage({
       </div>
       <div className="grid grid-cols-1 gap-y-10 lg:grid-cols-3 lg:gap-10 mb-10">
         <div className="col-span-1">
-          <EventPictures />
+          <EventPictures isOrganizer={isOrganizer} event={event} />
         </div>
         <div className="col-span-2">
           <EventDetailsCard

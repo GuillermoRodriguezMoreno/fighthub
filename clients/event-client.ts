@@ -77,10 +77,13 @@ export async function uploadEventProfilePicture(
   const formData = new FormData();
   formData.append("file", file);
 
-  const res = await fetchWithAuth(`${apiEndpoint.events}/${eventId}/upload-picture`, {
-    method: "PATCH",
-    body: formData,
-  });
+  const res = await fetchWithAuth(
+    `${apiEndpoint.events}/${eventId}/upload-picture`,
+    {
+      method: "POST",
+      body: formData,
+    },
+  );
 
   if (!res.ok) {
     throw new Error(`Failed to upload picture: ${res.statusText}`);

@@ -83,7 +83,7 @@ export async function uploadFighterProfilePicture(
   const res = await fetchWithAuth(
     `${apiEndpoint.fighters}/${fighterId}/upload-picture`,
     {
-      method: "PATCH",
+      method: "POST",
       body: formData,
     },
   );

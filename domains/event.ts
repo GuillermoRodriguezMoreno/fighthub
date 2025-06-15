@@ -5,11 +5,13 @@ export type EventResponse = {
   address: string;
   startDate: string;
   endDate: string;
+  profilePicture?: string;
   organizerId: number;
   organizerName: string;
   organizerAddress: string;
   organizerEmail: string;
   organizerPhone: string;
+  organizerProfilePicture?: string;
   createdBy?: string;
 };
 

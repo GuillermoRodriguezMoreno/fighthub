@@ -1,4 +1,13 @@
-import { Calendar, MapPin, User, Mail, Phone, Clock, Pen } from "lucide-react";
+import {
+  Calendar,
+  MapPin,
+  User,
+  Mail,
+  Phone,
+  Clock,
+  Pen,
+  Edit,
+} from "lucide-react";
 import {
   Card,
   CardContent,
@@ -50,7 +59,7 @@ export function EventDetailsCard({
           <Tooltip>
             <TooltipTrigger asChild>
               <Button onClick={clickEdit}>
-                <Pen />
+                <Edit />
               </Button>
             </TooltipTrigger>
             <TooltipContent>
