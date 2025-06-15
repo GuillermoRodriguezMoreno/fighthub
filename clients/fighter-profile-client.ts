@@ -94,3 +94,25 @@ export async function uploadFighterProfilePicture(
 
   return await res.json();
 }
+
+export async function updateFighterLocation(
+  fighterId: number,
+  coords: { latitude: number; longitude: number },
+): Promise<FighterProfileResponse> {
+  const res = await fetchWithAuth(
+    `${apiEndpoint.fighters}/${fighterId}/update-location`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(coords),
+    },
+  );
+
+  if (!res.ok) {
+    throw new Error(`Failed to update location for fighter ${fighterId}`);
+  }
+
+  return await res.json();
+}
