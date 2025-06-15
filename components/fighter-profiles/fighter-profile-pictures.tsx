@@ -10,15 +10,18 @@ import { CircleX, Edit, Pen, Plus } from "lucide-react";
 import { useState } from "react";
 import PictureUpload from "../pictures/picture-upload";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { EventResponse } from "@/domains/event";
 import { DEFAULT_IMAGE_URL } from "@/domains/utils";
-import { useUploadClubPictureMutation } from "@/hooks/club/use-upload-club-picture-mutation";
+import { FighterProfileResponse } from "@/domains/fighter-profile";
+import { useUploadFighterPictureMutation } from "@/hooks/picture/use-upload-fighter-picture-mutation";
 
-type ClubPicturesProps = {
-  isOwner?: boolean;
-  club: EventResponse;
+type FighterPicturesProps = {
+  isAuthorized?: boolean;
+  fighterProfile: FighterProfileResponse;
 };
-export function ClubPictures({ isOwner = false, club }: ClubPicturesProps) {
+export function FighterProfilePictures({
+  isAuthorized = false,
+  fighterProfile,
+}: FighterPicturesProps) {
   const [uploadPictureDialogIsOpen, setUploadPictureDialogIsOpen] =
     useState(false);
   const handleUploadPicture = () => {
@@ -28,13 +31,15 @@ export function ClubPictures({ isOwner = false, club }: ClubPicturesProps) {
     setUploadPictureDialogIsOpen(false);
   };
 
-  const { mutate: uploadMutation } = useUploadClubPictureMutation(club.id);
+  const { mutate: uploadMutation } = useUploadFighterPictureMutation(
+    fighterProfile.id,
+  );
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-row items-center gap-5">
         <h2 className="text-2xl font-bold">Image</h2>
-        {isOwner ? (
+        {isAuthorized ? (
           <Tooltip>
             <TooltipTrigger asChild>
               <Button onClick={handleUploadPicture}>
@@ -54,7 +59,7 @@ export function ClubPictures({ isOwner = false, club }: ClubPicturesProps) {
               <Card className="flex rounded-md overflow-hidden p-0 ">
                 <CardContent className="relative w-full aspect-square p-0">
                   <Image
-                    src={club.profilePicture || DEFAULT_IMAGE_URL}
+                    src={fighterProfile.profilePicture || DEFAULT_IMAGE_URL}
                     alt={`Imagen`}
                     fill
                     className="object-cover rounded-md hover:scale-105 transition-transform duration-300 ease-in-out"
@@ -66,7 +71,7 @@ export function ClubPictures({ isOwner = false, club }: ClubPicturesProps) {
           <DialogContent className="max-w-3xl p-0 bg-transparent shadow-none">
             <div className="relative w-full h-full flex items-center justify-center">
               <Image
-                src={club.profilePicture || DEFAULT_IMAGE_URL}
+                src={fighterProfile.profilePicture || DEFAULT_IMAGE_URL}
                 alt={`Imagen`}
                 width={800}
                 height={480}

@@ -2,7 +2,6 @@
 import { UseGetFighterProfileQuery } from "@/hooks/fighter_profile/use-get-fighter-profile-query";
 import FighterProfileClubInfo from "../fighter-profile-club-info";
 import FighterProfileInfo from "../fighter-profile-info";
-import FighterProfilePhotos from "../fighter-profile-photos";
 import { UpcomingFigtherFights } from "../fighter-profile-upcoming-fights";
 import { FighterProfileResponse } from "@/domains/fighter-profile";
 import { ClubResponse } from "@/domains/club";
@@ -12,6 +11,7 @@ import LoadingSpinner from "@/components/core/loading-spinner";
 import { AlertInfo } from "@/components/core/alert-info";
 import { FightResponse } from "@/domains/fight";
 import { UseGetClubQuery } from "@/hooks/club/use-get-club-query";
+import { FighterProfilePictures } from "../fighter-profile-pictures";
 
 type FighterProfilePageProps = {
   fighterProfile: FighterProfileResponse;
@@ -35,7 +35,10 @@ export function FighterProfilePage({
           <FighterProfileClubInfo club={club} />
         </div>
         <div className="col-span-2">
-          <FighterProfilePhotos />
+          <FighterProfilePictures
+            isAuthorized={isAuthorized}
+            fighterProfile={fighterProfile}
+          />
         </div>
       </div>
       <UpcomingFigtherFights fights={fights} />
