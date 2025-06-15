@@ -39,6 +39,7 @@ import {
 } from "lucide-react";
 import { useEditFightMutation } from "@/hooks/fight/use-edit-fight-mutation";
 import { useEffect, useState } from "react";
+import { SearchFighterByNameAutocomplete } from "../fighter-profiles/search-by-name-autocomplete";
 
 export type EditFightDialogProps = {
   event: EventResponse;
@@ -54,15 +55,18 @@ export function EditFightDialog({
   onCancel,
 }: EditFightDialogProps) {
   const [formData, setFormData] = useState<FightResponse | null>(null);
-
-  useEffect(() => {
-    setFormData(fight);
-  }, []);
+  const [selectedBlueFighter, setSelectedBlueFighter] = useState<number | null>(
+    fight?.blueCornerFighterId || null,
+  );
+  const [selectedRedFighter, setSelectedRedFighter] = useState<number | null>(
+    fight?.redCornerFighterId || null,
+  );
 
   const handleOncancel = () => {
     onCancel?.();
-    setFormData(null);
     reset();
+    setSelectedBlueFighter(null);
+    setSelectedRedFighter(null);
   };
 
   const {
@@ -73,14 +77,49 @@ export function EditFightDialog({
     formState: { errors },
   } = useForm<EditFightInputs>({
     defaultValues: {
-      isTitleFight: formData?.isTitleFight ? "true" : "false",
-      isClosed: formData?.isClosed ? "true" : "false",
-      isKo: formData?.isKo ? "true" : "false",
-      isDraw: formData?.isDraw ? "true" : "false",
+      fightOrder: formData?.fightOrder,
+      weight: formData?.weight,
+      rounds: formData?.rounds,
+      minutesPerRound: formData?.minutesPerRound,
+      titleFight: formData?.titleFight ? "true" : "false",
+      closed: formData?.closed ? "true" : "false",
+      ko: formData?.ko ? "true" : "false",
+      draw: formData?.draw ? "true" : "false",
       categoryId: String(formData?.categoryId || ""),
       styleId: String(formData?.styleId || ""),
     },
   });
+
+  useEffect(() => {
+    if (formData) {
+      reset({
+        fightOrder: formData.fightOrder,
+        weight: formData.weight,
+        rounds: formData.rounds,
+        minutesPerRound: formData.minutesPerRound,
+        titleFight: formData.titleFight ? "true" : "false",
+        closed: formData.closed ? "true" : "false",
+        ko: formData.ko ? "true" : "false",
+        draw: formData.draw ? "true" : "false",
+        categoryId: String(formData.categoryId || ""),
+        styleId: String(formData.styleId || ""),
+      });
+    }
+  }, [formData, reset]);
+
+  useEffect(() => {
+    setFormData(fight);
+    setSelectedBlueFighter(fight?.blueCornerFighterId || null);
+    setSelectedRedFighter(fight?.redCornerFighterId || null);
+  }, [editFightDialogIsOpen, fight]);
+
+  const handleSelectBlueFighter = (fighterId: number) => {
+    setSelectedBlueFighter(fighterId);
+  };
+
+  const handleSelectRedFighter = (fighterId: number) => {
+    setSelectedRedFighter(fighterId);
+  };
 
   const fightId = formData?.id || -1;
   const eventId = event?.id || -1;
@@ -88,13 +127,20 @@ export function EditFightDialog({
 
   const onSubmit: SubmitHandler<EditFightInputs> = async (data) => {
     const editFightRequest: FightRequest = {
-      ...data,
+      fightOrder: data.fightOrder,
+      titleFight: data.titleFight,
+      closed: data.closed,
+      ko: data.ko,
+      draw: data.draw,
+      weight: data.weight,
+      rounds: data.rounds,
+      minutesPerRound: data.minutesPerRound,
       winner: data.winner ? { id: data.winner } : undefined,
-      redCornerFighter: data.redCornerFighterId
-        ? { id: data.redCornerFighterId }
+      redCornerFighter: selectedRedFighter
+        ? { id: String(selectedRedFighter) }
         : undefined,
-      blueCornerFighter: data.blueCornerFighterId
-        ? { id: data.blueCornerFighterId }
+      blueCornerFighter: selectedBlueFighter
+        ? { id: String(selectedBlueFighter) }
         : undefined,
       event: {
         id: String(event.id),
@@ -155,7 +201,7 @@ export function EditFightDialog({
   const categories = categoriesQuery.data.content;
   const styles = stylesQuery.data.content;
   const fighIsClosed =
-    formData?.isClosed &&
+    formData?.closed &&
     formData.blueCornerFighterId &&
     formData.redCornerFighterId;
 
@@ -177,9 +223,9 @@ export function EditFightDialog({
                 <ListOrdered size={16} /> Fight order
               </Label>
               <Input
-                defaultValue={formData?.fightOrder || ""}
                 id="fightOrder"
                 type="number"
+                defaultValue={formData?.fightOrder || ""}
                 {...register("fightOrder", {
                   required: "Fight order is required",
                   min: {
@@ -217,11 +263,15 @@ export function EditFightDialog({
                 <Trophy size={16} className="text-primary" /> Is title fight?
               </Label>
               <Controller
-                name="isTitleFight"
+                name="titleFight"
                 control={control}
                 rules={{ required: "This field is required" }}
                 render={({ field }) => (
-                  <Select value={field.value} onValueChange={field.onChange}>
+                  <Select
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    {...register("titleFight")}
+                  >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder={field.value} />
                     </SelectTrigger>
@@ -236,7 +286,7 @@ export function EditFightDialog({
                   </Select>
                 )}
               />
-              {errors.isTitleFight && (
+              {errors.titleFight && (
                 <span className="text-destructive col-span-4">
                   This field is required
                 </span>
@@ -247,11 +297,15 @@ export function EditFightDialog({
                 <BookmarkX size={16} /> Is closed?
               </Label>
               <Controller
-                name="isClosed"
+                name="closed"
                 control={control}
                 rules={{ required: "This field is required" }}
                 render={({ field }) => (
-                  <Select value={field.value} onValueChange={field.onChange}>
+                  <Select
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    {...register("closed")}
+                  >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder={field.value} />
                     </SelectTrigger>
@@ -266,7 +320,7 @@ export function EditFightDialog({
                   </Select>
                 )}
               />
-              {errors.isClosed && (
+              {errors.closed && (
                 <span className="text-destructive col-span-4">
                   This field is required
                 </span>
@@ -280,10 +334,14 @@ export function EditFightDialog({
                   <Swords size={16} /> Is KO?
                 </Label>
                 <Controller
-                  name="isKo"
+                  name="ko"
                   control={control}
                   render={({ field }) => (
-                    <Select value={field.value} onValueChange={field.onChange}>
+                    <Select
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      {...register("ko")}
+                    >
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder={field.value} />
                       </SelectTrigger>
@@ -304,10 +362,14 @@ export function EditFightDialog({
                   <Equal size={16} /> Is draw?
                 </Label>
                 <Controller
-                  name="isDraw"
+                  name="draw"
                   control={control}
                   render={({ field }) => (
-                    <Select value={field.value} onValueChange={field.onChange}>
+                    <Select
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      {...register("draw")}
+                    >
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder={field.value} />
                       </SelectTrigger>
@@ -364,24 +426,22 @@ export function EditFightDialog({
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="blueCornerFighterId">
+              <Label>
                 <Skull size={16} className="text-blue-600" /> Blue Corner
                 Fighter
               </Label>
-              <Input
-                defaultValue={formData?.blueCornerFighterName || ""}
-                id="blueCornerFighterId"
-                {...register("blueCornerFighterId")}
+              <SearchFighterByNameAutocomplete
+                onSelect={handleSelectBlueFighter}
+                defaultValue={formData?.blueCornerFighterName}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="redCornerFighterId">
+              <Label>
                 <Skull size={16} className="text-red-500" /> Red Corner Fighter
               </Label>
-              <Input
-                defaultValue={formData?.redCornerFighterName || ""}
-                id="redCornerFighterId"
-                {...register("redCornerFighterId")}
+              <SearchFighterByNameAutocomplete
+                onSelect={handleSelectRedFighter}
+                defaultValue={formData?.redCornerFighterName}
               />
             </div>
           </div>
@@ -398,6 +458,7 @@ export function EditFightDialog({
                     defaultValue={String(formData?.winnerId || "")}
                     value={field.value}
                     onValueChange={field.onChange}
+                    {...register("winner")}
                   >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder={field.value} />
@@ -413,7 +474,7 @@ export function EditFightDialog({
                         key={"red"}
                         value={String(formData?.redCornerFighterId)}
                       >
-                        {formData?.redCornerFighterClub ?? "unknow"}
+                        {formData?.redCornerFighterName ?? "unknow"}
                       </SelectItem>
                     </SelectContent>
                   </Select>
@@ -431,11 +492,11 @@ export function EditFightDialog({
                 <Controller
                   name="categoryId"
                   control={control}
-                  rules={{ required: "Category is required" }}
                   render={({ field }) => (
                     <Select
                       defaultValue={String(formData?.categoryId || "")}
                       onValueChange={(value) => field.onChange(value)}
+                      {...register("categoryId")}
                     >
                       <SelectTrigger className="w-full">
                         <SelectValue />
@@ -453,11 +514,6 @@ export function EditFightDialog({
                     </Select>
                   )}
                 />
-                {errors.categoryId && (
-                  <span className="text-destructive col-span-4">
-                    This field is required
-                  </span>
-                )}
               </div>
             </div>
             <div className="space-y-2">
@@ -468,11 +524,12 @@ export function EditFightDialog({
                 <Controller
                   name="styleId"
                   control={control}
-                  rules={{ required: "Style is required" }}
+                  defaultValue={String(formData?.styleId || "")}
                   render={({ field }) => (
                     <Select
                       defaultValue={String(formData?.styleId || "")}
                       onValueChange={(value) => field.onChange(value)}
+                      {...register("styleId")}
                     >
                       <SelectTrigger className="w-full">
                         <SelectValue />
@@ -490,11 +547,6 @@ export function EditFightDialog({
                     </Select>
                   )}
                 />
-                {errors.styleId && (
-                  <span className="text-destructive col-span-4">
-                    This field is required
-                  </span>
-                )}
               </div>
             </div>
           </div>

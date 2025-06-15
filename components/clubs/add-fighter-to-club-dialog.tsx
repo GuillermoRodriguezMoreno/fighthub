@@ -35,8 +35,9 @@ export function AddFighterToClubDialog({
   club,
 }: AddFighterToClubDialogProps) {
   const clubId = club?.id || -1;
-  const [selectedFighter, setSelectedFighter] =
-    useState<FighterProfileResponse | null>(null);
+  const [selectedFighterId, setSelectedFighterId] = useState<number | null>(
+    null,
+  );
   const {
     register,
     handleSubmit,
@@ -48,21 +49,21 @@ export function AddFighterToClubDialog({
   const { mutate: addFighterToClubMutate, isPending } =
     useAddFighterToClubMutation(clubId);
 
-  const handleSelect = (fighter: FighterProfileResponse) => {
-    setSelectedFighter(fighter);
+  const handleSelect = (fighterId: number) => {
+    setSelectedFighterId(fighterId);
   };
 
   const handleCancel = () => {
     reset();
-    setSelectedFighter(null);
+    setSelectedFighterId(null);
     onCancel();
   };
 
   const onSubmit: SubmitHandler<AddFighterToClubInputs> = () => {
-    if (!selectedFighter) {
+    if (!selectedFighterId) {
       return;
     }
-    addFighterToClubMutate(selectedFighter.id);
+    addFighterToClubMutate(selectedFighterId);
     handleCancel();
   };
 
@@ -99,7 +100,7 @@ export function AddFighterToClubDialog({
           <Button
             type="submit"
             form="add-fighter-to-club-form"
-            disabled={isPending || !selectedFighter}
+            disabled={isPending || !selectedFighterId}
           >
             {isPending ? "Adding..." : "Add Fighter"}
           </Button>

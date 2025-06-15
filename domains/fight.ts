@@ -1,10 +1,10 @@
 export type FightResponse = {
   id?: number;
   fightOrder: number;
-  isTitleFight?: boolean;
-  isClosed?: boolean;
-  isKo?: boolean;
-  isDraw?: boolean;
+  titleFight?: boolean;
+  closed?: boolean;
+  ko?: boolean;
+  draw?: boolean;
   weight: number;
   rounds: number;
   minutesPerRound: number;
@@ -27,10 +27,10 @@ export type FightResponse = {
 
 export type CreateFightInputs = {
   fightOrder: number;
-  isTitleFight: string;
-  isClosed?: string;
-  isKo?: string;
-  isDraw?: string;
+  titleFight: string;
+  closed?: string;
+  ko?: string;
+  draw?: string;
   weight: number;
   rounds: number;
   minutesPerRound: number;
@@ -47,10 +47,10 @@ export type EditFightInputs = CreateFightInputs;
 export type FightRequest = {
   id?: number;
   fightOrder: number;
-  isTitleFight: string;
-  isClosed?: string;
-  isKo?: string;
-  isDraw?: string;
+  titleFight: string;
+  closed?: string;
+  ko?: string;
+  draw?: string;
   weight: number;
   rounds: number;
   minutesPerRound: number;

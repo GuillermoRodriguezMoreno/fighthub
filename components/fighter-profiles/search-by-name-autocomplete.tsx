@@ -1,7 +1,7 @@
 // components/LuchadorAutocomplete.tsx
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Command,
   CommandInput,
@@ -14,13 +14,15 @@ import { FighterProfileResponse } from "@/domains/fighter-profile";
 import { useFindFightersProfilesByName } from "@/hooks/fighter_profile/use-find-fighter-profiles-by-name";
 
 interface SearchFighterByNameAutocompleteProps {
-  onSelect: (fighter: FighterProfileResponse) => void;
+  onSelect: (fighter: number) => void;
+  defaultValue?: string | null;
 }
 
 export function SearchFighterByNameAutocomplete({
   onSelect,
+  defaultValue = null,
 }: SearchFighterByNameAutocompleteProps) {
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(defaultValue || "");
   const [selectedItem, setSelectedItem] =
     useState<FighterProfileResponse | null>(null);
 
@@ -29,7 +31,7 @@ export function SearchFighterByNameAutocomplete({
   const handleSelect = (item: FighterProfileResponse) => {
     setInputValue(item.name);
     setSelectedItem(item);
-    onSelect(item);
+    onSelect(item.id);
   };
 
   return (
@@ -46,7 +48,7 @@ export function SearchFighterByNameAutocomplete({
           <CommandEmpty className="text-start py-5">No results.</CommandEmpty>
         )}
         {items.length > 0 && (
-          <CommandGroup>
+          <CommandGroup style={{ maxHeight: "200px", overflowY: "auto" }}>
             {items.map((item) => (
               <CommandItem
                 key={item.id}

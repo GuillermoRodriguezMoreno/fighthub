@@ -35,6 +35,9 @@ import {
   Trophy,
   Weight,
 } from "lucide-react";
+import { SearchFighterByNameAutocomplete } from "../fighter-profiles/search-by-name-autocomplete";
+import { FighterProfileResponse } from "@/domains/fighter-profile";
+import { useState } from "react";
 
 export type CreateFightDialogProps = {
   event: EventResponse;
@@ -47,9 +50,18 @@ export function CreateFightDialog({
   event,
   onCancel,
 }: CreateFightDialogProps) {
+  const [selectedBlueFighterId, setSelectedBlueFighterId] = useState<
+    number | null
+  >(null);
+  const [selectedRedFighterId, setSelectedRedFighterId] = useState<
+    number | null
+  >(null);
+
   const handleOncancel = () => {
     onCancel?.();
     reset();
+    setSelectedBlueFighterId(null);
+    setSelectedRedFighterId(null);
   };
 
   const {
@@ -67,11 +79,11 @@ export function CreateFightDialog({
     const createFightRequest: FightRequest = {
       ...data,
       winner: data.winner ? { id: data.winner } : undefined,
-      redCornerFighter: data.redCornerFighterId
-        ? { id: data.redCornerFighterId }
+      redCornerFighter: selectedRedFighterId
+        ? { id: String(selectedRedFighterId) }
         : undefined,
-      blueCornerFighter: data.blueCornerFighterId
-        ? { id: data.blueCornerFighterId }
+      blueCornerFighter: selectedBlueFighterId
+        ? { id: String(selectedBlueFighterId) }
         : undefined,
       event: {
         id: String(event.id),
@@ -85,6 +97,14 @@ export function CreateFightDialog({
     };
     CreateFightMutate(createFightRequest);
     handleOncancel();
+  };
+
+  const handleSelectBlueFighter = (fighterId: number) => {
+    setSelectedBlueFighterId(fighterId);
+  };
+
+  const handleSelectRedFighter = (fighterId: number) => {
+    setSelectedRedFighterId(fighterId);
   };
 
   const categoriesQuery = UseGetCategoriesQuery();
@@ -275,19 +295,29 @@ export function CreateFightDialog({
                 <Skull size={16} className="text-blue-600" /> Blue Corner
                 Fighter
               </Label>
-              <Input
-                id="blueCornerFighterId"
-                {...register("blueCornerFighterId")}
+              <SearchFighterByNameAutocomplete
+                onSelect={handleSelectBlueFighter}
               />
+              <input type="hidden" {...register("blueCornerFighterId")} />
+              {errors.blueCornerFighterId && (
+                <span className="text-destructive">
+                  {errors.blueCornerFighterId.message}
+                </span>
+              )}
             </div>
             <div className="space-y-2">
               <Label htmlFor="redCornerFighterId">
                 <Skull size={16} className="text-red-500" /> Red Corner Fighter
               </Label>
-              <Input
-                id="redCornerFighterId"
-                {...register("redCornerFighterId")}
+              <SearchFighterByNameAutocomplete
+                onSelect={handleSelectRedFighter}
               />
+              <input type="hidden" {...register("blueCornerFighterId")} />
+              {errors.blueCornerFighterId && (
+                <span className="text-destructive">
+                  {errors.blueCornerFighterId.message}
+                </span>
+              )}
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
