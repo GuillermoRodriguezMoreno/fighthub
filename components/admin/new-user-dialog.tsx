@@ -9,9 +9,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
-import { NewUserInputs, NewUserRequest, UserResponse } from "@/domains/user";
+import { NewUserInputs, NewUserRequest } from "@/domains/user";
 import { UseGetRolesQuery } from "@/hooks/role/use-get-roles-query";
 import {
   Select,
@@ -81,7 +80,7 @@ export function NewUserDialog({
         <DialogHeader>
           <DialogTitle>New user</DialogTitle>
           <DialogDescription>
-            Create new user here. Click save when you're done.
+            Create new user here. Click save when you are done.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} noValidate>

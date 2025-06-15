@@ -29,10 +29,8 @@ import { ModeSwitch } from "./mode-switch";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { Button } from "../ui/button";
 import { path } from "@/config/path";
 import { Badge } from "../ui/badge";
-import { Tooltip } from "../ui/tooltip";
 
 const routes = [
   {

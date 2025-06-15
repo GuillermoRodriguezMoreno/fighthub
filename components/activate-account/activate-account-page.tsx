@@ -1,13 +1,12 @@
 "use client";
-import react, { JSX } from "react";
 import { Card, CardContent } from "../ui/card";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "../ui/button";
 import { useActivateAccountMutation } from "@/hooks/auth/use-activate-account-mutation";
-import { AlertError } from "../core/alert-error";
 import { AlertInfo } from "../core/alert-info";
+import { JSX } from "react";
 
 export type ActivateAccountInputs = {
   token: string;

@@ -48,13 +48,13 @@ export default function FighterProfileMasonry({
           </Card>
         </div>
         <div className="col-span-1 flex flex-col gap-2">
-          <h2 className="text-2xl font-bold">Ko's</h2>
+          <h2 className="text-2xl font-bold">Ko&apos;s</h2>
           <Card>
             <CardContent className="flex justify-center items-center space-x-4">
               <div className="flex flex-col items-center gap-2">
                 <BicepsFlexed className="w-10 h-10" />
                 <div className="grid items-center grid-rows-2">
-                  <Label className="text-xl">Ko's</Label>
+                  <Label className="text-xl">Ko&apos;s</Label>
                   <p className="text-3xl font-extrabold text-center">
                     {fighterProfile.kos}
                   </p>

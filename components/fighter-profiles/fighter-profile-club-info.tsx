@@ -11,7 +11,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { ClubResponse } from "@/domains/club";
-import { Skeleton } from "../ui/skeleton";
 import { ClubInfoSkeleton } from "./club-info-skeleton";
 
 type FighterProfileClubInfoProps = {

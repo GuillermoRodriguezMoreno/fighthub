@@ -1,14 +1,13 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { UseGetFighterMatcherQuery } from "@/hooks/fighter-matcher/use-get-fighter-matcher-query";
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import { MatchesCarrousel } from "../matches-carrousel";
+import { useUpdateFighterLocationMutation } from "@/hooks/fighter_profile/use-update-fighter-location-mutation";
 import LoadingSpinner from "@/components/core/loading-spinner";
 import { AlertError } from "@/components/core/alert-error";
 import { AlertInfo } from "@/components/core/alert-info";
-import { MatchesCarrousel } from "../matches-carrousel";
-import { useUpdateFighterLocationMutation } from "@/hooks/fighter_profile/use-update-fighter-location-mutation";
+import { UseGetFighterMatcherQuery } from "@/hooks/fighter-matcher/use-get-fighter-matcher-query";
 
 export default function OpponentsPage() {
   const session = useSession();
@@ -54,20 +53,23 @@ export default function OpponentsPage() {
     coords.longitude !== 0 &&
     fighterId !== -1 &&
     locationUpdated;
-  // const fighterMatcherQuery = UseGetFighterMatcherQuery(1, queryEnabled);
+  const fighterMatcherQuery = UseGetFighterMatcherQuery(
+    fighterId,
+    queryEnabled,
+  );
 
-  // if (fighterMatcherQuery.isLoading) {
-  //   return <LoadingSpinner />;
-  // }
+  if (fighterMatcherQuery.isLoading) {
+    return <LoadingSpinner />;
+  }
 
-  // if (fighterMatcherQuery.isError || !fighterMatcherQuery.data || error) {
-  //   return <AlertError description={"An error has ocurred"} />;
-  // }
+  if (fighterMatcherQuery.isError || !fighterMatcherQuery.data || error) {
+    return <AlertError description={"An error has ocurred"} />;
+  }
 
-  // if (fighterMatcherQuery.data.length === 0) {
-  //   return <AlertInfo title={"No opponents found"} />;
-  // }
+  if (fighterMatcherQuery.data.length === 0) {
+    return <AlertInfo title={"No opponents found"} />;
+  }
 
-  // return <MatchesCarrousel fighters={fighterMatcherQuery.data} />;
+  return <MatchesCarrousel fighters={fighterMatcherQuery.data} />;
   return <MatchesCarrousel fighters={[]} />;
 }

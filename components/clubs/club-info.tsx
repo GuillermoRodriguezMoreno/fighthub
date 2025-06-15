@@ -1,4 +1,4 @@
-import { Calendar, MapPin, User, Mail, Phone, Clock, Pen } from "lucide-react";
+import { MapPin, User, Mail, Phone, Pen } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -6,9 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { EventResponse } from "@/domains/event";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { path } from "@/config/path";
 import Link from "next/link";
@@ -25,24 +23,6 @@ export default function ClubCard({
   clickEdit?: () => void;
   isOwner?: boolean;
 }) {
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("es-ES", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
-
-  const formatTime = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleTimeString("es-ES", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
-
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-row items-center gap-5">

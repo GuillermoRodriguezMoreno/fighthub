@@ -7,14 +7,8 @@ export const Footer = () => {
 
       <section className="container py-20 grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-x-12 gap-y-8">
         <div className="col-span-full xl:col-span-2">
-          <a
-            rel="noreferrer noopener"
-            href="/"
-            className="font-bold text-xl flex flex-col items-center gap-2"
-          >
-            <Image src="/logo.png" alt="logo image" width={100} height={100} />
-            FightHub
-          </a>
+          <Image src="/logo.png" alt="logo image" width={100} height={100} />
+          FightHub
         </div>
 
         <div className="flex flex-col gap-2">

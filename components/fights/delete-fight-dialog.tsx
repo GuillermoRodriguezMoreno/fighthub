@@ -27,11 +27,10 @@ export function DeleteFightDialog({
   const eventId = event?.id || -1;
   const fightId = fight?.id || -1;
 
-  const {
-    mutate: deleteFightMutate,
-    isSuccess,
-    isError,
-  } = useDeleteFightMutation(eventId, fightId);
+  const { mutate: deleteFightMutate } = useDeleteFightMutation(
+    eventId,
+    fightId,
+  );
 
   const handleDeleteFight = async () => {
     if (fight) {

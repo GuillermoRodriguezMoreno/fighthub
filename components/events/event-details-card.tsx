@@ -1,13 +1,4 @@
-import {
-  Calendar,
-  MapPin,
-  User,
-  Mail,
-  Phone,
-  Clock,
-  Pen,
-  Edit,
-} from "lucide-react";
+import { Calendar, MapPin, User, Mail, Phone, Clock, Edit } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -15,7 +6,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { EventResponse } from "@/domains/event";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";

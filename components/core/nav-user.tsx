@@ -28,7 +28,7 @@ import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { path } from "@/config/path";
 
-export function NavUser({}: {}) {
+export function NavUser() {
   const { isMobile } = useSidebar();
   const session = useSession();
   const userId = session.data?.userId;

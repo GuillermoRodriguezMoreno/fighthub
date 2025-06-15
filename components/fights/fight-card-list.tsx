@@ -79,7 +79,6 @@ export function AllFightsListContainer() {
 
 export function MyFightsListContainer() {
   const session = useSession();
-  const userEmail = session.data?.user?.email || "";
   const userId = session.data?.userId || -1;
   const myFightsQuery = UseGetMyFightsQuery(userId, !!userId);
   const isLoading = myFightsQuery.isLoading || !myFightsQuery.data;

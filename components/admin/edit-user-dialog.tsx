@@ -71,11 +71,7 @@ export function EditUserDialog({
     }
   }, [user, editUserDialogIsOpen, reset]);
 
-  const {
-    mutate: editUserMutate,
-    isSuccess,
-    isError,
-  } = useEditUserMutation(user?.id || 0);
+  const { mutate: editUserMutate } = useEditUserMutation(user?.id || 0);
 
   const onSubmit: SubmitHandler<EditUserInputs> = async (data) => {
     if (user) {
@@ -103,7 +99,7 @@ export function EditUserDialog({
         <DialogHeader>
           <DialogTitle>Edit user</DialogTitle>
           <DialogDescription>
-            Make changes to user here. Click save when you're done.
+            Make changes to user here. Click save when you are done.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} noValidate>

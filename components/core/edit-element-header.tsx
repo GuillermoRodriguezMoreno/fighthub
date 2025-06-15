@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { usePathname } from "next/navigation";
 import { JSX } from "react";
-import { Pen, Plus } from "lucide-react";
+import { Pen } from "lucide-react";
 
 export type EditElementHeaderProps = {
   title: string;

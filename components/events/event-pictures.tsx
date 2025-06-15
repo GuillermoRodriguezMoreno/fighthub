@@ -1,18 +1,12 @@
 import * as React from "react";
 
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+
 import { Dialog, DialogClose, DialogContent } from "../ui/dialog";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import Image from "next/image";
 import { Button } from "../ui/button";
-import { CircleX, Edit, Pen, Plus } from "lucide-react";
+import { CircleX, Edit } from "lucide-react";
 import { useState } from "react";
 import PictureUpload from "../pictures/picture-upload";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";

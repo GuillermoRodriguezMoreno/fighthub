@@ -221,7 +221,7 @@ export function CreateEventContainer() {
     return (
       <Alert>
         <AlertCircleIcon />
-        <AlertTitle>You don't own any club.</AlertTitle>
+        <AlertTitle>You dont own any club.</AlertTitle>
         <AlertDescription>
           <p>
             You need to{" "}

@@ -12,7 +12,7 @@ export default function Home() {
           Uh-oh!
         </p>
 
-        <p>You don't have permission</p>
+        <p>You dont have permission</p>
 
         <Button>
           <Link href="/" className="flex items-center gap-1">

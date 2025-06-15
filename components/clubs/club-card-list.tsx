@@ -1,7 +1,5 @@
 "use client";
 import { path } from "@/config/path";
-import { UseGetEventsQuery } from "@/hooks/event/use-get-events-query";
-import { UseGetMyEventsQuery } from "@/hooks/event/use-get-my-events";
 import { ArrowRight } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";

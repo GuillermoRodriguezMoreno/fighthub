@@ -10,7 +10,6 @@ import { UseGetMyFightsQuery } from "@/hooks/fight/use-get-my-fights";
 import LoadingSpinner from "@/components/core/loading-spinner";
 import { AlertInfo } from "@/components/core/alert-info";
 import { FightResponse } from "@/domains/fight";
-import { UseGetClubQuery } from "@/hooks/club/use-get-club-query";
 import { FighterProfilePictures } from "../fighter-profile-pictures";
 
 type FighterProfilePageProps = {

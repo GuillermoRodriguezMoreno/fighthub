@@ -26,11 +26,8 @@ export function UnsubscribeFighterDialog({
 }: UnsubscribeFighterDialogProps) {
   const clubId = club?.id || -1;
   const fighterId = fighter?.id || -1;
-  const {
-    mutate: unsubscribeFighterMutate,
-    isSuccess,
-    isError,
-  } = useUnsubscribeFighterFromClubMutation(fighterId, clubId);
+  const { mutate: unsubscribeFighterMutate } =
+    useUnsubscribeFighterFromClubMutation(fighterId, clubId);
 
   const handleUnsubscribeFighter = async () => {
     if (fighter) {

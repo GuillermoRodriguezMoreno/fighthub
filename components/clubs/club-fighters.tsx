@@ -1,16 +1,6 @@
 "use client";
 
-import {
-  ArrowLeft,
-  ArrowRight,
-  ArrowUpRight,
-  Delete,
-  Edit,
-  MoreHorizontal,
-  Pencil,
-  Plus,
-  Trash,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, Delete, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";

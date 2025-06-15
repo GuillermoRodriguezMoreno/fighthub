@@ -23,11 +23,7 @@ export function DeleteUserDialog({
   onCancel,
   onDelete,
 }: DeleteUserDialogProps) {
-  const {
-    mutate: deleteUserMutate,
-    isSuccess,
-    isError,
-  } = useDeleteUserMutation(user?.id || -1);
+  const { mutate: deleteUserMutate } = useDeleteUserMutation(user?.id || -1);
 
   const handleDeleteUser = async () => {
     if (user) {

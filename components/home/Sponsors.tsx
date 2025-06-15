@@ -22,7 +22,7 @@ export const Sponsors = () => {
       </h2>
 
       <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8">
-        {sponsors.map(({ icon, name, img }: SponsorProps) => (
+        {sponsors.map(({ name, img }: SponsorProps) => (
           <div
             key={name}
             className="flex items-center gap-1 text-muted-foreground/60"

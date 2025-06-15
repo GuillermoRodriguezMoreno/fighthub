@@ -36,7 +36,6 @@ import {
   Weight,
 } from "lucide-react";
 import { SearchFighterByNameAutocomplete } from "../fighter-profiles/search-by-name-autocomplete";
-import { FighterProfileResponse } from "@/domains/fighter-profile";
 import { useState } from "react";
 
 export type CreateFightDialogProps = {

@@ -36,7 +36,6 @@ export function EditClubDialog({
   const {
     register,
     handleSubmit,
-    control,
     reset,
     formState: { errors },
   } = useForm<EditClubInputs>({

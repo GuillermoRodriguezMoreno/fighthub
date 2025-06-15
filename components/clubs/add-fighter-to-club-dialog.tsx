@@ -9,19 +9,12 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ClubResponse } from "@/domains/club";
-import {
-  AddFighterToClubInputs,
-  AddFighterToClubRequest,
-  FighterProfileResponse,
-} from "@/domains/fighter-profile";
+import { AddFighterToClubInputs } from "@/domains/fighter-profile";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Label } from "../ui/label";
-import { Input } from "../ui/input";
 import { useAddFighterToClubMutation } from "@/hooks/club/use-add-fighter-to-club-mutation";
-import { useEffect, useState } from "react";
-import { Search } from "lucide-react";
+import { useState } from "react";
 import { SearchFighterByNameAutocomplete } from "../fighter-profiles/search-by-name-autocomplete";
-import { get } from "http";
 
 export type AddFighterToClubDialogProps = {
   addFighterToClubDialogIsOpen: boolean;
@@ -42,7 +35,6 @@ export function AddFighterToClubDialog({
     register,
     handleSubmit,
     reset,
-    setValue,
     formState: { errors },
   } = useForm<AddFighterToClubInputs>();
 
