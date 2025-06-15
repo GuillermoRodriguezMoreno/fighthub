@@ -16,7 +16,7 @@ export function useDeleteClubMutation(clubId: number, ownerEmail: string) {
       queryClient.invalidateQueries({
         queryKey: ["my-clubs", ownerEmail],
       });
-      router.push(path.dashboard.clubs.my_clubs);
+      router.push(path.dashboard.clubs.myClubs);
     },
   });
 }

@@ -5,8 +5,9 @@ import {
   BicepsFlexed,
   Settings,
   Trophy,
+  Bot,
 } from "lucide-react";
-
+import { path as appPath } from "@/config/path";
 import {
   Sidebar,
   SidebarContent,
@@ -28,76 +29,80 @@ import { ModeSwitch } from "./mode-switch";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { Button } from "../ui/button";
+import { path } from "@/config/path";
+import { Badge } from "../ui/badge";
+import { Tooltip } from "../ui/tooltip";
 
 const routes = [
   {
     title: "Home",
-    url: "/dashboard",
+    url: path.dashboard.base,
     icon: Home,
   },
   {
     title: "Events",
-    url: "/dashboard/events/all",
+    url: path.dashboard.events.all,
     icon: CalendarSearch,
     items: [
       {
         title: "All",
-        url: "/dashboard/events/all",
+        url: path.dashboard.events.all,
       },
       {
         title: "My Events",
-        url: "/dashboard/events/my-events",
+        url: path.dashboard.events.myEvents,
       },
     ],
   },
   {
     title: "Fights",
-    url: "/dashboard/fights",
+    url: path.dashboard.fights.all,
     icon: Trophy,
     items: [
       {
         title: "All",
-        url: "/dashboard/fights/all",
+        url: path.dashboard.fights.all,
       },
       {
         title: "My Fights",
-        url: "/dashboard/fights/my-fights",
+        url: path.dashboard.fights.myFights,
       },
     ],
   },
   {
     title: "Fighters",
-    url: "/dashboard/fighters",
+    url: path.dashboard.fighters.all,
     icon: BicepsFlexed,
     items: [
       {
         title: "All",
-        url: "/dashboard/fighters/all",
+        url: path.dashboard.fighters.all,
       },
       {
         title: "My Fighters",
-        url: "/dashboard/fighters/my-fighters",
+        url: path.dashboard.fighters.myFighters,
       },
     ],
   },
   {
     title: "Clubs",
-    url: "/dashboard/clubs",
+    url: path.dashboard.clubs.all,
     icon: Dumbbell,
     items: [
       {
         title: "All",
-        url: "/dashboard/clubs/all",
+        url: path.dashboard.clubs.all,
       },
       {
         title: "My Club",
-        url: "/dashboard/clubs/my-club",
+        url: path.dashboard.clubs.myClubs,
       },
     ],
   },
   {
     title: "Admin",
-    url: "/dashboard/admin",
+    url: path.dashboard.admin,
     icon: Settings,
     protected: true,
   },
@@ -150,6 +155,15 @@ export function AppSidebar() {
                     ) : null}
                   </SidebarMenuItem>
                 ))}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href={appPath.dashboard.fighterMatcher.base}>
+                    <Bot />
+                    <span>Fighter Matcher</span>
+                    <Badge className="ml-2">Beta AI</Badge>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

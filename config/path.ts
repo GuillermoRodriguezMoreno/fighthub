@@ -11,26 +11,30 @@ export const path = {
     clubs: {
       base: `${baseUrl}/dashboard/clubs`,
       all: `${baseUrl}/dashboard/clubs/all`,
-      my_clubs: `${baseUrl}/dashboard/clubs/my-clubs`,
+      myClubs: `${baseUrl}/dashboard/clubs/my-clubs`,
       new: `${baseUrl}/dashboard/clubs/new`,
     },
     events: {
       base: `${baseUrl}/dashboard/events`,
       all: `${baseUrl}/dashboard/events/all`,
-      my_events: `${baseUrl}/dashboard/events/my-events`,
+      myEvents: `${baseUrl}/dashboard/events/my-events`,
       new: `${baseUrl}/dashboard/events/new`,
     },
     fighters: {
       base: `${baseUrl}/dashboard/fighters`,
       all: `${baseUrl}/dashboard/fighters/all`,
+      myFighters: `${baseUrl}/dashboard/fighters/my-fighters`,
     },
     fights: {
       base: `${baseUrl}/dashboard/fights`,
-      my_fights: `${baseUrl}/dashboard/fights/my-fights`,
+      myFights: `${baseUrl}/dashboard/fights/my-fights`,
       all: `${baseUrl}/dashboard/fights/all`,
     },
     account: {
       base: `${baseUrl}/dashboard/account`,
+    },
+    fighterMatcher: {
+      base: `${baseUrl}/dashboard/fighter-matcher`,
     },
   },
 };

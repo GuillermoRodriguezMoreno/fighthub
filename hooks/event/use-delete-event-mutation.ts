@@ -20,7 +20,7 @@ export function useDeleteEventMutation(
         queryKey: ["my-events", organizerEmail],
       });
       if (!fromClub) {
-        router.push(path.dashboard.events.my_events);
+        router.push(path.dashboard.events.myEvents);
       }
     },
   });
