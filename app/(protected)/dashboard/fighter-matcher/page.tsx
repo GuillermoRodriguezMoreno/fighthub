@@ -1,5 +1,5 @@
-import { FighterMatcherPage } from "@/components/fighter-matcher/pages/fighter-matcher-page";
+import FighterMatcherHomePage from "@/components/fighter-matcher/pages/fighter-matcher-home-page";
 
 export default function Page() {
-  return <FighterMatcherPage />;
+  return <FighterMatcherHomePage />;
 }

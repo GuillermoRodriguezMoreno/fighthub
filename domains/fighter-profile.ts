@@ -26,6 +26,8 @@ export type FighterProfileResponse = {
   styles: StyleResponse[];
   category: CategoryResponse;
   club: ClubResponse;
+  affinity?: number | null;
+  distanceFromTarget?: number | null;
 };
 
 export type AddFighterToClubInputs = {

@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -9,77 +8,23 @@ import {
   Ruler,
   Weight,
   Trophy,
-  Target,
   Flame,
   BicepsFlexed,
-  Club,
   Dumbbell,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { calculateAge } from "@/lib/utils";
+import { FighterProfileResponse } from "@/domains/fighter-profile";
 
-interface Fighter {
-  id: string | null;
-  name: string | null;
-  dateOfBirth: string | null;
-  weight: number;
-  height: number;
-  gender: string | null;
-  wins: number | null;
-  losses: number | null;
-  draws: number | null;
-  kos: number | null;
-  winsInARow: number | null;
-  location: string | null;
-  styles: string[];
-  category: string | null;
-  club: string | null;
-}
-
-const sampleFighter: Fighter = {
-  id: "1",
-  name: "Alex Rodriguez",
-  dateOfBirth: "1995-03-15",
-  weight: 155.5,
-  height: 72,
-  gender: "Male",
-  wins: 18,
-  losses: 3,
-  draws: 1,
-  kos: 12,
-  winsInARow: 5,
-  location: "Las Vegas, Nevada",
-  styles: ["Boxing", "Muay Thai", "Brazilian Jiu-Jitsu"],
-  category: "Lightweight",
-  club: "Elite Fighters Academy",
+type FighterCardProps = {
+  fighter: FighterProfileResponse;
 };
-
-function calculateAge(dateOfBirth: string | null): number | null {
-  if (!dateOfBirth) return null;
-  const today = new Date();
-  const birthDate = new Date(dateOfBirth);
-  let age = today.getFullYear() - birthDate.getFullYear();
-  const monthDiff = today.getMonth() - birthDate.getMonth();
-  if (
-    monthDiff < 0 ||
-    (monthDiff === 0 && today.getDate() < birthDate.getDate())
-  ) {
-    age--;
-  }
-  return age;
-}
-
-function formatHeight(inches: number): string {
-  const feet = Math.floor(inches / 12);
-  const remainingInches = inches % 12;
-  return `${feet}'${remainingInches}"`;
-}
-
-export default function FighterCard() {
-  const [fighter] = useState<Fighter>(sampleFighter);
+export default function FighterMatchCard({ fighter }: FighterCardProps) {
   const age = calculateAge(fighter.dateOfBirth);
 
   return (
-    <Card className="w-full max-w-sm overflow-hidden py-0 bg-gradient-to-b from-white to-gray-50 dark:from-black dark:to-black shadow-2xl border-0 dark:shadow-yellow-500/10 transform transition-transform hover:scale-102">
+    <div className="flex justify-center items-center p-4">
+    <Card className="w-full max-w-sm overflow-hidden py-0 bg-gradient-to-b from-white to-gray-50 dark:from-black dark:to-black shadow-2xl border-0 transform transition-transform hover:scale-102">
       <div className="relative py-4 bg-gradient-to-br from-yellow-200 via-yellow-300 to-amber-300 dark:from-yellow-400 dark:via-yellow-500 dark:to-amber-500 flex items-center justify-center">
         <div className="absolute inset-0  dark:bg-black/20" />
         <div className="relative flex items-center gap-5 justify-center z-10">
@@ -95,7 +40,7 @@ export default function FighterCard() {
               {fighter.club && (
                 <div className="flex items-center gap-1">
                   <Dumbbell className="w-4 h-4" />
-                  <span>{fighter.club}</span>
+                  <span>{fighter.club.name}</span>
                 </div>
               )}
               {age && (
@@ -119,7 +64,7 @@ export default function FighterCard() {
                       variant="secondary"
                       className="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 border border-yellow-200 dark:border-yellow-700"
                     >
-                      {fighter.category}
+                      {fighter.category.name}
                     </Badge>
                   </div>
                 )}
@@ -148,7 +93,7 @@ export default function FighterCard() {
                 Height
               </div>
               <div className="font-semibold text-gray-900 dark:text-gray-100">
-                {formatHeight(fighter.height)}
+                {fighter.height}
               </div>
             </div>
           </div>
@@ -222,7 +167,7 @@ export default function FighterCard() {
                   variant="secondary"
                   className="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 border border-yellow-200 dark:border-yellow-700"
                 >
-                  {style}
+                  {style.name}
                 </Badge>
               ))
             ) : (
@@ -240,23 +185,18 @@ export default function FighterCard() {
             <MapPin className="w-5 h-5 text-blue-500 dark:text-blue-400" />
             <div>
               <div className="text-sm text-blue-600 dark:text-blue-300">
-                Location
+                Distance
               </div>
               <div className="font-semibold text-blue-700 dark:text-blue-200">
-                {fighter.location}
+                {fighter.distanceFromTarget
+                  ? `${fighter.distanceFromTarget.toFixed(2)} km`
+                  : "N/A"}
               </div>
             </div>
           </div>
         )}
       </CardContent>
     </Card>
-  );
-}
-
-export function FighterCardContainer() {
-  return (
-    <div>
-      <FighterCard />
     </div>
   );
 }

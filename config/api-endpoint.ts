@@ -1,5 +1,3 @@
-import { activateAccount } from "@/clients/auth-client";
-
 const url = process.env.NEXT_PUBLIC_FIGHTHUB_API_URL;
 
 export const apiEndpoint = {
@@ -17,5 +15,5 @@ export const apiEndpoint = {
   styles: `${url}/styles`,
   users: `${url}/users`,
   roles: `${url}/roles`,
-  fighterMatching: `${url}/fighter-matching`,
+  fighterMatcher: `${url}/fighter-matching`,
 };

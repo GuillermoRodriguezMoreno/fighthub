@@ -35,6 +35,7 @@ export const path = {
     },
     fighterMatcher: {
       base: `${baseUrl}/dashboard/fighter-matcher`,
+      opponents: `${baseUrl}/dashboard/fighter-matcher/opponents`,
     },
   },
 };
