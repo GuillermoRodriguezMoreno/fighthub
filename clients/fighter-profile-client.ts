@@ -68,3 +68,29 @@ export async function searchFighterByName(
   );
   return await res.json();
 }
+
+export async function uploadFighterProfilePicture(
+  file: File,
+  fighterId: string,
+): Promise<FighterProfileResponse> {
+  if (!file || !fighterId) {
+    throw new Error("File and fighterId are required");
+  }
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const res = await fetchWithAuth(
+    `${apiEndpoint.fighters}/${fighterId}/upload-picture`,
+    {
+      method: "PATCH",
+      body: formData,
+    },
+  );
+
+  if (!res.ok) {
+    throw new Error(`Failed to upload picture: ${res.statusText}`);
+  }
+
+  return await res.json();
+}

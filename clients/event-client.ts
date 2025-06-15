@@ -65,3 +65,26 @@ export async function deleteEvent(eventId: number): Promise<string> {
   }
   return res.text();
 }
+
+export async function uploadEventProfilePicture(
+  file: File,
+  eventId: string,
+): Promise<EventResponse> {
+  if (!file || !eventId) {
+    throw new Error("File and eventId are required");
+  }
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const res = await fetchWithAuth(`${apiEndpoint.events}/${eventId}/upload-picture`, {
+    method: "PATCH",
+    body: formData,
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to upload picture: ${res.statusText}`);
+  }
+
+  return await res.json();
+}

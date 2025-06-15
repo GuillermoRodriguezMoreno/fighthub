@@ -80,3 +80,29 @@ export async function joinClub(
   }
   return await res.text();
 }
+
+export async function uploadClubProfilePicture(
+  file: File,
+  clubId: string,
+): Promise<ClubResponse> {
+  if (!file || !clubId) {
+    throw new Error("File and clubId are required");
+  }
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const res = await fetchWithAuth(
+    `${apiEndpoint.clubs}/${clubId}/upload-picture`,
+    {
+      method: "PATCH",
+      body: formData,
+    },
+  );
+
+  if (!res.ok) {
+    throw new Error(`Failed to upload picture: ${res.statusText}`);
+  }
+
+  return await res.json();
+}
