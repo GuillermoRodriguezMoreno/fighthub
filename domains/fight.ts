@@ -29,20 +29,21 @@ export type CreateFightInputs = {
   fightOrder: number;
   titleFight: string;
   closed?: string;
-  ko?: string;
-  draw?: string;
   weight: number;
   rounds: number;
   minutesPerRound: number;
   blueCornerFighterId?: string;
   redCornerFighterId?: string;
-  winner?: string;
   eventId: string;
   categoryId: string;
   styleId: string;
 };
 
-export type EditFightInputs = CreateFightInputs;
+export type EditFightInputs = CreateFightInputs & {
+  ko?: string;
+  draw?: string;
+  winner?: string;
+};
 
 export type FightRequest = {
   id?: number;

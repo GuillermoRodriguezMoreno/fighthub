@@ -77,8 +77,12 @@ export function CreateFightDialog({
 
   const onSubmit: SubmitHandler<CreateFightInputs> = async (data) => {
     const createFightRequest: FightRequest = {
-      ...data,
-      winner: data.winner ? { id: data.winner } : undefined,
+      fightOrder: data.fightOrder,
+      titleFight: data.titleFight,
+      closed: data.closed,
+      weight: data.weight,
+      rounds: data.rounds,
+      minutesPerRound: data.minutesPerRound,
       redCornerFighter: selectedRedFighterId
         ? { id: String(selectedRedFighterId) }
         : undefined,
@@ -209,7 +213,7 @@ export function CreateFightDialog({
                 <Trophy size={16} className="text-primary" /> Is title fight?
               </Label>
               <Controller
-                name="isTitleFight"
+                name="titleFight"
                 control={control}
                 render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
@@ -223,7 +227,7 @@ export function CreateFightDialog({
                   </Select>
                 )}
               />
-              {errors.isTitleFight && (
+              {errors.titleFight && (
                 <span className="text-destructive col-span-4">
                   This field is required
                 </span>
@@ -234,7 +238,7 @@ export function CreateFightDialog({
                 <BookmarkX size={16} /> Is closed?
               </Label>
               <Controller
-                name="isClosed"
+                name="closed"
                 control={control}
                 render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
@@ -248,7 +252,7 @@ export function CreateFightDialog({
                   </Select>
                 )}
               />
-              {errors.isClosed && (
+              {errors.closed && (
                 <span className="text-destructive col-span-4">
                   This field is required
                 </span>
