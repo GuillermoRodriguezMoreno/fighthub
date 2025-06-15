@@ -23,7 +23,6 @@ export default function FighterMatchCard({ fighter }: FighterCardProps) {
   const age = calculateAge(fighter.dateOfBirth);
 
   return (
-    <div className="flex justify-center items-center p-4">
     <Card className="w-full max-w-sm overflow-hidden py-0 bg-gradient-to-b from-white to-gray-50 dark:from-black dark:to-black shadow-2xl border-0 transform transition-transform hover:scale-102">
       <div className="relative py-4 bg-gradient-to-br from-yellow-200 via-yellow-300 to-amber-300 dark:from-yellow-400 dark:via-yellow-500 dark:to-amber-500 flex items-center justify-center">
         <div className="absolute inset-0  dark:bg-black/20" />
@@ -197,6 +196,5 @@ export default function FighterMatchCard({ fighter }: FighterCardProps) {
         )}
       </CardContent>
     </Card>
-    </div>
   );
 }
