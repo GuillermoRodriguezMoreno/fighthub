@@ -243,7 +243,6 @@ export function ClubEventsContainer({
   club: ClubResponse;
   isOwner?: boolean;
 }) {
-  const clubId = club.id || -1;
   const organizerEmail = club.ownerEmail || "";
   const eventsByOrganizerQuery = UseGetMyEventsQuery(organizerEmail);
   if (eventsByOrganizerQuery.isLoading) {
@@ -252,11 +251,10 @@ export function ClubEventsContainer({
   if (eventsByOrganizerQuery.isError || !eventsByOrganizerQuery.data) {
     return <AlertError description="An error has ocurred getting events" />;
   }
+
+  const eventsByOrganizer = eventsByOrganizerQuery.data.content || [];
+
   return (
-    <ClubEvents
-      club={club}
-      clubEvents={eventsByOrganizerQuery.data.content}
-      isOwner={isOwner}
-    />
+    <ClubEvents club={club} clubEvents={eventsByOrganizer} isOwner={isOwner} />
   );
 }

@@ -10,7 +10,7 @@ export function useUploadClubPictureMutation(clubId: number) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["club", clubId],
+        queryKey: ["club", String(clubId)],
       });
     },
   });

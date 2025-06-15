@@ -12,7 +12,7 @@ import PictureUpload from "../pictures/picture-upload";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { DEFAULT_IMAGE_URL } from "@/domains/utils";
 import { FighterProfileResponse } from "@/domains/fighter-profile";
-import { useUploadFighterPictureMutation } from "@/hooks/picture/use-upload-fighter-picture-mutation";
+import { useUploadFighterProfilePictureMutation } from "@/hooks/fighter_profile/use-upload-fighter-picture-mutation";
 
 type FighterPicturesProps = {
   isAuthorized?: boolean;
@@ -31,7 +31,7 @@ export function FighterProfilePictures({
     setUploadPictureDialogIsOpen(false);
   };
 
-  const { mutate: uploadMutation } = useUploadFighterPictureMutation(
+  const { mutate: uploadMutation } = useUploadFighterProfilePictureMutation(
     fighterProfile.id,
   );
 

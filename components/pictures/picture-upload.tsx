@@ -84,6 +84,7 @@ export default function PictureUpload({
     }
     if (selectedImage && mutation) {
       mutation(selectedImage);
+      handleClose();
     }
   };
 

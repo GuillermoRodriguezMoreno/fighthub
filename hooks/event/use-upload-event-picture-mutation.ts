@@ -10,7 +10,7 @@ export function useUploadEventPictureMutation(eventId: number) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["event", eventId],
+        queryKey: ["event", String(eventId)],
       });
     },
   });

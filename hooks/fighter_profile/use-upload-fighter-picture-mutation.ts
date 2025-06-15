@@ -1,7 +1,7 @@
 import { uploadFighterProfilePicture } from "@/clients/fighter-profile-client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export function useUploadClubPictureMutation(fighterId: number) {
+export function useUploadFighterProfilePictureMutation(fighterId: number) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["upload-fighter-picture", fighterId],
@@ -10,7 +10,7 @@ export function useUploadClubPictureMutation(fighterId: number) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["fighter-profile", fighterId],
+        queryKey: ["fighter-profile", String(fighterId)],
       });
     },
   });

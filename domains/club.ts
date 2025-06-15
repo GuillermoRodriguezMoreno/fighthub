@@ -1,5 +1,5 @@
 export type ClubResponse = {
-  id?: number;
+  id: number;
   name: string;
   address: string;
   email: string;

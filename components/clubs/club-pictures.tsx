@@ -10,13 +10,13 @@ import { CircleX, Edit, Pen, Plus } from "lucide-react";
 import { useState } from "react";
 import PictureUpload from "../pictures/picture-upload";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { EventResponse } from "@/domains/event";
 import { DEFAULT_IMAGE_URL } from "@/domains/utils";
 import { useUploadClubPictureMutation } from "@/hooks/club/use-upload-club-picture-mutation";
+import { ClubResponse } from "@/domains/club";
 
 type ClubPicturesProps = {
   isOwner?: boolean;
-  club: EventResponse;
+  club: ClubResponse;
 };
 export function ClubPictures({ isOwner = false, club }: ClubPicturesProps) {
   const [uploadPictureDialogIsOpen, setUploadPictureDialogIsOpen] =

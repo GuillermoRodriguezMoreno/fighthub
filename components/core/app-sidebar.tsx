@@ -160,7 +160,7 @@ export function AppSidebar() {
                   <Link href={appPath.dashboard.fighterMatcher.base}>
                     <Bot />
                     <span>Fighter Matcher</span>
-                    <Badge className="ml-2">Beta AI</Badge>
+                    <Badge className="ml-2">AI</Badge>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

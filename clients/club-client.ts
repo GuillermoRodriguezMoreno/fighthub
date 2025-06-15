@@ -3,7 +3,6 @@ import { defaultQueryParams } from "./types";
 import { buildUrlWithQueryParams, fetchWithAuth } from "./utils";
 import { apiEndpoint } from "@/config/api-endpoint";
 import { ClubRequest, ClubResponse } from "@/domains/club";
-import { AddFighterToClubRequest } from "@/domains/fighter-profile";
 
 export async function getClubs(
   defaultQueryParams: defaultQueryParams,
