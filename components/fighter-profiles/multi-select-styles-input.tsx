@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Check, ChevronDown, Flame, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -15,28 +15,32 @@ import { StyleResponse } from "@/domains/style";
 type MultiSelectStyleProps = {
   styles: StyleResponse[];
   fighterStyles?: StyleResponse[];
+  onSelect: (selectedStyles: StyleResponse[]) => void;
 };
+
 export default function MultiSelectStyle({
   styles,
   fighterStyles = [],
+  onSelect,
 }: MultiSelectStyleProps) {
-  const fighterStyleIds = fighterStyles.map((style) => String(style.id));
-  console.log("styleIds", styles);
-
-  const [selected, setSelected] = useState<string[]>(fighterStyleIds);
+  const [selected, setSelected] = useState<StyleResponse[]>(fighterStyles);
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleToggle = (styleId: string) => {
+  const handleToggle = (style: StyleResponse) => {
     setSelected((prev) =>
-      prev.includes(styleId)
-        ? prev.filter((id) => id !== styleId)
-        : [...prev, styleId],
+      prev.some((s) => s.id === style.id)
+        ? prev.filter((s) => s.id !== style.id)
+        : [...prev, style],
     );
   };
 
-  const removeItem = (styleId: string) => {
-    setSelected((prev) => prev.filter((id) => id !== styleId));
+  const removeItem = (styleId: number) => {
+    setSelected((prev) => prev.filter((s) => s.id !== styleId));
   };
+
+  useEffect(() => {
+    onSelect(selected);
+  }, [selected, onSelect]);
 
   return (
     <div className="max-w-md mx-auto space-y-4">
@@ -58,28 +62,25 @@ export default function MultiSelectStyle({
                     Select styles...
                   </span>
                 ) : (
-                  selected.map((styleId) => {
-                    const style = styles.find((s) => String(s.id) === styleId);
-                    return (
-                      <Badge
-                        key={styleId}
-                        variant="secondary"
-                        className="text-xs"
+                  selected.map((style) => (
+                    <Badge
+                      key={style.id}
+                      variant="secondary"
+                      className="text-xs"
+                    >
+                      {style.name}
+                      <button
+                        className="ml-1 hover:bg-muted rounded-full"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          removeItem(style.id || 0);
+                        }}
                       >
-                        {style?.name}
-                        <button
-                          className="ml-1 hover:bg-muted rounded-full"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            removeItem(styleId);
-                          }}
-                        >
-                          <X className="h-3 w-3" />
-                        </button>
-                      </Badge>
-                    );
-                  })
+                        <X className="h-3 w-3" />
+                      </button>
+                    </Badge>
+                  ))
                 )}
               </div>
               <ChevronDown className="h-4 w-4 shrink-0 opacity-50" />
@@ -92,20 +93,20 @@ export default function MultiSelectStyle({
                   key={style.id}
                   className={cn(
                     "flex items-center px-3 py-2 cursor-pointer hover:bg-accent",
-                    selected.includes(String(style.id)) && "bg-accent",
+                    selected.some((s) => s.id === style.id) && "bg-accent",
                   )}
-                  onClick={() => handleToggle(String(style.id))}
+                  onClick={() => handleToggle(style)}
                 >
                   <div className="flex items-center space-x-2 flex-1">
                     <div
                       className={cn(
                         "w-4 h-4 border rounded flex items-center justify-center",
-                        selected.includes(String(style.id))
+                        selected.some((s) => s.id === style.id)
                           ? "bg-primary border-primary"
                           : "border-input",
                       )}
                     >
-                      {selected.includes(String(style.id)) && (
+                      {selected.some((s) => s.id === style.id) && (
                         <Check className="h-3 w-3 text-primary-foreground" />
                       )}
                     </div>

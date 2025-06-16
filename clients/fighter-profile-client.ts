@@ -1,4 +1,7 @@
-import { FighterProfileResponse } from "@/domains/fighter-profile";
+import {
+  EditFighterProfileRequest,
+  FighterProfileResponse,
+} from "@/domains/fighter-profile";
 import { defaultFightersQueryParams, defaultQueryParams } from "./types";
 import { buildUrlWithQueryParams, fetchWithAuth } from "./utils";
 import { apiEndpoint } from "@/config/api-endpoint";
@@ -66,6 +69,26 @@ export async function searchFighterByName(
   const res = await fetchWithAuth(
     `${apiEndpoint.fighters}/search?name=${encodeURIComponent(sanitizedName)}`,
   );
+  return await res.json();
+}
+
+export async function editFighterProfile(
+  fighterProfileId: number,
+  fighterProfileRequest: EditFighterProfileRequest,
+): Promise<FighterProfileResponse> {
+  const res = await fetchWithAuth(
+    `${apiEndpoint.fighters}/${fighterProfileId}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(fighterProfileRequest),
+    },
+  );
+  if (!res.ok) {
+    throw new Error("Failed to edit fighter profile");
+  }
   return await res.json();
 }
 

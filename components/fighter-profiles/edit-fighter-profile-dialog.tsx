@@ -28,6 +28,7 @@ import {
   Flame,
   Gauge,
   Gem,
+  Info,
   ListOrdered,
   Medal,
   Ruler,
@@ -50,6 +51,8 @@ import { Calendar } from "../ui/calendar";
 import { StyleResponse } from "@/domains/style";
 import MultiSelectStyle from "./multi-select-styles-input";
 import { format } from "date-fns/format";
+import { useEditFighterProfileMutation } from "@/hooks/fighter_profile/use-edit-fighter-profile-mutation";
+import { Textarea } from "../ui/textarea";
 
 export type EditFighterProfileDialogProps = {
   editFighterProfileDialogIsOpen: boolean;
@@ -66,7 +69,14 @@ export function EditFighterProfileDialog({
   const [selectedStyles, setSelectedStyles] = useState<StyleResponse[]>(
     fighterProfile.styles || [],
   );
-  const [date, setDate] = useState(new Date());
+  const fighterDateOfBirth = fighterProfile.dateOfBirth
+    ? new Date(fighterProfile.dateOfBirth)
+    : new Date();
+  const [date, setDate] = useState(fighterDateOfBirth);
+
+  const handeleSelectStyles = (styles: StyleResponse[]) => {
+    setSelectedStyles(styles);
+  };
 
   const handleOncancel = () => {
     onCancel?.();
@@ -115,10 +125,14 @@ export function EditFighterProfileDialog({
     setSelectedStyles(fighterProfile.styles || []);
   }, [editFighterProfileDialogIsOpen, fighterProfile]);
 
-  // const { mutate: EditFighterProfileMutate } = useEditFighterProfileMutation(fighterProfile.id);
+  const { mutate: EditFighterProfileMutate } = useEditFighterProfileMutation(
+    fighterProfile.id,
+  );
+
+  const fighterProfileId = fighterProfile.id;
 
   const onSubmit: SubmitHandler<EditFighterProfileInputs> = async (data) => {
-    const editFightRequest: EditFighterProfileRequest = {
+    const editFighterProfileRequest: EditFighterProfileRequest = {
       firstname: data.firstname,
       lastname: data.lastname,
       dateOfBirth: date.toISOString() || fighterProfile.dateOfBirth,
@@ -132,20 +146,15 @@ export function EditFighterProfileDialog({
       kos: fighterProfile.kos,
       winsInARow: fighterProfile.winsInARow,
       location: fighterProfile.location,
-      styles: selectedStyles.map((style) => ({
-        id: style.id || 0,
-      })),
+      styles: selectedStyles,
       category: {
         id: data.categoryId,
       },
       club: fighterProfile.club,
     };
-    console.log({
-      editFightRequest: editFightRequest,
-      data: data,
-    });
-    // EditFighterProfileMutate({ fightId, editFightRequest });
-    // handleOncancel();
+
+    EditFighterProfileMutate({ fighterProfileId, editFighterProfileRequest });
+    handleOncancel();
   };
 
   const categoriesQuery = UseGetCategoriesQuery();
@@ -207,7 +216,10 @@ export function EditFighterProfileDialog({
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="firstname">First name</Label>
+              <Label htmlFor="firstname" className="flex items-center gap-2">
+                <Info className="h-4 w-4" />
+                First name
+              </Label>
               <Input
                 id="firstname"
                 type="string"
@@ -223,7 +235,10 @@ export function EditFighterProfileDialog({
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="lastname">Last name</Label>
+              <Label htmlFor="lastname" className="flex items-center gap-2">
+                <Info className="h-4 w-4" />
+                Last name
+              </Label>
               <Input
                 id="lastname"
                 type="string"
@@ -268,39 +283,75 @@ export function EditFighterProfileDialog({
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="categoryId" className="text-right">
-                <Gem size={16} />
-                Category
-              </Label>
-              <div className="col-span-3">
-                <Controller
-                  name="categoryId"
-                  control={control}
-                  render={({ field }) => (
-                    <Select
-                      defaultValue={String(
-                        formData?.category ? formData.category.id : "",
-                      )}
-                      onValueChange={(value) => field.onChange(value)}
-                      {...register("categoryId")}
-                    >
-                      <SelectTrigger className="w-full">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {categories.map((category, index) => (
-                          <SelectItem
-                            key={category?.id ?? `${index}-category`}
-                            value={String(category.id)}
-                          >
-                            {category.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  )}
-                />
-              </div>
+              <Label className="flex items-center gap-2">Gender</Label>
+              <Controller
+                name="gender"
+                control={control}
+                rules={{ required: "This field is required" }}
+                render={({ field }) => (
+                  <Select
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    {...register("gender")}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue
+                        placeholder={field.value}
+                        defaultValue={formData?.gender}
+                      />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem key={"gender-true"} value="male">
+                        Male
+                      </SelectItem>
+                      <SelectItem key={"gender-false"} value="female">
+                        Female
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              {errors.gender && (
+                <span className="text-destructive col-span-4">
+                  This field is required
+                </span>
+              )}
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="categoryId" className="text-right">
+              <Gem size={16} />
+              Category
+            </Label>
+            <div className="col-span-3">
+              <Controller
+                name="categoryId"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    defaultValue={String(
+                      formData?.category ? formData.category.id : "",
+                    )}
+                    onValueChange={(value) => field.onChange(value)}
+                    {...register("categoryId")}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categories.map((category, index) => (
+                        <SelectItem
+                          key={category?.id ?? `${index}-category`}
+                          value={String(category.id)}
+                        >
+                          {category.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
             </div>
           </div>
 
@@ -343,15 +394,34 @@ export function EditFighterProfileDialog({
               <MultiSelectStyle
                 styles={styles}
                 fighterStyles={selectedStyles}
+                onSelect={handeleSelectStyles}
               />
             </div>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="biography" className="flex items-center gap-2">
+              <Info className="h-4 w-4" />
+              Biography
+            </Label>
+            <Textarea
+              id="biography"
+              rows={4}
+              {...register("biography", {
+                required: "biography is required",
+              })}
+            />
+            {errors.biography && (
+              <span className="text-destructive">
+                {errors.biography.message}
+              </span>
+            )}
           </div>
         </form>
         <DialogFooter>
           <Button variant="outline" onClick={handleOncancel}>
             Cancel
           </Button>
-          <Button type="submit" form="edit-fight-form">
+          <Button type="submit" form="edit-fighter-profile-form">
             Save changes
           </Button>
         </DialogFooter>

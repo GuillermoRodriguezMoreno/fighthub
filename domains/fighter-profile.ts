@@ -64,9 +64,7 @@ export interface EditFighterProfileRequest {
     longitude?: number;
     timestamp?: string;
   };
-  styles: {
-    id: number;
-  }[];
+  styles: StyleResponse[];
   category: {
     id: number;
   };
