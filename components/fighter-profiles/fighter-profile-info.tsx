@@ -1,8 +1,9 @@
-import { Avatar } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import FighterProfileMasonry from "./fighter-profile-masonry";
 import { FighterProfileResponse } from "@/domains/fighter-profile";
+import Image from "next/image";
 
 type FighterProfileInfoProps = {
   fighterProfile: FighterProfileResponse;
@@ -15,26 +16,22 @@ export default function FighterProfileInfo({
       <div className="space-y-4 lg:col-span-2">
         <div className="flex items-center space-x-4">
           <Avatar className="w-12 h-12">
-            <img
-              src="/profile-photo2.webp"
-              width="96"
-              height="96"
-              alt="Avatar"
-              className="rounded-full"
-              style={{ aspectRatio: "96/96", objectFit: "cover" }}
-            />
+            <AvatarImage src={fighterProfile.profilePicture} />
+            <AvatarFallback className="text-lg">N/A</AvatarFallback>
           </Avatar>
           <div className="space-y-1">
-            <h1 className="text-2xl font-bold">{fighterProfile.name}</h1>
+            <h1 className="text-2xl font-bold">
+              {fighterProfile.name || "Your name..."}
+            </h1>
             <p className="text-gray-500 dark:text-gray-400">
               {fighterProfile.category
                 ? fighterProfile.category.name
-                : "No category"}
+                : "No category..."}
             </p>
           </div>
         </div>
         <p className="text-gray-500 dark:text-gray-400">
-          {fighterProfile.biography || "No bio available."}
+          {fighterProfile.biography || ""}
         </p>
       </div>
       <div className="space-y-4">
@@ -43,11 +40,14 @@ export default function FighterProfileInfo({
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label>Name</Label>
-              <p>{fighterProfile.name}</p>
+              <p>{fighterProfile.name || "Your name..."}</p>
             </div>
             <div className="space-y-2">
               <Label>Bio</Label>
-              <p className="min-h-[100px]">{fighterProfile.biography}</p>
+              <p className="min-h-[100px]">
+                {fighterProfile.biography ||
+                  "We want to know more about you..."}
+              </p>
             </div>
           </CardContent>
         </Card>

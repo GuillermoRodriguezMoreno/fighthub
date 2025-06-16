@@ -5,6 +5,8 @@ import { StyleResponse } from "./style";
 export type FighterProfileResponse = {
   id: number;
   name: string;
+  firstname: string;
+  lastname: string;
   dateOfBirth: string;
   weight: number;
   height: number;
@@ -16,9 +18,10 @@ export type FighterProfileResponse = {
   kos: number;
   winsInARow: number;
   profilePicture?: string;
-  location: {
-    country: string;
-    city: string;
+  location?: {
+    latitude?: number;
+    longitude?: number;
+    timestamp?: string;
   };
   userId: number;
   username: string;
@@ -30,6 +33,47 @@ export type FighterProfileResponse = {
   distanceFromTarget?: number | null;
 };
 
+export type EditFighterProfileInputs = {
+  firstname: string;
+  lastname: string;
+  dateOfBirth: string;
+  weight: number;
+  height: number;
+  gender: string;
+  biography: string;
+  styleIds: number[];
+  categoryId: number;
+};
+
+export interface EditFighterProfileRequest {
+  id?: number;
+  firstname: string;
+  lastname: string;
+  dateOfBirth: string;
+  weight: number;
+  height: number;
+  gender: string;
+  biography?: string;
+  wins?: number;
+  losses?: number;
+  draws?: number;
+  kos?: number;
+  winsInARow?: number;
+  location?: {
+    latitude?: number;
+    longitude?: number;
+    timestamp?: string;
+  };
+  styles: {
+    id: number;
+  }[];
+  category: {
+    id: number;
+  };
+  club?: {
+    id: number;
+  };
+}
 export type AddFighterToClubInputs = {
   fighterId: number;
 };

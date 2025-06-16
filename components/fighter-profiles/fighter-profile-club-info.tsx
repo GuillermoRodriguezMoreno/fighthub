@@ -12,6 +12,8 @@ import { Badge } from "@/components/ui/badge";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { ClubResponse } from "@/domains/club";
 import { ClubInfoSkeleton } from "./club-info-skeleton";
+import { useRouter } from "next/navigation";
+import { path } from "@/config/path";
 
 type FighterProfileClubInfoProps = {
   club: ClubResponse | undefined;
@@ -20,6 +22,7 @@ type FighterProfileClubInfoProps = {
 export default function FighterProfileClubInfo({
   club,
 }: FighterProfileClubInfoProps) {
+  const router = useRouter();
   return (
     <div className="flex flex-col gap-4 h-full">
       <h2 className="text-2xl font-bold">Club</h2>
@@ -62,7 +65,13 @@ export default function FighterProfileClubInfo({
             </div>
           </CardContent>
           <CardFooter className="flex justify-between">
-            <Button>View Profile</Button>
+            <Button
+              onClick={() =>
+                router.push(`${path.dashboard.clubs.base}/${club.id}`)
+              }
+            >
+              View Profile
+            </Button>
           </CardFooter>
         </Card>
       ) : (

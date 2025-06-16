@@ -22,7 +22,7 @@ export default function FighterProfileMasonry({
                 <div className="grid items-center grid-rows-2">
                   <Label className="text-xl">Wins</Label>
                   <p className="text-3xl font-extrabold text-center">
-                    {fighterProfile.wins}
+                    {fighterProfile.wins || 0}
                   </p>
                 </div>
               </div>
@@ -31,7 +31,7 @@ export default function FighterProfileMasonry({
                 <div className="grid items-center grid-rows-2">
                   <Label className="text-xl">Losses</Label>
                   <p className="text-3xl font-extrabold text-center">
-                    {fighterProfile.losses}
+                    {fighterProfile.losses || 0}
                   </p>
                 </div>
               </div>
@@ -40,7 +40,7 @@ export default function FighterProfileMasonry({
                 <div className="grid items-center grid-rows-2">
                   <Label className="text-xl">Draws</Label>
                   <p className="text-3xl font-extrabold text-center">
-                    {fighterProfile.draws}
+                    {fighterProfile.draws || 0}
                   </p>
                 </div>
               </div>
@@ -56,7 +56,7 @@ export default function FighterProfileMasonry({
                 <div className="grid items-center grid-rows-2">
                   <Label className="text-xl">Ko&apos;s</Label>
                   <p className="text-3xl font-extrabold text-center">
-                    {fighterProfile.kos}
+                    {fighterProfile.kos || 0}
                   </p>
                 </div>
               </div>
@@ -77,7 +77,7 @@ export default function FighterProfileMasonry({
                 ))}
               </div>
             ) : (
-              "No styles set"
+              "Your styles will be displayed here..."
             )}
           </CardContent>
         </Card>

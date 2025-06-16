@@ -13,6 +13,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { DEFAULT_IMAGE_URL } from "@/domains/utils";
 import { FighterProfileResponse } from "@/domains/fighter-profile";
 import { useUploadFighterProfilePictureMutation } from "@/hooks/fighter_profile/use-upload-fighter-picture-mutation";
+import { ImageSkeleton } from "../core/image-skeleton";
 
 type FighterPicturesProps = {
   isAuthorized?: boolean;
@@ -52,40 +53,45 @@ export function FighterProfilePictures({
           </Tooltip>
         ) : null}
       </div>
-      <div>
-        <Dialog>
-          <DialogTrigger asChild>
-            <div className="p-1 ">
-              <Card className="flex rounded-md overflow-hidden p-0 ">
-                <CardContent className="relative w-full aspect-square p-0">
-                  <Image
-                    src={fighterProfile.profilePicture || DEFAULT_IMAGE_URL}
-                    alt={`Imagen`}
-                    fill
-                    className="object-cover rounded-md hover:scale-105 transition-transform duration-300 ease-in-out"
-                  />
-                </CardContent>
-              </Card>
-            </div>
-          </DialogTrigger>
-          <DialogContent className="max-w-3xl p-0 bg-transparent shadow-none">
-            <div className="relative w-full h-full flex items-center justify-center">
-              <Image
-                src={fighterProfile.profilePicture || DEFAULT_IMAGE_URL}
-                alt={`Imagen`}
-                width={800}
-                height={480}
-                className="rounded-md object-contain"
-              />
-              <DialogClose asChild>
-                <Button className="absolute top-4 right-4" aria-label="close">
-                  <CircleX />
-                </Button>
-              </DialogClose>
-            </div>
-          </DialogContent>
-        </Dialog>
-      </div>
+      {fighterProfile.profilePicture ? (
+        <div>
+          <Dialog>
+            <DialogTrigger asChild>
+              <div className="p-1 ">
+                <Card className="flex rounded-md overflow-hidden p-0 ">
+                  <CardContent className="relative w-full aspect-square p-0">
+                    <Image
+                      src={fighterProfile.profilePicture || DEFAULT_IMAGE_URL}
+                      alt={`Imagen`}
+                      fill
+                      className="object-cover rounded-md hover:scale-105 transition-transform duration-300 ease-in-out"
+                    />
+                  </CardContent>
+                </Card>
+              </div>
+            </DialogTrigger>
+            <DialogContent className="max-w-3xl p-0 bg-transparent shadow-none">
+              <div className="relative w-full h-full flex items-center justify-center">
+                <Image
+                  src={fighterProfile.profilePicture || DEFAULT_IMAGE_URL}
+                  alt={`Imagen`}
+                  width={800}
+                  height={480}
+                  className="rounded-md object-contain"
+                />
+                <DialogClose asChild>
+                  <Button className="absolute top-4 right-4" aria-label="close">
+                    <CircleX />
+                  </Button>
+                </DialogClose>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
+      ) : (
+        <ImageSkeleton />
+      )}
+
       <PictureUpload
         isOpen={uploadPictureDialogIsOpen}
         onCancel={handleCloseUploadPicture}

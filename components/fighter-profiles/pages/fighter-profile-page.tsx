@@ -1,4 +1,5 @@
 "use client";
+
 import { UseGetFighterProfileQuery } from "@/hooks/fighter_profile/use-get-fighter-profile-query";
 import FighterProfileClubInfo from "../fighter-profile-club-info";
 import FighterProfileInfo from "../fighter-profile-info";
@@ -11,6 +12,15 @@ import LoadingSpinner from "@/components/core/loading-spinner";
 import { AlertInfo } from "@/components/core/alert-info";
 import { FightResponse } from "@/domains/fight";
 import { FighterProfilePictures } from "../fighter-profile-pictures";
+import { Edit } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { EditFighterProfileDialog } from "../edit-fighter-profile-dialog";
+import { useState } from "react";
 
 type FighterProfilePageProps = {
   fighterProfile: FighterProfileResponse;
@@ -25,9 +35,32 @@ export function FighterProfilePage({
   fights,
   isAuthorized,
 }: FighterProfilePageProps) {
+  const [editProfileDialogIsOpen, setEditProfileDialogIsOpen] =
+    useState<boolean>(false);
+
+  const handleEditProfile = () => {
+    setEditProfileDialogIsOpen(true);
+  };
+  const handleCloseEditProfile = () => {
+    setEditProfileDialogIsOpen(false);
+  };
   return (
     <>
-      <h2 className="text-3xl font-semibold md:mb-4 md:text-4xl">Profile</h2>
+      <div className="flex items-center gap-5">
+        <h2 className="text-3xl font-semibold md:text-4xl">Profile</h2>
+        {isAuthorized ? (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button onClick={handleEditProfile}>
+                <Edit />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Edit profile</p>
+            </TooltipContent>
+          </Tooltip>
+        ) : null}
+      </div>
       <FighterProfileInfo fighterProfile={fighterProfile} />
       <div className="grid grid-cols-1 gap-y-10 lg:grid-cols-3 lg:gap-10 ">
         <div className="col-span-1">
@@ -41,6 +74,13 @@ export function FighterProfilePage({
         </div>
       </div>
       <UpcomingFigtherFights fights={fights} />
+      {isAuthorized ? (
+        <EditFighterProfileDialog
+          editFighterProfileDialogIsOpen={editProfileDialogIsOpen}
+          onCancel={handleCloseEditProfile}
+          fighterProfile={fighterProfile}
+        />
+      ) : null}
     </>
   );
 }
@@ -78,4 +118,7 @@ export function FighterProfilePageContainer({
       fights={fights}
     />
   );
+}
+function UseState<T>(arg0: boolean): [any, any] {
+  throw new Error("Function not implemented.");
 }
