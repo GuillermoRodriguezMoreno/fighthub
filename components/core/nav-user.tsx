@@ -27,12 +27,26 @@ import {
 import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { path } from "@/config/path";
+import { UseGetFighterProfileQuery } from "@/hooks/fighter_profile/use-get-fighter-profile-query";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
   const session = useSession();
-  const userId = session.data?.userId;
+  const userId = session.data?.userId || -1;
+  const enabled = !!userId && userId > 0;
   const router = useRouter();
+  const profileQuery = UseGetFighterProfileQuery(userId, enabled);
+
+  if (profileQuery.isLoading) {
+    return null; // or a loading spinner
+  }
+  if (profileQuery.isError) {
+    return null; // or an error message
+  }
+  if (!profileQuery.data) {
+    return null; // or a message indicating no profile found
+  }
+  const fighterProfile = profileQuery.data;
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -43,12 +57,12 @@ export function NavUser() {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src="" alt="user name" />
+                <AvatarImage src={fighterProfile.profilePicture} alt="user name" />
                 <AvatarFallback className="rounded-lg">N/A</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">user name</span>
-                <span className="truncate text-xs">user email</span>
+                <span className="truncate font-semibold">{fighterProfile.name}</span>
+                <span className="truncate text-xs">{fighterProfile.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -62,23 +76,17 @@ export function NavUser() {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src="" alt="user picture" />
+                  <AvatarImage src={fighterProfile.profilePicture} alt="user picture" />
                   <AvatarFallback className="rounded-lg">N/A</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">USER NAME</span>
-                  <span className="truncate text-xs">USER EMAIL</span>
+                  <span className="truncate font-semibold">{fighterProfile.name}</span>
+                  <span className="truncate text-xs">{fighterProfile.email}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem
-                onClick={() => router.push(path.dashboard.account.base)}
-              >
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() =>
                   router.push(`${path.dashboard.fighters.base}/${userId}`)
@@ -86,12 +94,6 @@ export function NavUser() {
               >
                 <SquareUser />
                 Profile
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => router.push("/dashboard/notifications")}
-              >
-                <Bell />
-                Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
