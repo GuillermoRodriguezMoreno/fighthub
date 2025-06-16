@@ -20,6 +20,9 @@ import { AlertError } from "../core/alert-error";
 import { AlertInfo } from "../core/alert-info";
 import { FighterProfileResponse } from "@/domains/fighter-profile";
 import { DashboardSkeleton } from "./dashboard-skeleton";
+import Image from 'next/image';
+import { DEFAULT_IMAGE_URL } from "@/domains/utils";
+
 
 interface PopularFightersProps {
   popularFighters: FighterProfileResponse[];
@@ -116,10 +119,11 @@ export const PopularFighters = ({
                     <div className="flex aspect-[3/2] overflow-clip rounded-xl">
                       <div className="flex-1">
                         <div className="relative h-full w-full origin-bottom transition duration-300 group-hover:scale-105">
-                          <img
-                            src=""
-                            alt={fighter.name}
+                          <Image
+                            src={fighter.profilePicture || DEFAULT_IMAGE_URL}
+                            alt={fighter.name || "Unknown Fighter"}
                             className="h-full w-full object-cover object-center"
+                            layout="fill"
                           />
                         </div>
                       </div>
@@ -129,7 +133,7 @@ export const PopularFighters = ({
                     {fighter.name}
                   </div>
                   <div className="mb-8 line-clamp-2 text-sm text-muted-foreground md:mb-12 md:text-base lg:mb-9">
-                    {fighter.biography}
+                    {fighter.biography || "No biography available"}
                   </div>
                   <div className="flex items-center text-sm">
                     See more{" "}

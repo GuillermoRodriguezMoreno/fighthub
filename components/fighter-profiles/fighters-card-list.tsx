@@ -8,6 +8,9 @@ import { AlertInfo } from "../core/alert-info";
 import { FighterProfileResponse } from "@/domains/fighter-profile";
 import { UseGetFighterProfilesQuery } from "@/hooks/fighter_profile/use-get-fighter-profiles-query";
 import { UseGetMyFightersQuery } from "@/hooks/fighter_profile/use-get-my-fighters";
+import Image from 'next/image';
+import { DEFAULT_IMAGE_URL } from "@/domains/utils";
+
 
 type FightersCardProps = {
   fighter: FighterProfileResponse;
@@ -27,10 +30,11 @@ export function FighterCard({ fighter }: FightersCardProps) {
         <div className="flex aspect-[3/2] overflow-clip rounded-xl">
           <div className="flex-1">
             <div className="relative h-full w-full origin-bottom transition duration-300 group-hover:scale-105">
-              <img
-                src=""
+              <Image
+                src={fighter.profilePicture || DEFAULT_IMAGE_URL}
                 alt={fighter.name}
                 className="h-full w-full object-cover object-center"
+                layout="fill"
               />
             </div>
           </div>
@@ -43,7 +47,7 @@ export function FighterCard({ fighter }: FightersCardProps) {
         {fighter.biography}
       </div>
       <div className="flex items-center text-sm">
-        Read more{" "}
+        See more{" "}
         <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
       </div>
     </div>

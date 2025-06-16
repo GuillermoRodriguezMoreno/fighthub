@@ -10,6 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { FightResponse } from "@/domains/fight";
+import FightCardDetailsContent from "./fight-page-card";
 
 export default function FightDetailsCard({
   fight,
@@ -37,52 +38,7 @@ export default function FightDetailsCard({
           </Tooltip>
         ) : null}
       </div>
-      <Card>
-        <CardHeader>
-          <div className="flex items-start justify-between">
-            <div className="space-y-2">
-              <CardTitle className="text-2xl font-bold">
-                {fight.blueCornerFighterName} VS {fight.redCornerFighterName}
-              </CardTitle>
-              <CardDescription className="text-base leading-relaxed">
-                incredible fight description
-              </CardDescription>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="space-y-4">
-            <div className="flex items-start gap-3">
-              <MapPin className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
-              <div>
-                <p className="font-medium">Location</p>
-                <p className="text-sm text-muted-foreground">
-                  {fight.eventName}
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start gap-3">
-              <Calendar className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
-              <div>
-                <p className="font-medium">Date</p>
-                <p className="text-sm text-muted-foreground">
-                  {fight.fightOrder}
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start gap-3">
-              <Clock className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
-              <div>
-                <p className="font-medium">Time</p>
-                <p className="text-sm text-muted-foreground">
-                  incredible fight time
-                </p>
-              </div>
-            </div>
-          </div>
-          <Separator />
-        </CardContent>
-      </Card>
+      <FightCardDetailsContent fight={fight} />
     </div>
   );
 }

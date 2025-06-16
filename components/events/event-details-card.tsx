@@ -13,6 +13,7 @@ import { path } from "@/config/path";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { DEFAULT_IMAGE_URL } from "@/domains/utils";
 
 export function EventDetailsCard({
   event,
@@ -107,7 +108,7 @@ export function EventDetailsCard({
               <div className="flex items-center gap-5">
                 <Avatar className="h-14 w-14">
                   <AvatarImage
-                    src="/placeholder.svg?height=56&width=56"
+                    src={event.organizerProfilePicture || DEFAULT_IMAGE_URL}
                     alt="Profile picture"
                   />
                   <AvatarFallback>N/A</AvatarFallback>

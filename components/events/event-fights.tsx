@@ -23,6 +23,9 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import LoadingSpinner from "../core/loading-spinner";
 import { AlertError } from "../core/alert-error";
 import { ListElementSkeleton } from "../core/list-element-skeleton";
+import Image from 'next/image';
+import { FightCard } from "../fights/fight-card-list";
+
 
 interface EventFigthsProps {
   eventFights: FightResponse[];
@@ -147,29 +150,10 @@ const EventFights = ({
                     href={`${path.dashboard.fights.base}/${fight.id}`}
                     className="group flex flex-col justify-between"
                   >
-                    <div>
-                      <div className="flex aspect-[3/2] overflow-clip rounded-xl">
-                        <div className="flex-1">
-                          <div className="relative h-full w-full origin-bottom transition duration-300 group-hover:scale-105">
-                            <img
-                              src="" //{fight.image}
-                              alt={fight.eventName}
-                              className="h-full w-full object-cover object-center"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mb-2 line-clamp-3 break-words pt-4 text-lg font-medium md:mb-3 md:pt-4 md:text-xl lg:pt-4 lg:text-2xl">
-                      {/* {fight.title} */}
-                    </div>
-                    <div className="mb-8 line-clamp-2 text-sm text-muted-foreground md:mb-12 md:text-base lg:mb-9">
-                      {/* {fight.summary} */}
-                    </div>
-                    <div className="flex items-center text-sm">
-                      Read more{" "}
-                      <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
-                    </div>
+                    <FightCard
+                      fight={fight}
+                      event={event}
+                      />
                   </Link>
                   <div className="flex justify-end gap-5">
                     {isOrganizer ? (

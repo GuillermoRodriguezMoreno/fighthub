@@ -20,6 +20,9 @@ import { AlertInfo } from "../core/alert-info";
 import { useRouter } from "next/navigation";
 import { EventResponse } from "@/domains/event";
 import { DashboardSkeleton } from "./dashboard-skeleton";
+import Image from 'next/image';
+import { DEFAULT_IMAGE_URL } from "@/domains/utils";
+
 
 interface UpcomingEventsDashboardProps {
   upcommingEvents: EventResponse[];
@@ -116,11 +119,12 @@ export const UpcomingEventsDashboard = ({
                     <div className="flex aspect-[3/2] overflow-clip rounded-xl">
                       <div className="flex-1">
                         <div className="relative h-full w-full origin-bottom transition duration-300 group-hover:scale-105">
-                          <img
-                            src=""
+                          <Image
+                            src={event.profilePicture || DEFAULT_IMAGE_URL}
                             alt={event.name}
                             className="h-full w-full object-cover object-center"
-                          />
+                            layout="fill"
+                            />
                         </div>
                       </div>
                     </div>
@@ -163,7 +167,7 @@ export const UpcomingEventsDashboardContent = (): JSX.Element => {
     return <DashboardSkeleton />;
   }
   if (eventsQuery.data.content.length === 0) {
-    return <AlertInfo description={emptyListMessage} />;
+    return <AlertInfo title="Not found" description={emptyListMessage} />;
   }
 
   return <UpcomingEventsDashboard upcommingEvents={eventsQuery.data.content} />;

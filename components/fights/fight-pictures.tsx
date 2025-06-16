@@ -13,6 +13,7 @@ import { DialogTrigger } from "@radix-ui/react-dialog";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { CircleX } from "lucide-react";
+import { DEFAULT_IMAGE_URL } from "@/domains/utils";
 
 export function FightPictures() {
   return (
@@ -28,7 +29,7 @@ export function FightPictures() {
                     <Card className="flex rounded-md overflow-hidden p-0 ">
                       <CardContent className="relative w-full aspect-square p-0">
                         <Image
-                          src="/profile-photo.jpeg"
+                          src={DEFAULT_IMAGE_URL}
                           alt={`Imagen ${index + 1}`}
                           fill
                           className="object-cover rounded-md hover:scale-105 transition-transform duration-300 ease-in-out"

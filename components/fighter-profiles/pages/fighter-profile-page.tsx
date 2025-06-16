@@ -24,7 +24,7 @@ import { useState } from "react";
 
 type FighterProfilePageProps = {
   fighterProfile: FighterProfileResponse;
-  club: ClubResponse | undefined;
+  club: ClubResponse;
   isAuthorized?: boolean;
   fights: FightResponse[];
 };
@@ -118,7 +118,4 @@ export function FighterProfilePageContainer({
       fights={fights}
     />
   );
-}
-function UseState<T>(arg0: boolean): [any, any] {
-  throw new Error("Function not implemented.");
 }

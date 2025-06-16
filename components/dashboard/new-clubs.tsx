@@ -20,6 +20,9 @@ import { AlertError } from "../core/alert-error";
 import { AlertInfo } from "../core/alert-info";
 import { ClubResponse } from "@/domains/club";
 import { DashboardSkeleton } from "./dashboard-skeleton";
+import Image from 'next/image';
+import { DEFAULT_IMAGE_URL } from "@/domains/utils";
+
 
 interface NewClubsProps {
   newClubs: ClubResponse[];
@@ -114,10 +117,11 @@ export const NewClubs = ({ newClubs }: NewClubsProps): JSX.Element => {
                     <div className="flex aspect-[3/2] overflow-clip rounded-xl">
                       <div className="flex-1">
                         <div className="relative h-full w-full origin-bottom transition duration-300 group-hover:scale-105">
-                          <img
-                            src=""
-                            alt={club.name}
+                          <Image
+                            src={club.profilePicture || DEFAULT_IMAGE_URL}
+                            alt={club.name || "Unknown Club"}
                             className="h-full w-full object-cover object-center"
+                            layout="fill"
                           />
                         </div>
                       </div>
@@ -127,7 +131,7 @@ export const NewClubs = ({ newClubs }: NewClubsProps): JSX.Element => {
                     {club.name}
                   </div>
                   <div className="mb-8 line-clamp-2 text-sm text-muted-foreground md:mb-12 md:text-base lg:mb-9">
-                    {club.description}
+                    {club.description || "No description available"}
                   </div>
                   <div className="flex items-center text-sm">
                     See more{" "}
@@ -160,7 +164,7 @@ export const NewClubContent = (): JSX.Element => {
     return <DashboardSkeleton />;
   }
   if (newClubsQuery.data.content.length === 0) {
-    return <AlertInfo description={emptyListMessage} />;
+    return <AlertInfo title="Not found" description={emptyListMessage} />;
   }
   return <NewClubs newClubs={newClubsQuery.data.content} />;
 };

@@ -13,6 +13,7 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { ClubResponse } from "@/domains/club";
+import { DEFAULT_IMAGE_URL } from "@/domains/utils";
 
 export default function ClubCard({
   club,
@@ -85,7 +86,7 @@ export default function ClubCard({
               <div className="flex items-center gap-5">
                 <Avatar className="h-14 w-14">
                   <AvatarImage
-                    src="/placeholder.svg?height=56&width=56"
+                    src={club.profilePicture || DEFAULT_IMAGE_URL}
                     alt="Profile picture"
                   />
                   <AvatarFallback>N/A</AvatarFallback>

@@ -19,3 +19,12 @@ export function calculateAge(dateOfBirth: string | null): number | null {
   }
   return age;
 }
+
+export function formatDate(dateString?: string): string {
+  if (!dateString) return "Unknown";
+  return new Date(dateString).toLocaleDateString("es-ES", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}

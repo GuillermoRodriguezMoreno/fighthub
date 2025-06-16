@@ -16,13 +16,14 @@ import { useRouter } from "next/navigation";
 import { path } from "@/config/path";
 
 type FighterProfileClubInfoProps = {
-  club: ClubResponse | undefined;
+  club: ClubResponse;
 };
 
 export default function FighterProfileClubInfo({
   club,
 }: FighterProfileClubInfoProps) {
   const router = useRouter();
+  console.log("Club Info", club);
   return (
     <div className="flex flex-col gap-4 h-full">
       <h2 className="text-2xl font-bold">Club</h2>
@@ -30,27 +31,27 @@ export default function FighterProfileClubInfo({
         <Card>
           <CardHeader className="flex flex-row items-center gap-4">
             <Avatar className="h-14 w-14">
-              <AvatarImage src="/nextgen.jpeg" alt="Profile picture" />
+              <AvatarImage src={club.profilePicture} alt="Profile picture" />
               <AvatarFallback>N/A</AvatarFallback>
             </Avatar>
             <div>
               <CardTitle>{club.name}</CardTitle>
-              <CardDescription>{club.address}</CardDescription>
+              <CardDescription>{club.address || "unknown"}</CardDescription>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-sm">
                 <Mail className="h-4 w-4 text-muted-foreground" />
-                <span>{club.email}</span>
+                <span>{club.email || "unknown"}</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <Phone className="h-4 w-4 text-muted-foreground" />
-                <span>{club.phone}</span>
+                <span>{club.phone || "unknown"}</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <MapPin className="h-4 w-4 text-muted-foreground" />
-                <span>{club.address}</span>
+                <span>{club.address || "unknown"}</span>
               </div>
             </div>
 

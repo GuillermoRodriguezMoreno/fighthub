@@ -8,6 +8,9 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import LoadingSpinner from "../core/loading-spinner";
 import { AlertInfo } from "../core/alert-info";
+import Image from 'next/image';
+import { DEFAULT_IMAGE_URL } from "@/domains/utils";
+
 
 type EventCardProps = {
   event: EventResponse;
@@ -25,23 +28,24 @@ export function EventCard({ event }: EventCardProps) {
         <div className="flex aspect-[3/2] overflow-clip rounded-xl">
           <div className="flex-1">
             <div className="relative h-full w-full origin-bottom transition duration-300 group-hover:scale-105">
-              <img
-                src=""
-                alt={event.name}
+              <Image
+                src={event.profilePicture || DEFAULT_IMAGE_URL}
+                alt={event.name || "Unknown Event"}
                 className="h-full w-full object-cover object-center"
+                layout="fill"
               />
             </div>
           </div>
         </div>
       </div>
       <div className="mb-2 line-clamp-3 break-words pt-4 text-lg font-medium md:mb-3 md:pt-4 md:text-xl lg:pt-4 lg:text-2xl">
-        {event.name}
+        {event.name || "Unknown Event"}
       </div>
       <div className="mb-8 line-clamp-2 text-sm text-muted-foreground md:mb-12 md:text-base lg:mb-9">
-        {event.description}
+        {event.description || "No description available"}
       </div>
       <div className="flex items-center text-sm">
-        Read more{" "}
+        See more{" "}
         <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
       </div>
     </div>
