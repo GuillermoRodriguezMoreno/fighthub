@@ -9,6 +9,9 @@ import { ClubResponse } from "@/domains/club";
 import { UseGetClubsQuery } from "@/hooks/club/use-get-clubs-query";
 import { UseGetMyClubsQuery } from "@/hooks/club/use-get-my-clubs-query";
 import { defaultClubsQueryParams } from "@/clients/types";
+import Image from 'next/image';
+import { DEFAULT_IMAGE_URL } from "@/domains/utils";
+
 
 type ClubCardProps = {
   club: ClubResponse;
@@ -26,10 +29,11 @@ export function ClubCard({ club }: ClubCardProps) {
         <div className="flex aspect-[3/2] overflow-clip rounded-xl">
           <div className="flex-1">
             <div className="relative h-full w-full origin-bottom transition duration-300 group-hover:scale-105">
-              <img
-                src=""
+              <Image
+                src={club.profilePicture || DEFAULT_IMAGE_URL}
                 alt={club.name}
                 className="h-full w-full object-cover object-center"
+                layout="fill"
               />
             </div>
           </div>

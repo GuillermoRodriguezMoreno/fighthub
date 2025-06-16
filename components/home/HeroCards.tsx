@@ -22,7 +22,7 @@ export const HeroCards = () => {
       <Card className="absolute w-[340px] -top-[15px] drop-shadow-xl shadow-black/10 dark:shadow-white/10">
         <CardHeader className="flex flex-row items-center gap-4 pb-2">
           <Avatar>
-            <AvatarImage alt="" src="/profile-photo2.webp" />
+            <AvatarImage alt="" src="/home/profile-photo2.webp" />
             <AvatarFallback>SH</AvatarFallback>
           </Avatar>
 
@@ -42,7 +42,7 @@ export const HeroCards = () => {
       <Card className="absolute right-[20px] top-4 w-80 flex flex-col justify-center items-center drop-shadow-xl shadow-black/10 dark:shadow-white/10">
         <CardHeader className="mt-8 flex justify-center items-center pb-2">
           <Image
-            src="/profile-photo.jpeg"
+            src="/home/profile-photo.jpeg"
             alt="user avatar"
             width={100}
             height={100}

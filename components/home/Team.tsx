@@ -24,7 +24,7 @@ interface SociaNetworkslProps {
 
 const teamList: TeamProps[] = [
   {
-    imageUrl: "/profile-photo.jpeg",
+    imageUrl: "/home/profile-photo.jpeg",
     name: "Guillermo Rodriguez",
     position: "Founder",
     description:
@@ -41,7 +41,7 @@ const teamList: TeamProps[] = [
     ],
   },
   {
-    imageUrl: "/profile-photo2.webp",
+    imageUrl: "/home/profile-photo2.webp",
     name: "Wadii Kadiri",
     position: "Pro Fighter",
     description:
