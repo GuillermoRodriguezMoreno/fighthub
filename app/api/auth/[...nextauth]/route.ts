@@ -1,6 +1,7 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
+const AUTH_URL = process.env.NEXT_PUBLIC_AUTH_URL || "http://localhost:8080/api/v1/auth/authenticate";
 const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -15,7 +16,7 @@ const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         const res = await fetch(
-          "https://fighthub-api.onrender.com/api/v1",
+          AUTH_URL,
           {
             method: "POST",
             body: JSON.stringify(credentials),

@@ -1,4 +1,4 @@
-const baseUrl = process.env.BASE_URL || "https://fighthub-two.vercel.app/";
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://fighthub-two.vercel.app";
 
 export const path = {
   home: `${baseUrl}/`,
