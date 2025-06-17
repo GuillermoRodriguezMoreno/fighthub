@@ -71,5 +71,4 @@ export default function OpponentsPage() {
   }
 
   return <MatchesCarrousel fighters={fighterMatcherQuery.data} />;
-  return <MatchesCarrousel fighters={[]} />;
 }
