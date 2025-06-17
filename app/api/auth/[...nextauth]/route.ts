@@ -15,7 +15,7 @@ const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         const res = await fetch(
-          "https://fighthub-api.onrender.com/api/v1/auth/authenticate",
+          "http://localhost:8080/api/v1/auth/authenticate",
           {
             method: "POST",
             body: JSON.stringify(credentials),

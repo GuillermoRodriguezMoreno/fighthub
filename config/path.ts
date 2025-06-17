@@ -1,4 +1,4 @@
-const baseUrl = process.env.BASE_URL || "http://localhost:3000";
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
 export const path = {
   home: `${baseUrl}/`,
