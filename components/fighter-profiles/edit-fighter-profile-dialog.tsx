@@ -21,36 +21,17 @@ import LoadingSpinner from "@/components/core/loading-spinner";
 import { AlertError } from "@/components/core/alert-error";
 import { UseGetCategoriesQuery } from "@/hooks/category/use-get-categories-query";
 import { UseGetStylesQuery } from "@/hooks/style/use-get-styles-query";
-import {
-  BookmarkX,
-  CalendarIcon,
-  Equal,
-  Flame,
-  Gauge,
-  Gem,
-  Info,
-  ListOrdered,
-  Medal,
-  Ruler,
-  Skull,
-  Swords,
-  Timer,
-  Trophy,
-  Weight,
-} from "lucide-react";
+import { CalendarIcon, Gem, Info, Ruler, Weight } from "lucide-react";
 import { useEffect, useState } from "react";
-import { SearchFighterByNameAutocomplete } from "./search-by-name-autocomplete";
 import {
   EditFighterProfileInputs,
   EditFighterProfileRequest,
   FighterProfileResponse,
 } from "@/domains/fighter-profile";
-import { EventDateTimePicker } from "../events/event-date-time-picker";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Calendar } from "../ui/calendar";
 import { StyleResponse } from "@/domains/style";
 import MultiSelectStyle from "./multi-select-styles-input";
-import { format } from "date-fns/format";
 import { useEditFighterProfileMutation } from "@/hooks/fighter_profile/use-edit-fighter-profile-mutation";
 import { Textarea } from "../ui/textarea";
 

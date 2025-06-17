@@ -8,9 +8,8 @@ import { AlertInfo } from "../core/alert-info";
 import { FighterProfileResponse } from "@/domains/fighter-profile";
 import { UseGetFighterProfilesQuery } from "@/hooks/fighter_profile/use-get-fighter-profiles-query";
 import { UseGetMyFightersQuery } from "@/hooks/fighter_profile/use-get-my-fighters";
-import Image from 'next/image';
+import Image from "next/image";
 import { DEFAULT_IMAGE_URL } from "@/domains/utils";
-
 
 type FightersCardProps = {
   fighter: FighterProfileResponse;

@@ -8,9 +8,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import LoadingSpinner from "../core/loading-spinner";
 import { AlertInfo } from "../core/alert-info";
-import Image from 'next/image';
+import Image from "next/image";
 import { DEFAULT_IMAGE_URL } from "@/domains/utils";
-
 
 type EventCardProps = {
   event: EventResponse;

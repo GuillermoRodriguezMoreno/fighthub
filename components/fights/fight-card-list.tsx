@@ -1,6 +1,6 @@
 "use client";
 import { path } from "@/config/path";
-import { ArrowRight, Calendar, MapPin, Trophy, Users } from "lucide-react";
+import { Calendar, MapPin, Trophy, Users } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import LoadingSpinner from "../core/loading-spinner";
@@ -24,8 +24,10 @@ export function FightCard({ fight, event }: FightCardProps) {
   const router = useRouter();
 
   return (
-    <Card onClick={() => router.push(`${path.dashboard.fights.base}/${fight.id}`)}
-     className="w-full max-w-md mx-auto hover:shadow-lg hover:scale-105 transition-transform duration-300">
+    <Card
+      onClick={() => router.push(`${path.dashboard.fights.base}/${fight.id}`)}
+      className="w-full max-w-md mx-auto hover:shadow-lg hover:scale-105 transition-transform duration-300"
+    >
       <CardHeader className="text-center pb-4">
         <div className="flex items-center justify-center gap-2 mb-2">
           <Trophy className="h-5 w-5 text-yellow-500" />
@@ -41,11 +43,17 @@ export function FightCard({ fight, event }: FightCardProps) {
           <div className="flex flex-col items-center space-y-2 flex-1">
             <Avatar className="h-16 w-16">
               <AvatarImage src="/placeholder.svg?height=64&width=64" />
-              <AvatarFallback className="bg-red-100 text-red-700 font-bold">N/A</AvatarFallback>
+              <AvatarFallback className="bg-red-100 text-red-700 font-bold">
+                N/A
+              </AvatarFallback>
             </Avatar>
             <div className="text-center">
-              <h3 className="font-semibold text-sm">{fight.blueCornerFighterName}</h3>
-              <p className="text-xs text-muted-foreground">{fight.category || ""}</p>
+              <h3 className="font-semibold text-sm">
+                {fight.blueCornerFighterName}
+              </h3>
+              <p className="text-xs text-muted-foreground">
+                {fight.category || ""}
+              </p>
               <Badge variant="outline" className="text-xs mt-1">
                 {fight.blueCornerFighterClub || "Unknown Club"}
               </Badge>
@@ -60,11 +68,17 @@ export function FightCard({ fight, event }: FightCardProps) {
           <div className="flex flex-col items-center space-y-2 flex-1">
             <Avatar className="h-16 w-16">
               <AvatarImage src="/placeholder.svg?height=64&width=64" />
-              <AvatarFallback className="bg-blue-100 text-blue-700 font-bold">N/A</AvatarFallback>
+              <AvatarFallback className="bg-blue-100 text-blue-700 font-bold">
+                N/A
+              </AvatarFallback>
             </Avatar>
             <div className="text-center">
-              <h3 className="font-semibold text-sm">{fight.redCornerFighterName}</h3>
-              <p className="text-xs text-muted-foreground">{fight.category || ""}</p>
+              <h3 className="font-semibold text-sm">
+                {fight.redCornerFighterName}
+              </h3>
+              <p className="text-xs text-muted-foreground">
+                {fight.category || ""}
+              </p>
               <Badge variant="outline" className="text-xs mt-1">
                 {fight.redCornerFighterClub || "Unknown Club"}
               </Badge>
@@ -78,26 +92,34 @@ export function FightCard({ fight, event }: FightCardProps) {
           <div className="flex items-center gap-2 text-sm">
             <Calendar className="h-4 w-4 text-muted-foreground" />
             <span className="font-medium">Date:</span>
-            <span className="text-muted-foreground">{formatDate(event?.startDate)}</span>
+            <span className="text-muted-foreground">
+              {formatDate(event?.startDate)}
+            </span>
           </div>
 
           <div className="flex items-center gap-2 text-sm">
             <MapPin className="h-4 w-4 text-muted-foreground" />
             <span className="font-medium">Location:</span>
-            <span className="text-muted-foreground">{event?.address || "Unknown"}</span>
+            <span className="text-muted-foreground">
+              {event?.address || "Unknown"}
+            </span>
           </div>
 
           <div className="flex items-center gap-2 text-sm">
             <Trophy className="h-4 w-4 text-muted-foreground" />
             <span className="font-medium">Type:</span>
-            <span className="text-muted-foreground">{fight.titleFight ? "Title fight" : "Rank fight"}</span>
+            <span className="text-muted-foreground">
+              {fight.titleFight ? "Title fight" : "Rank fight"}
+            </span>
           </div>
         </div>
 
         <Separator />
 
         <div className="text-center">
-          <Badge className="bg-green-100 text-green-800 hover:bg-green-100">{event?.name}</Badge>
+          <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+            {event?.name}
+          </Badge>
         </div>
       </CardContent>
     </Card>

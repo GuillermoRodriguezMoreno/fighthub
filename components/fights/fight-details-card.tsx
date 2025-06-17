@@ -1,12 +1,5 @@
-import { Calendar, MapPin, Clock, Pen } from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { Pen } from "lucide-react";
+
 import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { FightResponse } from "@/domains/fight";

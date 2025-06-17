@@ -23,9 +23,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import LoadingSpinner from "../core/loading-spinner";
 import { AlertError } from "../core/alert-error";
 import { ListElementSkeleton } from "../core/list-element-skeleton";
-import Image from 'next/image';
 import { FightCard } from "../fights/fight-card-list";
-
 
 interface EventFigthsProps {
   eventFights: FightResponse[];
@@ -150,10 +148,7 @@ const EventFights = ({
                     href={`${path.dashboard.fights.base}/${fight.id}`}
                     className="group flex flex-col justify-between"
                   >
-                    <FightCard
-                      fight={fight}
-                      event={event}
-                      />
+                    <FightCard fight={fight} event={event} />
                   </Link>
                   <div className="flex justify-end gap-5">
                     {isOrganizer ? (

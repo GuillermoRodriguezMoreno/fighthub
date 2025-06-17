@@ -20,9 +20,8 @@ import { AlertError } from "../core/alert-error";
 import { AlertInfo } from "../core/alert-info";
 import { ClubResponse } from "@/domains/club";
 import { DashboardSkeleton } from "./dashboard-skeleton";
-import Image from 'next/image';
+import Image from "next/image";
 import { DEFAULT_IMAGE_URL } from "@/domains/utils";
-
 
 interface NewClubsProps {
   newClubs: ClubResponse[];

@@ -9,9 +9,8 @@ import { ClubResponse } from "@/domains/club";
 import { UseGetClubsQuery } from "@/hooks/club/use-get-clubs-query";
 import { UseGetMyClubsQuery } from "@/hooks/club/use-get-my-clubs-query";
 import { defaultClubsQueryParams } from "@/clients/types";
-import Image from 'next/image';
+import Image from "next/image";
 import { DEFAULT_IMAGE_URL } from "@/domains/utils";
-
 
 type ClubCardProps = {
   club: ClubResponse;

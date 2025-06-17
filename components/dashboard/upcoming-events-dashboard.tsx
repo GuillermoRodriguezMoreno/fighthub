@@ -20,9 +20,8 @@ import { AlertInfo } from "../core/alert-info";
 import { useRouter } from "next/navigation";
 import { EventResponse } from "@/domains/event";
 import { DashboardSkeleton } from "./dashboard-skeleton";
-import Image from 'next/image';
+import Image from "next/image";
 import { DEFAULT_IMAGE_URL } from "@/domains/utils";
-
 
 interface UpcomingEventsDashboardProps {
   upcommingEvents: EventResponse[];
@@ -124,7 +123,7 @@ export const UpcomingEventsDashboard = ({
                             alt={event.name}
                             className="h-full w-full object-cover object-center"
                             layout="fill"
-                            />
+                          />
                         </div>
                       </div>
                     </div>

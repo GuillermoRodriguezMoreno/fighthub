@@ -222,6 +222,7 @@ function Calendar({
         ),
         MonthGrid: ({ className, children, ...props }) => (
           <MonthGrid
+            // eslint-disable-next-line react/no-children-prop -- This is a workaround for the DayPicker's MonthGrid component
             children={children}
             className={className}
             displayYears={displayYears}

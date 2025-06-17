@@ -1,89 +1,52 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { MapPin, Calendar, Clock, Weight, Trophy, Heart, Users, Target } from "lucide-react"
-import { FightResponse } from "@/domains/fight"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  MapPin,
+  Calendar,
+  Clock,
+  Weight,
+  Trophy,
+  Heart,
+  Users,
+  Target,
+} from "lucide-react";
+import { FightResponse } from "@/domains/fight";
 
-interface Fight {
-  fightOrder: number
-  titleFight?: boolean
-  closed?: boolean
-  ko?: boolean
-  draw?: boolean
-  weight: number
-  rounds: number
-  minutesPerRound: number
-  likes?: number
-  winnerId?: number
-  winnerName?: string
-  blueCornerFighterId?: number
-  blueCornerFighterName?: string
-  blueCornerFighterClub?: string
-  redCornerFighterId?: number
-  redCornerFighterName?: string
-  redCornerFighterClub?: string
-  eventId: number
-  eventName: string
-  category?: string
-  categoryId?: number
-  style?: string
-  styleId?: number
-}
-
-// Datos de ejemplo
-const fight: Fight = {
-  fightOrder: 5,
-  titleFight: true,
-  closed: true,
-  ko: true,
-  draw: false,
-  weight: 70.5,
-  rounds: 5,
-  minutesPerRound: 3,
-  likes: 142,
-  winnerId: 1,
-  winnerName: "Juan Pérez",
-  blueCornerFighterId: 1,
-  blueCornerFighterName: "Juan Pérez",
-  blueCornerFighterClub: "Club Tigres",
-  redCornerFighterId: 2,
-  redCornerFighterName: "Carlos Rodríguez",
-  redCornerFighterClub: "Academia León",
-  eventId: 1,
-  eventName: "Noche de Campeones 2024",
-  category: "Peso Welter",
-  categoryId: 3,
-  style: "Kickboxing",
-  styleId: 2,
-}
-
-type FightCardDetailsContentPageProps = {
-    fight: FightResponse
-}
-
-
-export default function FightCardDetailsContent({fight}: { fight: Fight }) {
+export default function FightCardDetailsContent({
+  fight,
+}: {
+  fight: FightResponse;
+}) {
   const getResultBadge = () => {
     if (!fight.closed) {
-      return <Badge variant="outline">Upcomming</Badge>
+      return <Badge variant="outline">Upcomming</Badge>;
     }
     if (fight.draw) {
-      return <Badge variant="secondary">Draw</Badge>
+      return <Badge variant="secondary">Draw</Badge>;
     }
     if (fight.ko) {
-      return <Badge variant="destructive">KO</Badge>
+      return <Badge variant="destructive">KO</Badge>;
     }
-    return <Badge variant="default">Closed</Badge>
-  }
+    return <Badge variant="default">Closed</Badge>;
+  };
 
-  const getFighterDisplay = (fighterName?: string, fighterClub?: string, isWinner?: boolean) => {
+  const getFighterDisplay = (
+    fighterName?: string,
+    fighterClub?: string,
+    isWinner?: boolean,
+  ) => {
     return (
-      <div className={`flex flex-col ${isWinner ? "text-green-600 font-semibold" : ""}`}>
+      <div
+        className={`flex flex-col ${isWinner ? "text-green-600 font-semibold" : ""}`}
+      >
         <span className="text-lg">{fighterName}</span>
-        {fighterClub && <span className="text-sm text-muted-foreground">{fighterClub}</span>}
+        {fighterClub && (
+          <span className="text-sm text-muted-foreground">{fighterClub}</span>
+        )}
         {isWinner && <Trophy className="h-4 w-4 inline ml-1" />}
       </div>
-    )
-  }
+    );
+  };
 
   return (
     <Card className="w-full max-w-2xl">
@@ -95,7 +58,10 @@ export default function FightCardDetailsContent({fight}: { fight: Fight }) {
                 {fight.blueCornerFighterName} VS {fight.redCornerFighterName}
               </CardTitle>
               {fight.titleFight && (
-                <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
+                <Badge
+                  variant="outline"
+                  className="bg-yellow-50 text-yellow-700 border-yellow-200"
+                >
                   Tittle fight
                 </Badge>
               )}
@@ -117,7 +83,9 @@ export default function FightCardDetailsContent({fight}: { fight: Fight }) {
         {/* Fighters Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-muted/30 rounded-lg">
           <div className="text-center">
-            <div className="text-sm text-muted-foreground mb-1">Blue corner</div>
+            <div className="text-sm text-muted-foreground mb-1">
+              Blue corner
+            </div>
             {getFighterDisplay(
               fight.blueCornerFighterName,
               fight.blueCornerFighterClub,
@@ -152,7 +120,9 @@ export default function FightCardDetailsContent({fight}: { fight: Fight }) {
               <MapPin className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
               <div>
                 <p className="font-medium">Event</p>
-                <p className="text-sm text-muted-foreground">{fight.eventName}</p>
+                <p className="text-sm text-muted-foreground">
+                  {fight.eventName}
+                </p>
               </div>
             </div>
 
@@ -160,7 +130,9 @@ export default function FightCardDetailsContent({fight}: { fight: Fight }) {
               <Calendar className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
               <div>
                 <p className="font-medium">Order</p>
-                <p className="text-sm text-muted-foreground">Fight #{fight.fightOrder}</p>
+                <p className="text-sm text-muted-foreground">
+                  Fight #{fight.fightOrder}
+                </p>
               </div>
             </div>
 
@@ -168,7 +140,9 @@ export default function FightCardDetailsContent({fight}: { fight: Fight }) {
               <Weight className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
               <div>
                 <p className="font-medium">Peso</p>
-                <p className="text-sm text-muted-foreground">{fight.weight} kg</p>
+                <p className="text-sm text-muted-foreground">
+                  {fight.weight} kg
+                </p>
               </div>
             </div>
           </div>
@@ -189,7 +163,9 @@ export default function FightCardDetailsContent({fight}: { fight: Fight }) {
                 <Users className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
                 <div>
                   <p className="font-medium">Category</p>
-                  <p className="text-sm text-muted-foreground">{fight.category}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {fight.category}
+                  </p>
                 </div>
               </div>
             )}
@@ -207,5 +183,5 @@ export default function FightCardDetailsContent({fight}: { fight: Fight }) {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

@@ -3,7 +3,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import FighterProfileMasonry from "./fighter-profile-masonry";
 import { FighterProfileResponse } from "@/domains/fighter-profile";
-import Image from "next/image";
 
 type FighterProfileInfoProps = {
   fighterProfile: FighterProfileResponse;

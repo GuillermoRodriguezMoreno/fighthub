@@ -20,9 +20,8 @@ import { AlertError } from "../core/alert-error";
 import { AlertInfo } from "../core/alert-info";
 import { FighterProfileResponse } from "@/domains/fighter-profile";
 import { DashboardSkeleton } from "./dashboard-skeleton";
-import Image from 'next/image';
+import Image from "next/image";
 import { DEFAULT_IMAGE_URL } from "@/domains/utils";
-
 
 interface PopularFightersProps {
   popularFighters: FighterProfileResponse[];
